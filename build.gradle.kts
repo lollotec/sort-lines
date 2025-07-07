@@ -45,6 +45,7 @@ dependencies {
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
 
         testFramework(TestFrameworkType.Platform)
+        testBundledPlugin("org.jetbrains.kotlin")
     }
 }
 

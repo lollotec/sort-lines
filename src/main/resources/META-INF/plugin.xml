@@ -9,8 +9,12 @@
     <resource-bundle>messages.SortLinesBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.jodiew.sortlines.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.jodiew.sortlines.startup.MyProjectActivity" />
+        <localInspection language=""
+                         key="inspection.line.order.display.name"
+                         groupKey="inspection.line.order.group.name"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="com.github.jodiew.sortLines.LineOrderInspection"/>
         <toolWindow factoryClass="com.github.jodiew.sortLines.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
         <postStartupActivity implementation="com.github.jodiew.sortLines.startup.MyProjectActivity" />
     </extensions>
