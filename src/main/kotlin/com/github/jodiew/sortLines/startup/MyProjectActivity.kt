@@ -1,4 +1,4 @@
-package com.github.jodiew.sortlines.startup
+package com.github.jodiew.sortLines.startup
 
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.project.Project
