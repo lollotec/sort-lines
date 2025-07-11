@@ -6,7 +6,6 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.util.IntentionFamilyName
 import com.intellij.codeInspection.util.IntentionName
-import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
@@ -41,29 +40,47 @@ class LineOrderInspection: LocalInspectionTool() {
         return object : PsiElementVisitor() {
             override fun visitFile(file: PsiFile) {
                 super.visitFile(file)
+
                 val sortComments = PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)
-                    .filter { it.text.contains("// sort: asc") || it.text.contains("// sort: end")}
-//                thisLogger().warn("start:\n${sortComments[0].text}\n${sortComments[0].textRange}\n${sortComments[0].endOffset+1}")
-//                thisLogger().warn("end: ${sortComments[1].text}\n${sortComments[1].textRange}\n${sortComments[1].startOffset-1}")
+                    .filter { it.text.contains(Regex("\\Wsort:\\W", RegexOption.IGNORE_CASE)) }
+
+                if (sortComments.isEmpty()) return
 
                 val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?: error("no document")
-                val sortBlockRange = TextRange(sortComments[0].endOffset+1, sortComments[1].startOffset-1)
-                val linesToCheck = document.getText(sortBlockRange).lines()
-                if(!linesToCheck.isSortedAscending()) {
-                    holder.registerProblem(
-                        file,
-                        sortBlockRange,
-                        SortLinesBundle.message("inspection.line.order.problem.descriptor"),
-                        quickFix
-                    )
+
+                sortComments.chunked(2) { (start, end) ->
+                    val sortRange = TextRange(start.endOffset+1, end.startOffset-1)
+                    val linesToCheck = document.getText(sortRange).lines()
+
+                    val order = start.text.substringAfter("sort:").trim()
+
+                    if(!linesToCheck.isSorted(order)) {
+                        holder.registerProblem(
+                            file,
+                            sortRange,
+                            SortLinesBundle.message("inspection.line.order.problem.descriptor"),
+                            quickFix
+                        )
+                    }
                 }
             }
         }
     }
 
+    private fun <T: Comparable<T>> List<T>.isSorted(order: String): Boolean = when (order) {
+        "asc" -> isSortedAscending()
+        "desc" -> isSortedDescending()
+        else -> error("invalid sort order: $order")
+    }
+
     private fun <T: Comparable<T>> List<T>.isSortedAscending(): Boolean {
         if (size <= 1) return true
         return zipWithNext { a, b -> a <= b }.all { it }
+    }
+
+    private fun <T: Comparable<T>> List<T>.isSortedDescending(): Boolean {
+        if (size <= 1) return true
+        return zipWithNext { a, b -> a >= b }.all { it }
     }
 
     private class SortLinesQuickFix() : LocalQuickFix {

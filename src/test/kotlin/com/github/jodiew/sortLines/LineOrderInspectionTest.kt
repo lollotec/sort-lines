@@ -13,12 +13,39 @@ class LineOrderInspectionTest: BasePlatformTestCase() {
     protected override fun getTestDataPath(): String? =
         "src/test/testData"
 
-    fun testSimpleLinesUnsorted() {
+    fun `test no sort comments`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "NoSortHighlighting.kt"
+        )
+    }
+
+    fun `test simple unsorted highlighting`() {
         myFixture.testHighlighting(
             true,
             false,
             false,
             "SimpleLinesUnsortedHighlighting.kt"
+        )
+    }
+
+    fun `test simple sorted no highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "SimpleLinesSortedNoHighlighting.kt"
+        )
+    }
+
+    fun `test multiple unsorted highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "MultipleLinesUnsortedHighlighting.kt"
         )
     }
 }
