@@ -48,4 +48,58 @@ class LineOrderInspectionTest: BasePlatformTestCase() {
             "MultipleLinesUnsortedHighlighting.kt"
         )
     }
+
+    fun `test no end comment highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "NoEndCommentHighlighting.kt"
+        )
+    }
+
+    fun `test no start comment highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "NoStartCommentHighlighting.kt"
+        )
+    }
+
+    fun `test no end multiple comment highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "NoEndMultipleCommentHighlighting.kt"
+        )
+    }
+
+    fun `test no start multiple comment highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "NoStartMultipleCommentHighlighting.kt"
+        )
+    }
+
+    fun `test mismatched end comment highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "MismatchedEndCommentHighlighting.kt"
+        )
+    }
+
+    fun `test invalid sort option highlighting`() {
+        myFixture.testHighlighting(
+            true,
+            false,
+            false,
+            "InvalidSortOptionHighlighting.kt"
+        )
+    }
 }

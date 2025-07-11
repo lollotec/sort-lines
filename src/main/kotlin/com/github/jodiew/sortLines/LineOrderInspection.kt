@@ -46,20 +46,55 @@ class LineOrderInspection: LocalInspectionTool() {
 
                 if (sortComments.isEmpty()) return
 
+//                if (sortComments.size == 1) {
+//                    holder.registerProblem(
+//                        sortComments[0],
+//                        SortLinesBundle.message("inspection.line.order.no.end.comment")
+//                    )
+//                    return
+//                }
+
                 val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?: error("no document")
 
-                sortComments.chunked(2) { (start, end) ->
-                    val sortRange = TextRange(start.endOffset+1, end.startOffset-1)
-                    val linesToCheck = document.getText(sortRange).lines()
-
-                    val order = start.text.substringAfter("sort:").trim()
-
-                    if(!linesToCheck.isSorted(order)) {
+                sortComments.windowed(2, 1, true) {
+                    val curr = it[0]
+                    val next = it.getOrNull(1)
+                    val currSortOption = curr.text.substringAfter("sort:").trim()
+                    if (currSortOption in listOf("asc", "desc", "end")) {
+                        val nextSortOption = next?.text?.substringAfter("sort:")?.trim()
+                        if (currSortOption in listOf("asc", "desc")) {
+                            if (nextSortOption == "end") {
+                                val sortRange = TextRange(curr.endOffset+1, next.prevSibling.startOffset)
+                                val linesToCheck = document.getText(sortRange).lines()
+                                if(!linesToCheck.isSorted(currSortOption)) {
+                                    holder.registerProblem(
+                                        file,
+                                        sortRange,
+                                        SortLinesBundle.message("inspection.line.order.problem.descriptor"),
+                                        quickFix
+                                    )
+                                }
+                            } else {
+                                holder.registerProblem(
+                                    curr,
+                                    SortLinesBundle.message("inspection.line.order.no.end.comment")
+                                )
+                            }
+                        } else if (nextSortOption == "end") { // currSortOption == "end"
+                            holder.registerProblem(
+                                next,
+                                SortLinesBundle.message("inspection.line.order.no.start.comment")
+                            )
+                        } else if (next == null && sortComments.size == 1) {
+                            holder.registerProblem(
+                                curr,
+                                SortLinesBundle.message("inspection.line.order.no.start.comment")
+                            )
+                        }
+                    } else {
                         holder.registerProblem(
-                            file,
-                            sortRange,
-                            SortLinesBundle.message("inspection.line.order.problem.descriptor"),
-                            quickFix
+                            curr,
+                            SortLinesBundle.message("inspection.line.order.invalid.option")
                         )
                     }
                 }
