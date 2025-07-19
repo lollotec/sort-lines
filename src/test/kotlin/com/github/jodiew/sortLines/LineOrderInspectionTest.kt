@@ -5,12 +5,16 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
 @TestDataPath($$"$CONTENT_ROOT/testData")
 class LineOrderInspectionTest: BasePlatformTestCase() {
+    companion object {
+        private val QUICK_FIX_NAME = SortLinesBundle.message("inspection.line.order.quickfix")
+    }
+
     protected override fun setUp() {
         super.setUp()
         myFixture.enableInspections(LineOrderInspection())
     }
 
-    protected override fun getTestDataPath(): String? =
+    protected override fun getTestDataPath(): String =
         "src/test/testData"
 
     fun `test no sort comments`() {
@@ -101,5 +105,13 @@ class LineOrderInspectionTest: BasePlatformTestCase() {
             false,
             "InvalidSortOptionHighlighting.kt"
         )
+    }
+
+    fun `test simple quick fix`() {
+        myFixture.configureByFile("SimpleLinesUnsorted_before.kt")
+        val sortFixes = myFixture.getAllQuickFixes().filter { it.text == QUICK_FIX_NAME }
+        assertFalse(sortFixes.isEmpty())
+        sortFixes.forEach { myFixture.launchAction(it) }
+        myFixture.checkResultByFile("SimpleLinesUnsorted_after.kt")
     }
 }

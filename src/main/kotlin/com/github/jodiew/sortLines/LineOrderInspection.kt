@@ -6,6 +6,8 @@ import com.intellij.codeInspection.ProblemDescriptor
 import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.util.IntentionFamilyName
 import com.intellij.codeInspection.util.IntentionName
+import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.Project
 import com.intellij.openapi.util.TextRange
@@ -22,8 +24,6 @@ import com.intellij.psi.util.startOffset
  * The quick fix sorts the lines in the block.
  */
 class LineOrderInspection: LocalInspectionTool() {
-
-    private val quickFix = SortLinesQuickFix()
 
     /**
      * Returns if this inspection is available for the given [file].
@@ -46,14 +46,6 @@ class LineOrderInspection: LocalInspectionTool() {
 
                 if (sortComments.isEmpty()) return
 
-//                if (sortComments.size == 1) {
-//                    holder.registerProblem(
-//                        sortComments[0],
-//                        SortLinesBundle.message("inspection.line.order.no.end.comment")
-//                    )
-//                    return
-//                }
-
                 val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?: error("no document")
 
                 sortComments.windowed(2, 1, true) {
@@ -71,7 +63,7 @@ class LineOrderInspection: LocalInspectionTool() {
                                         file,
                                         sortRange,
                                         SortLinesBundle.message("inspection.line.order.problem.descriptor"),
-                                        quickFix
+                                        SortLinesQuickFix(currSortOption)
                                     )
                                 }
                             } else {
@@ -102,30 +94,47 @@ class LineOrderInspection: LocalInspectionTool() {
         }
     }
 
-    private fun <T: Comparable<T>> List<T>.isSorted(order: String): Boolean = when (order) {
+    private fun <String: Comparable<String>> List<String>.isSorted(order: String): Boolean = when (order) {
         "asc" -> isSortedAscending()
         "desc" -> isSortedDescending()
         else -> error("invalid sort order: $order")
     }
 
-    private fun <T: Comparable<T>> List<T>.isSortedAscending(): Boolean {
+    private fun <String: Comparable<String>> List<String>.isSortedAscending(): Boolean {
         if (size <= 1) return true
         return zipWithNext { a, b -> a <= b }.all { it }
     }
 
-    private fun <T: Comparable<T>> List<T>.isSortedDescending(): Boolean {
+    private fun <String: Comparable<String>> List<String>.isSortedDescending(): Boolean {
         if (size <= 1) return true
         return zipWithNext { a, b -> a >= b }.all { it }
     }
 
-    private class SortLinesQuickFix() : LocalQuickFix {
+    private class SortLinesQuickFix(val sortOptions: String) : LocalQuickFix {
         override fun getName(): @IntentionName String =
             SortLinesBundle.message("inspection.line.order.quickfix")
 
         override fun getFamilyName(): @IntentionFamilyName String = name
 
-        override fun applyFix(p0: Project, p1: ProblemDescriptor) {
-            TODO("Not yet implemented")
+        override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
+            val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement.containingFile)
+                ?: error("no document")
+
+            val sortRange = descriptor.textRangeInElement
+
+            val unsortedLines = document.getText(descriptor.textRangeInElement).lines()
+
+            val sortedLines = when (sortOptions) {
+                "asc" -> unsortedLines.sorted()
+                "desc" -> unsortedLines.sortedDescending()
+                else -> error("invalid sort options: $sortOptions")
+            }
+            WriteCommandAction.runWriteCommandAction(project) {
+                document.replaceString(
+                    sortRange.startOffset,
+                    sortRange.endOffset,
+                    sortedLines.joinToString("\n"))
+            }
         }
     }
 }
