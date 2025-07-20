@@ -31,6 +31,8 @@ class LineOrderInspection: LocalInspectionTool() {
     override fun isAvailableForFile(file: PsiFile): Boolean =
         file.fileType != PlainTextFileType.INSTANCE
 
+    private val validSortOrders = listOf("asc", "↑", "desc", "↓")
+
     /**
      * Provides a custom psi visitor that inspects the order lines between sort comments.
      * Registers problems found to [holder] and [isOnTheFly] is true if inspection was run in non-batch mode.
@@ -52,9 +54,9 @@ class LineOrderInspection: LocalInspectionTool() {
                     val curr = it[0]
                     val next = it.getOrNull(1)
                     val currSortOption = curr.text.substringAfter("sort:").trim()
-                    if (currSortOption in listOf("asc", "desc", "end")) {
+                    if (currSortOption in validSortOrders + "end") {
                         val nextSortOption = next?.text?.substringAfter("sort:")?.trim()
-                        if (currSortOption in listOf("asc", "desc")) {
+                        if (currSortOption in validSortOrders) {
                             if (nextSortOption == "end") {
                                 val sortRange = TextRange(curr.endOffset+1, next.prevSibling.startOffset)
                                 val linesToCheck = document.getText(sortRange).lines()
@@ -96,7 +98,9 @@ class LineOrderInspection: LocalInspectionTool() {
 
     private fun <String: Comparable<String>> List<String>.isSorted(order: String): Boolean = when (order) {
         "asc" -> isSortedAscending()
+        "↑" -> isSortedAscending()
         "desc" -> isSortedDescending()
+        "↓" -> isSortedDescending()
         else -> error("invalid sort order: $order")
     }
 
@@ -126,7 +130,9 @@ class LineOrderInspection: LocalInspectionTool() {
 
             val sortedLines = when (sortOptions) {
                 "asc" -> unsortedLines.sorted()
+                "↑" -> unsortedLines.sorted()
                 "desc" -> unsortedLines.sortedDescending()
+                "↓" -> unsortedLines.sortedDescending()
                 else -> error("invalid sort options: $sortOptions")
             }
             WriteCommandAction.runWriteCommandAction(project) {

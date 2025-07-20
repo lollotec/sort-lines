@@ -63,11 +63,7 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
         highlightingTestKotlin(name)
     }
 
-    fun `test simple quick fix`() {
-        myFixture.configureByFile("SimpleLinesUnsorted_before.kt")
-        val sortFixes = myFixture.getAllQuickFixes().filter { it.text == QUICK_FIX_NAME }
-        assertFalse(sortFixes.isEmpty())
-        sortFixes.forEach { myFixture.launchAction(it) }
-        myFixture.checkResultByFile("SimpleLinesUnsorted_after.kt")
+    fun testUnicodeArrows() {
+        highlightingTestKotlin(name)
     }
 }
