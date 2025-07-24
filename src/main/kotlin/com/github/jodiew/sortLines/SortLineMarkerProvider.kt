@@ -20,10 +20,11 @@ class SortLineMarkerProvider : LineMarkerProviderDescriptor() {
             if (element !is PsiComment) continue
             if (!element.isSortComment()) continue
             val sortOptions = element.getSortOptions()
-            when (sortOptions) {
-                "end" -> continue
-                "asc" -> result.add(SortLineMarkerInfo(element, order = SortOrder.ASC))
-                "desc" -> result.add(SortLineMarkerInfo(element, order = SortOrder.DESC))
+            if (sortOptions == "end") continue
+            val sortOrder = sortOptions.toSortOrder()
+            when (sortOrder) {
+                SortOrder.ASC -> result.add(SortLineMarkerInfo(element, order = SortOrder.ASC))
+                SortOrder.DESC -> result.add(SortLineMarkerInfo(element, order = SortOrder.DESC))
                 else -> result.add(SortLineMarkerInfo(element, order = null))
             }
         }

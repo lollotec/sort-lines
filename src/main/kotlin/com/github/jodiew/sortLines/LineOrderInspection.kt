@@ -31,8 +31,6 @@ class LineOrderInspection: LocalInspectionTool() {
     override fun isAvailableForFile(file: PsiFile): Boolean =
         file.fileType != PlainTextFileType.INSTANCE
 
-    private val validSortOrders = listOf("asc", "↑", "desc", "↓")
-
     /**
      * Provides a custom psi visitor that inspects the order lines between sort comments.
      * Registers problems found to [holder] and [isOnTheFly] is true if inspection was run in non-batch mode.
@@ -54,18 +52,19 @@ class LineOrderInspection: LocalInspectionTool() {
                     val curr = it[0]
                     val next = it.getOrNull(1)
                     val currSortOption = curr.getSortOptions()
-                    if (currSortOption in validSortOrders + "end") {
-                        val nextSortOption = next?.text?.substringAfter("sort:")?.trim()
-                        if (currSortOption in validSortOrders) {
+                    if (currSortOption.isValidSortOption()) {
+                        val nextSortOption = next?.getSortOptions()
+                        if (currSortOption.isValidSortOrder()) {
+                            val currSortOrder = currSortOption.toSortOrder()
                             if (nextSortOption == "end") {
                                 val sortRange = TextRange(curr.endOffset+1, next.prevSibling.startOffset)
                                 val linesToCheck = document.getText(sortRange).lines()
-                                if(!linesToCheck.isSorted(currSortOption)) {
+                                if(!linesToCheck.isSorted(currSortOrder)) {
                                     holder.registerProblem(
                                         file,
                                         sortRange,
                                         SortLinesBundle.message("inspection.line.order.problem.descriptor"),
-                                        SortLinesQuickFix(currSortOption)
+                                        SortLinesQuickFix(currSortOrder)
                                     )
                                 }
                             } else {
@@ -96,25 +95,7 @@ class LineOrderInspection: LocalInspectionTool() {
         }
     }
 
-    private fun <String: Comparable<String>> List<String>.isSorted(order: String): Boolean = when (order) {
-        "asc" -> isSortedAscending()
-        "↑" -> isSortedAscending()
-        "desc" -> isSortedDescending()
-        "↓" -> isSortedDescending()
-        else -> error("invalid sort order: $order")
-    }
-
-    private fun <String: Comparable<String>> List<String>.isSortedAscending(): Boolean {
-        if (size <= 1) return true
-        return zipWithNext { a, b -> a <= b }.all { it }
-    }
-
-    private fun <String: Comparable<String>> List<String>.isSortedDescending(): Boolean {
-        if (size <= 1) return true
-        return zipWithNext { a, b -> a >= b }.all { it }
-    }
-
-    private class SortLinesQuickFix(val sortOptions: String) : LocalQuickFix {
+    private class SortLinesQuickFix(val sortOrder: SortOrder?) : LocalQuickFix {
         override fun getName(): @IntentionName String =
             SortLinesBundle.message("inspection.line.order.quickfix")
 
@@ -128,12 +109,10 @@ class LineOrderInspection: LocalInspectionTool() {
 
             val unsortedLines = document.getText(descriptor.textRangeInElement).lines()
 
-            val sortedLines = when (sortOptions) {
-                "asc" -> unsortedLines.sorted()
-                "↑" -> unsortedLines.sorted()
-                "desc" -> unsortedLines.sortedDescending()
-                "↓" -> unsortedLines.sortedDescending()
-                else -> error("invalid sort options: $sortOptions")
+            val sortedLines = when (sortOrder) {
+                SortOrder.ASC -> unsortedLines.sorted()
+                SortOrder.DESC -> unsortedLines.sortedDescending()
+                else -> error("invalid sort order")
             }
             WriteCommandAction.runWriteCommandAction(project) {
                 document.replaceString(
