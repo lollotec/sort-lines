@@ -44,7 +44,7 @@ class LineOrderInspection: LocalInspectionTool() {
                 super.visitFile(file)
 
                 val sortComments = PsiTreeUtil.findChildrenOfType(file, PsiComment::class.java)
-                    .filter { it.text.contains(Regex("\\Wsort:\\W", RegexOption.IGNORE_CASE)) }
+                    .filter { it.isSortComment() }
 
                 if (sortComments.isEmpty()) return
 
@@ -53,7 +53,7 @@ class LineOrderInspection: LocalInspectionTool() {
                 sortComments.windowed(2, 1, true) {
                     val curr = it[0]
                     val next = it.getOrNull(1)
-                    val currSortOption = curr.text.substringAfter("sort:").trim()
+                    val currSortOption = curr.getSortOptions()
                     if (currSortOption in validSortOrders + "end") {
                         val nextSortOption = next?.text?.substringAfter("sort:")?.trim()
                         if (currSortOption in validSortOrders) {
@@ -122,7 +122,7 @@ class LineOrderInspection: LocalInspectionTool() {
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement.containingFile)
-                ?: error("no document")
+                ?: TODO("Something about invoking the intention on a copy of the file?")
 
             val sortRange = descriptor.textRangeInElement
 

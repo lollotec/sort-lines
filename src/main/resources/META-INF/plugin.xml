@@ -15,5 +15,7 @@
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="com.github.jodiew.sortLines.LineOrderInspection"/>
+        <codeInsight.lineMarkerProvider language=""
+                                        implementationClass="com.github.jodiew.sortLines.SortLineMarkerProvider"/>
     </extensions>
 </idea-plugin>
