@@ -9,5 +9,10 @@
     <resource-bundle>messages.SortCommentBundle</resource-bundle>
 
     <extensions defaultExtensionNs="com.intellij">
+        <fileType name="Sort File"
+                  implementationClass="com.github.jodiew.sortlines.SortFileType"
+                  fieldName="INSTANCE"
+                  language="Sort"
+                  extensions="sort" />
     </extensions>
 </idea-plugin>
