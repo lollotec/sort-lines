@@ -1,0 +1,3 @@
+Sort File(0,3)
+  SortPropertyImpl(PROPERTY)(0,3)
+    PsiElement(SortTokenType.KEY)('asc')(0,3)
