@@ -14,6 +14,15 @@ plugins {
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
+// Include the Grammar-Kit sources generated
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/gen")
+        }
+    }
+}
+
 // Set the JVM language level used to build the project.
 kotlin {
     jvmToolchain(21)

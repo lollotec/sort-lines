@@ -10,7 +10,7 @@
 
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Sort File"
-                  implementationClass="com.github.jodiew.sortlines.SortFileType"
+                  implementationClass="com.github.jodiew.sortlines.lang.SortFileType"
                   fieldName="INSTANCE"
                   language="Sort"
                   extensions="sort" />
