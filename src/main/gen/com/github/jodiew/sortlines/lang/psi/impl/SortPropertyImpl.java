@@ -11,14 +11,14 @@ import static com.github.jodiew.sortlines.lang.psi.SortTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.jodiew.sortlines.lang.psi.*;
 
-public class SortSortOptionsImpl extends ASTWrapperPsiElement implements SortSortOptions {
+public class SortPropertyImpl extends ASTWrapperPsiElement implements SortProperty {
 
-  public SortSortOptionsImpl(@NotNull ASTNode node) {
+  public SortPropertyImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SortVisitor visitor) {
-    visitor.visitSortOptions(this);
+    visitor.visitProperty(this);
   }
 
   @Override

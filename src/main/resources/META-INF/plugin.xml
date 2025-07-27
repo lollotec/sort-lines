@@ -14,5 +14,7 @@
                   fieldName="INSTANCE"
                   language="Sort"
                   extensions="sort" />
+        <lang.parserDefinition language="Sort"
+                               implementationClass="com.github.jodiew.sortlines.lang.SortParserDefinition"/>
     </extensions>
 </idea-plugin>

@@ -36,13 +36,25 @@ public class SortParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // sortOptions|CRLF
+  // property|CRLF
   static boolean item_(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "item_")) return false;
-    if (!nextTokenIs(b, "", CRLF, ORDER)) return false;
+    if (!nextTokenIs(b, "", CRLF, KEY)) return false;
     boolean r;
-    r = sortOptions(b, l + 1);
+    r = property(b, l + 1);
     if (!r) r = consumeToken(b, CRLF);
+    return r;
+  }
+
+  /* ********************************************************** */
+  // KEY
+  public static boolean property(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "property")) return false;
+    if (!nextTokenIs(b, KEY)) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeToken(b, KEY);
+    exit_section_(b, m, PROPERTY, r);
     return r;
   }
 
@@ -56,18 +68,6 @@ public class SortParser implements PsiParser, LightPsiParser {
       if (!empty_element_parsed_guard_(b, "sortFile", c)) break;
     }
     return true;
-  }
-
-  /* ********************************************************** */
-  // ORDER
-  public static boolean sortOptions(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "sortOptions")) return false;
-    if (!nextTokenIs(b, ORDER)) return false;
-    boolean r;
-    Marker m = enter_section_(b);
-    r = consumeToken(b, ORDER);
-    exit_section_(b, m, SORT_OPTIONS, r);
-    return r;
   }
 
 }

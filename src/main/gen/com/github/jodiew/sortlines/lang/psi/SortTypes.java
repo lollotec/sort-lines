@@ -8,20 +8,16 @@ import com.github.jodiew.sortlines.lang.psi.impl.*;
 
 public interface SortTypes {
 
-  IElementType SORT_OPTIONS = new SortElementType("SORT_OPTIONS");
+  IElementType PROPERTY = new SortElementType("PROPERTY");
 
-  IElementType COLON = new SortTokenType(":");
-  IElementType COMMA = new SortTokenType(",");
   IElementType CRLF = new SortTokenType("CRLF");
-  IElementType LBRACE = new SortTokenType("{");
-  IElementType ORDER = new SortTokenType("ORDER");
-  IElementType RBRACE = new SortTokenType("}");
+  IElementType KEY = new SortTokenType("KEY");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == SORT_OPTIONS) {
-        return new SortSortOptionsImpl(node);
+      if (type == PROPERTY) {
+        return new SortPropertyImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }
