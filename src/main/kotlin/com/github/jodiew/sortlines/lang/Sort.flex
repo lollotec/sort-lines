@@ -15,20 +15,18 @@ import com.intellij.psi.TokenType;
 %eof{   return;
 %eof}
 
-CRLF=\R
-WHITE_SPACE=[\ \n\t\f]
-KEY_CHARACTER=[^:=\ \n\t\f\\] | "\\ "
-
-%state WAITING_VALUE
+// Whitespaces
+EOL_WS           = \n | \r | \r\n
+LINE_WS          = [\ \t]
+WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
+WHITE_SPACE      = {WHITE_SPACE_CHAR}+
+SORT_CHAR   = [^ \n\f\\] | "\\"{EOL_WS} | "\\".
 
 %%
 
-<YYINITIAL> {KEY_CHARACTER}+                                { yybegin(YYINITIAL); return SortTypes.KEY; }
+<YYINITIAL> {
+  {SORT_CHAR}+  { return SortTypes.SORT; }
+  {WHITE_SPACE} { return TokenType.WHITE_SPACE; }
+}
 
-<WAITING_VALUE> {CRLF}({CRLF}|{WHITE_SPACE})+               { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-<WAITING_VALUE> {WHITE_SPACE}+                              { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE; }
-
-({CRLF}|{WHITE_SPACE})+                                     { yybegin(YYINITIAL); return TokenType.WHITE_SPACE; }
-
-[^]                                                         { return TokenType.BAD_CHARACTER; }
+[^]             { return TokenType.BAD_CHARACTER; }

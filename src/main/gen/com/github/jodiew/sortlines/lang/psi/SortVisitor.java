@@ -7,7 +7,7 @@ import com.intellij.psi.PsiElement;
 
 public class SortVisitor extends PsiElementVisitor {
 
-  public void visitProperty(@NotNull SortProperty o) {
+  public void visitOptions(@NotNull SortOptions o) {
     visitPsiElement(o);
   }
 

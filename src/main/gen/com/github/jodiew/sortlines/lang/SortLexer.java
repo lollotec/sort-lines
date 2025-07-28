@@ -19,7 +19,6 @@ class SortLexer implements FlexLexer {
 
   /** lexical states */
   public static final int YYINITIAL = 0;
-  public static final int WAITING_VALUE = 2;
 
   /**
    * ZZ_LEXSTATE[l] is the state in the DFA for the lexical state l
@@ -28,7 +27,7 @@ class SortLexer implements FlexLexer {
    * l is of the form l = 2*k, k a non negative integer
    */
   private static final int ZZ_LEXSTATE[] = {
-     0,  0,  1, 1
+     0, 0
   };
 
   /**
@@ -37,7 +36,7 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_TOP = zzUnpackcmap_top();
 
   private static final String ZZ_CMAP_TOP_PACKED_0 =
-    "\1\0\37\u0100\1\u0200\u10df\u0100";
+    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\u1020\u0100";
 
   private static int [] zzUnpackcmap_top() {
     int [] result = new int[4352];
@@ -65,12 +64,11 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\3\1\2\1\3\22\0\1\4"+
-    "\31\0\1\5\2\0\1\5\36\0\1\6\50\0\1\3"+
-    "\u01a2\0\2\3\326\0";
+    "\11\0\1\1\1\2\1\3\1\4\1\5\22\0\1\6"+
+    "\73\0\1\7\50\0\1\3\u01a2\0\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
-    int [] result = new int[768];
+    int [] result = new int[1024];
     int offset = 0;
     offset = zzUnpackcmap_blocks(ZZ_CMAP_BLOCKS_PACKED_0, offset, result);
     return result;
@@ -94,10 +92,10 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\2\0\1\1\1\2\1\1\2\3\2\4\1\0";
+    "\1\0\2\1\1\2\2\3\1\0\1\1";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[10];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -122,11 +120,10 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\7\0\16\0\25\0\34\0\43\0\52\0\61"+
-    "\0\25\0\52";
+    "\0\0\0\10\0\20\0\30\0\40\0\50\0\50\0\60";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[10];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -149,11 +146,11 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\3\2\4\1\5\1\4\1\6\1\7\1\6\1\10"+
-    "\1\11\1\4\1\10\2\6\1\3\2\0\1\3\2\0"+
-    "\1\12\1\0\4\4\2\0\1\3\2\4\1\5\1\4"+
-    "\1\0\1\12\13\0\1\3\3\0\2\10\1\4\1\10"+
-    "\2\0";
+    "\1\2\1\3\1\4\1\2\1\5\1\3\1\4\1\6"+
+    "\2\2\1\0\1\2\1\0\1\2\1\0\1\7\1\2"+
+    "\1\3\1\4\1\2\1\0\1\3\1\4\1\7\1\0"+
+    "\2\4\2\0\2\4\11\0\3\2\2\0\1\10\6\2"+
+    "\1\0\1\2\1\0\1\7";
 
   private static int [] zzUnpacktrans() {
     int [] result = new int[56];
@@ -194,10 +191,10 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\2\0\3\1\1\11\3\1\1\0";
+    "\1\0\3\1\1\11\1\1\1\0\1\1";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[10];
+    int [] result = new int[8];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -519,25 +516,20 @@ class SortLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { yybegin(YYINITIAL); return SortTypes.KEY;
+            { return SortTypes.SORT;
+            }
+          // fall through
+          case 4: break;
+          case 2:
+            { return TokenType.WHITE_SPACE;
             }
           // fall through
           case 5: break;
-          case 2:
-            { yybegin(YYINITIAL); return TokenType.WHITE_SPACE;
-            }
-          // fall through
-          case 6: break;
           case 3:
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 7: break;
-          case 4:
-            { yybegin(WAITING_VALUE); return TokenType.WHITE_SPACE;
-            }
-          // fall through
-          case 8: break;
+          case 6: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }
