@@ -16,5 +16,8 @@
                   extensions="sort" />
         <lang.parserDefinition language="Sort"
                                implementationClass="com.github.jodiew.sortlines.lang.SortParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Sort"
+                                       implementationClass="com.github.jodiew.sortlines.lang.SortSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.github.jodiew.sortlines.lang.SortColorSettingsPage"/>
     </extensions>
 </idea-plugin>
