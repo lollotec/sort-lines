@@ -65,7 +65,8 @@ class SortLexer implements FlexLexer {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\1\3\1\4\1\5\22\0\1\6"+
-    "\73\0\1\7\50\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+    "\73\0\1\7\36\0\1\10\1\0\1\10\7\0\1\3"+
+    "\u01a2\0\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -120,7 +121,7 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\10\0\20\0\30\0\40\0\50\0\50\0\60";
+    "\0\0\0\11\0\22\0\33\0\44\0\55\0\55\0\66";
 
   private static int [] zzUnpackRowMap() {
     int [] result = new int[8];
@@ -147,13 +148,13 @@ class SortLexer implements FlexLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\2\1\3\1\4\1\2\1\5\1\3\1\4\1\6"+
-    "\2\2\1\0\1\2\1\0\1\2\1\0\1\7\1\2"+
-    "\1\3\1\4\1\2\1\0\1\3\1\4\1\7\1\0"+
-    "\2\4\2\0\2\4\11\0\3\2\2\0\1\10\6\2"+
-    "\1\0\1\2\1\0\1\7";
+    "\1\5\2\2\1\0\1\2\1\0\1\2\1\0\1\7"+
+    "\1\0\1\2\1\3\1\4\1\2\1\0\1\3\1\4"+
+    "\1\7\2\0\2\4\2\0\2\4\13\0\3\2\2\0"+
+    "\1\10\7\2\1\0\1\2\1\0\1\7\1\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[56];
+    int [] result = new int[63];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;

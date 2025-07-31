@@ -20,5 +20,7 @@
                                        implementationClass="com.github.jodiew.sortlines.lang.SortSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="com.github.jodiew.sortlines.lang.SortColorSettingsPage"/>
         <multiHostInjector implementation="com.github.jodiew.sortlines.lang.SortInjector"/>
+        <annotator language=""
+                   implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>
     </extensions>
 </idea-plugin>

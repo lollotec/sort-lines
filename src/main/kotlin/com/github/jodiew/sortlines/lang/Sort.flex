@@ -20,7 +20,7 @@ EOL_WS           = \n | \r | \r\n
 LINE_WS          = [\ \t]
 WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
 WHITE_SPACE      = {WHITE_SPACE_CHAR}+
-SORT_CHAR   = [^ \n\f\\] | "\\"{EOL_WS} | "\\".
+SORT_CHAR   = [^ \n\f\\\{\}] | "\\"{EOL_WS} | "\\".
 
 %%
 
