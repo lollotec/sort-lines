@@ -11,6 +11,8 @@
   elementTypeHolderClass="com.github.jodiew.sortlines.lang.psi.SortTypes"
   elementTypeClass="com.github.jodiew.sortlines.lang.psi.SortElementType"
   tokenTypeClass="com.github.jodiew.sortlines.lang.psi.SortTokenType"
+
+  psiImplUtilClass="com.github.jodiew.sortlines.lang.psi.impl.SortPsiImplUtil"
 }
 
 sortFile ::= item_?
@@ -18,3 +20,6 @@ sortFile ::= item_?
 private item_ ::= options
 
 options ::= SORT
+{
+  methods=[getSort]
+}

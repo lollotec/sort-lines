@@ -1,6 +1,9 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     id("java") // Java support
@@ -134,6 +137,14 @@ kover {
 }
 
 tasks {
+//    withType<KotlinCompile> {
+//        compilerOptions {
+//            jvmTarget.set(JvmTarget.JVM_24)
+//            languageVersion.set(KotlinVersion.DEFAULT)
+//            apiVersion.set(KotlinVersion.KOTLIN_2_3)
+//            freeCompilerArgs.set(listOf("-Xjvm-default=all"))
+//        }
+//    }
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }
