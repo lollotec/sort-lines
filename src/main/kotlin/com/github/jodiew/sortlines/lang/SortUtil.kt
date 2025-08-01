@@ -6,4 +6,7 @@ import com.github.jodiew.sortlines.lang.psi.SortTypes
 object SortUtil {
     fun SortOptions.getSort(): String? =
         node.findChildByType(SortTypes.SORT)?.text
+
+    fun SortOptions.isEnd(): Boolean =
+        node.findChildByType(SortTypes.END) !== null
 }

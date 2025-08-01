@@ -19,7 +19,4 @@ sortFile ::= item_?
 
 private item_ ::= options
 
-options ::= SORT
-{
-  methods=[getSort]
-}
+options ::= SORT|END

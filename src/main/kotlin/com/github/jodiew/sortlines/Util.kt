@@ -14,11 +14,6 @@ val DEFAULT_DESC = listOf("desc", "↓", "🦜")
 val VALID_SORTS = DEFAULT_ASC + DEFAULT_DESC
 val VALID_OPTIONS = VALID_SORTS + "end"
 
-//val ascSortOrders = listOf("asc", "↑", "🦜")
-//val descSortOrders = listOf("desc", "↓", "🐬")
-//val validSortOrders = ascSortOrders + descSortOrders
-//val validSortOptions = validSortOrders + "end"
-
 fun PsiComment.isSortComment(): Boolean = text.contains(Regex(PREFIX_STR + SEPARATOR_STR, RegexOption.IGNORE_CASE))
 fun PsiComment.getSortOptions(): String = text.substringAfter("sort:").trim()
 

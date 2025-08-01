@@ -8,6 +8,7 @@ import com.intellij.openapi.editor.DefaultLanguageHighlighterColors as Default
 
 enum class SortColor(humanName: @NlsContexts.AttributeDescriptor String, default: TextAttributesKey? = null) {
     SORT("sort", Default.STRING),
+    END("end", Default.STRING),
     BAD_CHARACTER("badCharacter", HighlighterColors.BAD_CHARACTER),
     PREFIX("prefix", Default.KEYWORD),
     COLON("colon", Default.OPERATION_SIGN),

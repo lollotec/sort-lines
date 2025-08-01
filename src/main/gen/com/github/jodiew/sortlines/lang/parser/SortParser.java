@@ -42,14 +42,15 @@ public class SortParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SORT
+  // SORT|END
   public static boolean options(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "options")) return false;
-    if (!nextTokenIs(b, SORT)) return false;
+    if (!nextTokenIs(b, "<options>", END, SORT)) return false;
     boolean r;
-    Marker m = enter_section_(b);
+    Marker m = enter_section_(b, l, _NONE_, OPTIONS, "<options>");
     r = consumeToken(b, SORT);
-    exit_section_(b, m, OPTIONS, r);
+    if (!r) r = consumeToken(b, END);
+    exit_section_(b, l, m, r, false, null);
     return r;
   }
 

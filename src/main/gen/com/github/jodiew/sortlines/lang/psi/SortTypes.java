@@ -10,6 +10,7 @@ public interface SortTypes {
 
   IElementType OPTIONS = new SortElementType("OPTIONS");
 
+  IElementType END = new SortTokenType("END");
   IElementType SORT = new SortTokenType("SORT");
 
   class Factory {

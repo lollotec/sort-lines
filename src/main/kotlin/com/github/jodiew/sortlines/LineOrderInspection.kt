@@ -84,11 +84,6 @@ class LineOrderInspection: LocalInspectionTool() {
                                 SortLinesBundle.message("inspection.line.order.no.start.comment")
                             )
                         }
-                    } else {
-                        holder.registerProblem(
-                            curr,
-                            SortLinesBundle.message("inspection.line.order.invalid.option")
-                        )
                     }
                 }
             }
