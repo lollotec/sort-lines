@@ -1,4 +1,4 @@
-package com.github.jodiew.sortLines
+package com.github.jodiew.sortlines
 
 import com.intellij.openapi.util.IconLoader
 

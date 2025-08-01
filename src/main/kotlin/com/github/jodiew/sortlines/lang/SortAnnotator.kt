@@ -1,6 +1,8 @@
 package com.github.jodiew.sortlines.lang
 
-import com.github.jodiew.sortlines.Sort
+import com.github.jodiew.sortlines.PREFIX_STR
+import com.github.jodiew.sortlines.SEPARATOR_STR
+import com.github.jodiew.sortlines.VALID_SORTS
 import com.github.jodiew.sortlines.isSortComment
 import com.github.jodiew.sortlines.lang.SortUtil.getSort
 import com.github.jodiew.sortlines.lang.psi.SortColor
@@ -21,10 +23,10 @@ class SortAnnotator: Annotator {
         if (element is PsiComment && element.isSortComment()) {
             // Define the text ranges (start is inclusive, end is exclusive)
             val prefixRange = TextRange.from(
-                element.textRange.startOffset + element.text.indexOf(Sort.PREFIX_STR),
-                Sort.PREFIX_STR.length
+                element.textRange.startOffset + element.text.indexOf(PREFIX_STR),
+                PREFIX_STR.length
             )
-            val separatorRange = TextRange.from(prefixRange.endOffset, Sort.SEPARATOR_STR.length)
+            val separatorRange = TextRange.from(prefixRange.endOffset, SEPARATOR_STR.length)
 
             // Highlight the "sort" prefix and ":" separator
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
@@ -37,7 +39,7 @@ class SortAnnotator: Annotator {
         if (element is SortOptions) {
             // Check the sort order
             val sort = element.getSort()
-            if (sort !in Sort.VALID_SORTS) {
+            if (sort !in VALID_SORTS) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Invalid sort order")
                     .range(element.textRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)

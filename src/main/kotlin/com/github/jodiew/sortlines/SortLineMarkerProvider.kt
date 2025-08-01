@@ -1,9 +1,8 @@
-package com.github.jodiew.sortLines
+package com.github.jodiew.sortlines
 
 import com.intellij.codeInsight.daemon.GutterName
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor
-import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement

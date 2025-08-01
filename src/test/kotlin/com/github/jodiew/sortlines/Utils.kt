@@ -1,4 +1,4 @@
-package com.github.jodiew.sortLines
+package com.github.jodiew.sortlines
 
 fun testFileNameKt(name: String): String =
     testFileName(name, ".kt")
