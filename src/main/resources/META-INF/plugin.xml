@@ -6,7 +6,7 @@
   
     <depends>com.intellij.modules.platform</depends>
   
-    <resource-bundle>messages.SortLinesBundle</resource-bundle>
+    <resource-bundle>messages.SortBundle</resource-bundle>
   
     <extensions defaultExtensionNs="com.intellij">
         <fileType name="Sort File"
@@ -17,11 +17,11 @@
         <lang.parserDefinition language="Sort"
                                implementationClass="com.github.jodiew.sortlines.lang.SortParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Sort"
-                                       implementationClass="com.github.jodiew.sortlines.lang.SortSyntaxHighlighterFactory"/>
-        <colorSettingsPage implementation="com.github.jodiew.sortlines.lang.SortColorSettingsPage"/>
+                                       implementationClass="com.github.jodiew.sortlines.highlight.SortSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.github.jodiew.sortlines.lang.colors.SortColorSettingsPage"/>
         <multiHostInjector implementation="com.github.jodiew.sortlines.lang.SortInjector"/>
-<!--        <annotator language=""-->
-<!--                   implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>-->
+        <annotator language=""
+                   implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>
         <localInspection language=""
                          key="inspection.line.order.display.name"
                          groupKey="inspection.line.order.group.name"

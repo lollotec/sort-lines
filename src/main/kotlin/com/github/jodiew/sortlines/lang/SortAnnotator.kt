@@ -2,10 +2,12 @@ package com.github.jodiew.sortlines.lang
 
 import com.github.jodiew.sortlines.PREFIX_STR
 import com.github.jodiew.sortlines.SEPARATOR_STR
-import com.github.jodiew.sortlines.VALID_OPTIONS
+import com.github.jodiew.sortlines.VALID_SORTS
 import com.github.jodiew.sortlines.isSortComment
-import com.github.jodiew.sortlines.lang.psi.SortColor
+import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
+import com.github.jodiew.sortlines.lang.psi.ext.isEnd
+import com.github.jodiew.sortlines.lang.psi.ext.sort
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -37,10 +39,10 @@ class SortAnnotator: Annotator {
         // Check if the psi element is SortOptions
         if (element is SortOptions) {
             // Check if it's a block end
-            if (element.isEnd()) return
+            if (element.isEnd) return
+
             // Check the sort order
-            val sort = element.getSort()
-            if (sort !in VALID_OPTIONS) {
+            if (element.sort !in VALID_SORTS) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Invalid sort order")
                     .range(element.textRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)

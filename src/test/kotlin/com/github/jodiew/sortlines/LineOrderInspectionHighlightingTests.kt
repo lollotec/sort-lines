@@ -12,7 +12,7 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     }
 
     protected override fun getTestDataPath(): String =
-        "src/test/testData/highlighting"
+        "src/test/testData/highlight"
 
     private fun highlightingTestKotlin(name: String) {
         myFixture.testHighlighting(

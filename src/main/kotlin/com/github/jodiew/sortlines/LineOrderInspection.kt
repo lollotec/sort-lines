@@ -63,25 +63,25 @@ class LineOrderInspection: LocalInspectionTool() {
                                     holder.registerProblem(
                                         file,
                                         sortRange,
-                                        SortLinesBundle.message("inspection.line.order.problem.descriptor"),
+                                        SortBundle.message("inspection.line.order.problem.descriptor"),
                                         SortLinesQuickFix(currSortOrder)
                                     )
                                 }
                             } else {
                                 holder.registerProblem(
                                     curr,
-                                    SortLinesBundle.message("inspection.line.order.no.end.comment")
+                                    SortBundle.message("inspection.line.order.no.end.comment")
                                 )
                             }
                         } else if (nextSortOption == "end") { // currSortOption == "end"
                             holder.registerProblem(
                                 next,
-                                SortLinesBundle.message("inspection.line.order.no.start.comment")
+                                SortBundle.message("inspection.line.order.no.start.comment")
                             )
                         } else if (next == null && sortComments.size == 1) {
                             holder.registerProblem(
                                 curr,
-                                SortLinesBundle.message("inspection.line.order.no.start.comment")
+                                SortBundle.message("inspection.line.order.no.start.comment")
                             )
                         }
                     }
@@ -92,7 +92,7 @@ class LineOrderInspection: LocalInspectionTool() {
 
     private class SortLinesQuickFix(val sortOrder: SortOrder?) : LocalQuickFix {
         override fun getName(): @IntentionName String =
-            SortLinesBundle.message("inspection.line.order.quickfix")
+            SortBundle.message("inspection.line.order.quickfix")
 
         override fun getFamilyName(): @IntentionFamilyName String = name
 

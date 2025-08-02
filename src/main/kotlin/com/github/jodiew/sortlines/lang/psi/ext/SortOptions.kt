@@ -6,6 +6,9 @@ import com.github.jodiew.sortlines.lang.psi.SortTypes
 val SortOptions.sort: String?
     get() = node.findChildByType(SortTypes.SORT)?.text
 
+val SortOptions.isEnd: Boolean
+    get() = node.findChildByType(SortTypes.END) != null
+
 val SortOptions.isGroup: Boolean
     get() = node.findChildByType(SortTypes.GROUP) != null
 

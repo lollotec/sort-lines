@@ -9,7 +9,7 @@ import com.intellij.psi.PsiElement
 
 class SortLineMarkerProvider : LineMarkerProviderDescriptor() {
 
-    override fun getName(): @GutterName String? = SortLinesBundle.message("inspection.line.order.group.name")
+    override fun getName(): @GutterName String? = SortBundle.message("inspection.line.order.group.name")
 
     override fun getLineMarkerInfo(p0: PsiElement): LineMarkerInfo<*>? = null
 
@@ -41,7 +41,7 @@ class SortLineMarkerProvider : LineMarkerProviderDescriptor() {
             null,
             null,
             GutterIconRenderer.Alignment.CENTER,
-            { SortLinesBundle.message("inspection.line.order.group.name") }
+            { SortBundle.message("inspection.line.order.group.name") }
         ) {
 //            override fun createGutterRenderer(): GutterIconRenderer? = SortLineMarkerGutterRenderer(this)
         }
