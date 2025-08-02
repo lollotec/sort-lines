@@ -10,7 +10,15 @@ public interface SortTypes {
 
   IElementType OPTIONS = new SortElementType("OPTIONS");
 
+  IElementType COLON = new SortTokenType("COLON");
+  IElementType COMMA = new SortTokenType("COMMA");
   IElementType END = new SortTokenType("END");
+  IElementType FSLASH = new SortTokenType("FSLASH");
+  IElementType GROUP = new SortTokenType("GROUP");
+  IElementType LBRACE = new SortTokenType("LBRACE");
+  IElementType ORDER = new SortTokenType("ORDER");
+  IElementType PATTERN = new SortTokenType("PATTERN");
+  IElementType RBRACE = new SortTokenType("RBRACE");
   IElementType SORT = new SortTokenType("SORT");
 
   class Factory {

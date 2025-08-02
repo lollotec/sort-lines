@@ -19,4 +19,4 @@ sortFile ::= item_?
 
 private item_ ::= options
 
-options ::= SORT|END
+options ::= (LBRACE ORDER COLON SORT (COMMA GROUP COLON FSLASH PATTERN FSLASH)? RBRACE)|SORT|END

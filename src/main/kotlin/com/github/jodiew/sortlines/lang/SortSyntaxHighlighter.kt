@@ -18,6 +18,7 @@ class SortSyntaxHighlighter : SyntaxHighlighterBase() {
 
 private fun map(tokenType: IElementType?): SortColor? = when (tokenType) {
     SortTypes.SORT -> SortColor.SORT
+    SortTypes.END -> SortColor.END
     TokenType.BAD_CHARACTER -> SortColor.BAD_CHARACTER
     else -> null
 }

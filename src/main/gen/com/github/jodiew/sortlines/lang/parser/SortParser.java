@@ -42,15 +42,44 @@ public class SortParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // SORT|END
+  // (LBRACE ORDER COLON SORT (COMMA GROUP COLON FSLASH PATTERN FSLASH)? RBRACE)|SORT|END
   public static boolean options(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "options")) return false;
-    if (!nextTokenIs(b, "<options>", END, SORT)) return false;
     boolean r;
     Marker m = enter_section_(b, l, _NONE_, OPTIONS, "<options>");
-    r = consumeToken(b, SORT);
+    r = options_0(b, l + 1);
+    if (!r) r = consumeToken(b, SORT);
     if (!r) r = consumeToken(b, END);
     exit_section_(b, l, m, r, false, null);
+    return r;
+  }
+
+  // LBRACE ORDER COLON SORT (COMMA GROUP COLON FSLASH PATTERN FSLASH)? RBRACE
+  private static boolean options_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "options_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, LBRACE, ORDER, COLON, SORT);
+    r = r && options_0_4(b, l + 1);
+    r = r && consumeToken(b, RBRACE);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (COMMA GROUP COLON FSLASH PATTERN FSLASH)?
+  private static boolean options_0_4(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "options_0_4")) return false;
+    options_0_4_0(b, l + 1);
+    return true;
+  }
+
+  // COMMA GROUP COLON FSLASH PATTERN FSLASH
+  private static boolean options_0_4_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "options_0_4_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, COMMA, GROUP, COLON, FSLASH, PATTERN, FSLASH);
+    exit_section_(b, m, null, r);
     return r;
   }
 

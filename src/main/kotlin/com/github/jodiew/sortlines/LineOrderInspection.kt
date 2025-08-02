@@ -98,7 +98,7 @@ class LineOrderInspection: LocalInspectionTool() {
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement.containingFile)
-                ?: TODO("Something about invoking the intention on a copy of the file?")
+                ?: TODO("Something about invoking the intention on a copy of the file?(when there are unsaved changes maybe?)")
 
             val sortRange = descriptor.textRangeInElement
 
