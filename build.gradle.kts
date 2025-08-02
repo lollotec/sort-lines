@@ -14,6 +14,15 @@ plugins {
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
+// Include the Grammar-Kit sources generated
+sourceSets {
+    main {
+        java {
+            srcDirs("src/main/gen")
+        }
+    }
+}
+
 // Set the JVM language level used to build the project.
 kotlin {
     jvmToolchain(21)
@@ -45,6 +54,7 @@ dependencies {
         plugins(providers.gradleProperty("platformPlugins").map { it.split(',') })
 
         testFramework(TestFrameworkType.Platform)
+        testBundledPlugin("org.jetbrains.kotlin")
     }
 }
 
