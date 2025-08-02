@@ -67,10 +67,11 @@ class SortLexer implements FlexLexer {
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
     "\11\0\1\1\1\2\1\3\1\4\1\5\22\0\1\6"+
-    "\13\0\1\7\2\0\1\10\12\0\1\11\41\0\1\12"+
-    "\7\0\1\13\1\14\1\0\1\15\6\0\1\16\1\17"+
-    "\1\20\1\0\1\21\2\0\1\22\5\0\1\23\1\0"+
-    "\1\24\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+    "\13\0\1\7\2\0\1\10\12\11\1\12\41\0\1\13"+
+    "\7\0\1\14\1\15\1\0\1\16\1\0\1\17\1\0"+
+    "\1\20\1\21\1\0\1\22\1\23\1\24\1\0\1\25"+
+    "\1\26\1\27\1\30\3\0\1\31\1\0\1\32\1\0"+
+    "\1\33\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
 
   private static int [] zzUnpackcmap_blocks() {
     int [] result = new int[1024];
@@ -97,13 +98,13 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\2\1\1\2\1\3\1\4\1\5\1\6\1\3"+
-    "\2\1\1\7\1\10\2\3\2\11\1\12\1\11\1\0"+
-    "\3\1\2\0\1\11\1\13\1\1\2\0\1\1\2\0"+
-    "\1\14\1\15\1\16";
+    "\3\0\2\1\1\2\1\3\1\4\1\5\1\6\1\7"+
+    "\1\3\2\1\1\10\1\11\4\3\2\12\1\13\1\12"+
+    "\1\0\3\1\4\0\1\12\1\14\1\1\1\0\1\15"+
+    "\2\0\1\1\3\0\1\16\1\17\1\20\1\21";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[38];
+    int [] result = new int[47];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -128,14 +129,15 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\25\0\52\0\77\0\124\0\151\0\176\0\176"+
-    "\0\176\0\77\0\223\0\250\0\275\0\176\0\176\0\322"+
-    "\0\347\0\374\0\u0111\0\176\0\u0126\0\223\0\u013b\0\u0150"+
-    "\0\u0165\0\u017a\0\u018f\0\u01a4\0\77\0\u01b9\0\u01ce\0\u01e3"+
-    "\0\u01f8\0\u020d\0\u0222\0\77\0\176\0\176";
+    "\0\0\0\34\0\70\0\124\0\160\0\214\0\250\0\250"+
+    "\0\250\0\304\0\124\0\340\0\374\0\u0118\0\250\0\250"+
+    "\0\u0134\0\u0150\0\u016c\0\u0188\0\u01a4\0\u01c0\0\250\0\u01dc"+
+    "\0\340\0\u01f8\0\u0214\0\u0230\0\u024c\0\u0268\0\u0284\0\u02a0"+
+    "\0\u02bc\0\124\0\u02d8\0\u02f4\0\250\0\u0310\0\u032c\0\u0348"+
+    "\0\u0364\0\u0380\0\u039c\0\124\0\250\0\250\0\250";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[38];
+    int [] result = new int[47];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -159,32 +161,36 @@ class SortLexer implements FlexLexer {
 
   private static final String ZZ_TRANS_PACKED_0 =
     "\1\4\1\5\1\6\1\4\1\7\1\5\1\6\1\10"+
-    "\1\11\1\12\1\13\1\4\1\14\2\4\1\15\3\4"+
-    "\1\16\1\17\1\7\2\6\2\7\2\6\6\7\1\20"+
-    "\1\7\1\21\5\7\1\22\1\23\1\6\2\22\1\6"+
-    "\1\23\1\22\1\24\1\22\1\25\12\22\2\4\1\0"+
-    "\1\4\1\0\1\4\3\0\1\4\1\26\10\4\2\0"+
-    "\1\4\1\5\1\6\1\4\1\0\1\5\1\6\2\0"+
-    "\1\4\1\26\10\4\3\0\2\6\2\0\2\6\43\0"+
-    "\3\4\2\0\1\27\21\4\1\0\1\4\1\0\1\4"+
-    "\3\0\1\4\1\26\3\4\1\30\4\4\2\0\2\4"+
-    "\1\0\1\4\1\0\1\4\3\0\1\4\1\26\6\4"+
-    "\1\31\1\4\23\0\1\32\24\0\1\33\3\0\2\22"+
-    "\1\0\2\22\1\0\2\22\1\0\1\22\1\25\13\22"+
-    "\1\23\1\6\2\22\1\6\1\23\1\22\1\0\1\22"+
-    "\1\25\17\22\1\34\4\22\1\25\12\22\4\4\1\0"+
-    "\1\4\3\0\1\4\1\26\10\4\2\0\2\4\1\0"+
-    "\1\4\1\0\1\4\3\0\1\4\1\26\1\35\7\4"+
-    "\2\0\2\4\1\0\1\4\1\0\1\4\3\0\1\4"+
-    "\1\26\1\36\7\4\21\0\1\37\20\0\1\40\11\0"+
-    "\5\22\1\0\2\22\1\0\1\22\1\25\12\22\2\4"+
-    "\1\0\1\4\1\0\1\4\3\0\1\4\1\26\1\4"+
-    "\1\41\6\4\24\0\1\42\16\0\1\43\10\0\2\4"+
-    "\1\0\1\4\1\0\1\4\3\0\1\4\1\26\6\4"+
-    "\1\44\1\4\22\0\1\45\25\0\1\46\3\0";
+    "\1\11\1\12\1\13\1\14\1\4\1\15\5\4\1\16"+
+    "\6\4\1\17\1\20\1\7\2\6\2\7\2\6\7\7"+
+    "\1\21\1\7\1\22\2\7\1\23\2\7\1\24\5\7"+
+    "\1\25\1\26\1\6\2\25\1\6\1\26\1\25\1\27"+
+    "\2\25\1\30\20\25\2\4\1\0\1\4\1\0\1\4"+
+    "\3\0\2\4\1\31\16\4\2\0\1\4\1\5\1\6"+
+    "\1\4\1\0\1\5\1\6\2\0\2\4\1\31\16\4"+
+    "\3\0\2\6\2\0\2\6\61\0\2\4\1\0\1\4"+
+    "\1\0\1\4\3\0\1\12\1\4\1\31\16\4\2\0"+
+    "\3\4\2\0\1\32\30\4\1\0\1\4\1\0\1\4"+
+    "\3\0\2\4\1\31\6\4\1\33\7\4\2\0\2\4"+
+    "\1\0\1\4\1\0\1\4\3\0\2\4\1\31\11\4"+
+    "\1\34\4\4\27\0\1\35\23\0\1\36\43\0\1\37"+
+    "\32\0\1\40\7\0\2\25\1\0\2\25\1\0\2\25"+
+    "\1\0\2\25\1\30\21\25\1\26\1\6\2\25\1\6"+
+    "\1\26\1\25\1\0\2\25\1\30\25\25\1\41\5\25"+
+    "\1\30\20\25\4\4\1\0\1\4\3\0\2\4\1\31"+
+    "\16\4\2\0\2\4\1\0\1\4\1\0\1\4\3\0"+
+    "\2\4\1\31\1\42\15\4\2\0\2\4\1\0\1\4"+
+    "\1\0\1\4\3\0\2\4\1\31\1\43\15\4\25\0"+
+    "\1\44\41\0\1\45\16\0\1\46\40\0\1\47\12\0"+
+    "\5\25\1\0\2\25\1\0\2\25\1\30\20\25\2\4"+
+    "\1\0\1\4\1\0\1\4\3\0\2\4\1\31\1\4"+
+    "\1\50\14\4\32\0\1\51\20\0\1\52\35\0\1\53"+
+    "\14\0\2\4\1\0\1\4\1\0\1\4\3\0\2\4"+
+    "\1\31\11\4\1\54\4\4\26\0\1\55\34\0\1\56"+
+    "\35\0\1\57\4\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[567];
+    int [] result = new int[952];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -222,12 +228,12 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\3\1\3\11\4\1\2\11\4\1\1\11\1\1"+
-    "\1\0\3\1\2\0\3\1\2\0\1\1\2\0\1\1"+
-    "\2\11";
+    "\3\0\3\1\3\11\5\1\2\11\6\1\1\11\1\1"+
+    "\1\0\3\1\4\0\3\1\1\0\1\11\2\0\1\1"+
+    "\3\0\1\1\3\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[38];
+    int [] result = new int[47];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -552,72 +558,87 @@ class SortLexer implements FlexLexer {
             { return SortTypes.SORT;
             }
           // fall through
-          case 15: break;
+          case 18: break;
           case 2:
             { return TokenType.WHITE_SPACE;
             }
           // fall through
-          case 16: break;
+          case 19: break;
           case 3:
             { return TokenType.BAD_CHARACTER;
             }
           // fall through
-          case 17: break;
+          case 20: break;
           case 4:
             { yybegin(WAITING_KEY); return SortTypes.COMMA;
             }
           // fall through
-          case 18: break;
+          case 21: break;
           case 5:
             { yybegin(WAITING_PATTERN); return SortTypes.FSLASH;
             }
           // fall through
-          case 19: break;
-          case 6:
-            { return SortTypes.COLON;
-            }
-          // fall through
-          case 20: break;
-          case 7:
-            { yybegin(WAITING_KEY); return SortTypes.LBRACE;
-            }
-          // fall through
-          case 21: break;
-          case 8:
-            { return SortTypes.RBRACE;
-            }
-          // fall through
           case 22: break;
-          case 9:
-            { return SortTypes.PATTERN;
+          case 6:
+            { return SortTypes.INDEX;
             }
           // fall through
           case 23: break;
-          case 10:
-            { yybegin(YYINITIAL); return SortTypes.FSLASH;
+          case 7:
+            { return SortTypes.COLON;
             }
           // fall through
           case 24: break;
-          case 11:
-            { return SortTypes.END;
+          case 8:
+            { yybegin(WAITING_KEY); return SortTypes.LBRACE;
             }
           // fall through
           case 25: break;
-          case 12:
-            { return SortTypes.ORDER;
+          case 9:
+            { return SortTypes.RBRACE;
             }
           // fall through
           case 26: break;
-          case 13:
-            { yybegin(YYINITIAL); return SortTypes.GROUP;
+          case 10:
+            { return SortTypes.PATTERN;
             }
           // fall through
           case 27: break;
-          case 14:
-            { yybegin(YYINITIAL); return SortTypes.ORDER;
+          case 11:
+            { yybegin(YYINITIAL); return SortTypes.FSLASH;
             }
           // fall through
           case 28: break;
+          case 12:
+            { return SortTypes.END;
+            }
+          // fall through
+          case 29: break;
+          case 13:
+            { yybegin(YYINITIAL); return SortTypes.KEY;
+            }
+          // fall through
+          case 30: break;
+          case 14:
+            { return SortTypes.ORDER;
+            }
+          // fall through
+          case 31: break;
+          case 15:
+            { yybegin(YYINITIAL); return SortTypes.GROUP;
+            }
+          // fall through
+          case 32: break;
+          case 16:
+            { yybegin(YYINITIAL); return SortTypes.ORDER;
+            }
+          // fall through
+          case 33: break;
+          case 17:
+            { yybegin(YYINITIAL); return SortTypes.SPLIT;
+            }
+          // fall through
+          case 34: break;
           default:
             zzScanError(ZZ_NO_MATCH);
           }

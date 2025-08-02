@@ -42,7 +42,7 @@ public class SortParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // (LBRACE ORDER COLON SORT (COMMA GROUP COLON FSLASH PATTERN FSLASH)? RBRACE)|SORT|END
+  // (LBRACE ORDER COLON SORT (COMMA ((GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX)))? RBRACE)|SORT|END
   public static boolean options(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "options")) return false;
     boolean r;
@@ -54,7 +54,7 @@ public class SortParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // LBRACE ORDER COLON SORT (COMMA GROUP COLON FSLASH PATTERN FSLASH)? RBRACE
+  // LBRACE ORDER COLON SORT (COMMA ((GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX)))? RBRACE
   private static boolean options_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "options_0")) return false;
     boolean r;
@@ -66,19 +66,51 @@ public class SortParser implements PsiParser, LightPsiParser {
     return r;
   }
 
-  // (COMMA GROUP COLON FSLASH PATTERN FSLASH)?
+  // (COMMA ((GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX)))?
   private static boolean options_0_4(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "options_0_4")) return false;
     options_0_4_0(b, l + 1);
     return true;
   }
 
-  // COMMA GROUP COLON FSLASH PATTERN FSLASH
+  // COMMA ((GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX))
   private static boolean options_0_4_0(PsiBuilder b, int l) {
     if (!recursion_guard_(b, l, "options_0_4_0")) return false;
     boolean r;
     Marker m = enter_section_(b);
-    r = consumeTokens(b, 0, COMMA, GROUP, COLON, FSLASH, PATTERN, FSLASH);
+    r = consumeToken(b, COMMA);
+    r = r && options_0_4_0_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // (GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX)
+  private static boolean options_0_4_0_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "options_0_4_0_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = options_0_4_0_1_0(b, l + 1);
+    if (!r) r = options_0_4_0_1_1(b, l + 1);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // GROUP COLON FSLASH PATTERN FSLASH
+  private static boolean options_0_4_0_1_0(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "options_0_4_0_1_0")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, GROUP, COLON, FSLASH, PATTERN, FSLASH);
+    exit_section_(b, m, null, r);
+    return r;
+  }
+
+  // SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX
+  private static boolean options_0_4_0_1_1(PsiBuilder b, int l) {
+    if (!recursion_guard_(b, l, "options_0_4_0_1_1")) return false;
+    boolean r;
+    Marker m = enter_section_(b);
+    r = consumeTokens(b, 0, SPLIT, COLON, FSLASH, PATTERN, FSLASH, COMMA, KEY, COLON, INDEX);
     exit_section_(b, m, null, r);
     return r;
   }

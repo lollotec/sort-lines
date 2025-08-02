@@ -15,11 +15,14 @@ public interface SortTypes {
   IElementType END = new SortTokenType("END");
   IElementType FSLASH = new SortTokenType("FSLASH");
   IElementType GROUP = new SortTokenType("GROUP");
+  IElementType INDEX = new SortTokenType("INDEX");
+  IElementType KEY = new SortTokenType("KEY");
   IElementType LBRACE = new SortTokenType("LBRACE");
   IElementType ORDER = new SortTokenType("ORDER");
   IElementType PATTERN = new SortTokenType("PATTERN");
   IElementType RBRACE = new SortTokenType("RBRACE");
   IElementType SORT = new SortTokenType("SORT");
+  IElementType SPLIT = new SortTokenType("SPLIT");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {

@@ -22,6 +22,7 @@ WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
 WHITE_SPACE      = {WHITE_SPACE_CHAR}+
 SORT_CHAR        = [^ \n\f\\{},/] | "\\"{EOL_WS} | "\\".
 PATTERN_CHAR     = [^\n\r/] | "\\"{EOL_WS} | "\\".
+INDEX_CHAR       = [0-9]
 
 %s WAITING_KEY
 %s WAITING_PATTERN
@@ -36,12 +37,15 @@ PATTERN_CHAR     = [^\n\r/] | "\\"{EOL_WS} | "\\".
   "/"              { yybegin(WAITING_PATTERN); return SortTypes.FSLASH; }
   "end"            { return SortTypes.END; }
   "order"          { return SortTypes.ORDER; }
+  {INDEX_CHAR}+    { return SortTypes.INDEX; }
   {SORT_CHAR}+     { return SortTypes.SORT; }
 }
 
 <WAITING_KEY> {
   "order"          { yybegin(YYINITIAL); return SortTypes.ORDER; }
   "group"          { yybegin(YYINITIAL); return SortTypes.GROUP; }
+  "split"          { yybegin(YYINITIAL); return SortTypes.SPLIT; }
+  "key"            { yybegin(YYINITIAL); return SortTypes.KEY; }
 }
 
 <WAITING_PATTERN> {
