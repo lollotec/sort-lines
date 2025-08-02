@@ -20,8 +20,8 @@
                                        implementationClass="com.github.jodiew.sortlines.lang.SortSyntaxHighlighterFactory"/>
         <colorSettingsPage implementation="com.github.jodiew.sortlines.lang.SortColorSettingsPage"/>
         <multiHostInjector implementation="com.github.jodiew.sortlines.lang.SortInjector"/>
-        <annotator language=""
-                   implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>
+<!--        <annotator language=""-->
+<!--                   implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>-->
         <localInspection language=""
                          key="inspection.line.order.display.name"
                          groupKey="inspection.line.order.group.name"

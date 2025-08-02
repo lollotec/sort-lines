@@ -7,4 +7,16 @@ import com.intellij.psi.PsiElement;
 
 public interface SortOptions extends PsiElement {
 
+  //WARNING: getSort(...) is skipped
+  //matching getSort(SortOptions, ...)
+  //methods are not found in SortPsiImplUtil
+
+  //WARNING: getPattern(...) is skipped
+  //matching getPattern(SortOptions, ...)
+  //methods are not found in SortPsiImplUtil
+
+  //WARNING: getIndex(...) is skipped
+  //matching getIndex(SortOptions, ...)
+  //methods are not found in SortPsiImplUtil
+
 }

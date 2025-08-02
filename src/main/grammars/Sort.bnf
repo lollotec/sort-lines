@@ -20,3 +20,6 @@ sortFile ::= item_?
 private item_ ::= options
 
 options ::= (LBRACE ORDER COLON SORT (COMMA ((GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX)))? RBRACE)|SORT|END
+{
+  methods=[getSort getPattern getIndex]
+}
