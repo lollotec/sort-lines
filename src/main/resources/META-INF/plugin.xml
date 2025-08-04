@@ -22,13 +22,15 @@
         <multiHostInjector implementation="com.github.jodiew.sortlines.lang.SortInjector"/>
         <annotator language=""
                    implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>
+        <codeInsight.lineMarkerProvider language=""
+                                        implementationClass="com.github.jodiew.sortlines.lang.SortLineMarkerProvider"/>
+        <completion.contributor language="Sort"
+                                implementationClass="com.github.jodiew.sortlines.lang.SortCompletionContributor"/>
         <localInspection language=""
                          key="inspection.line.order.display.name"
                          groupKey="inspection.line.order.group.name"
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="com.github.jodiew.sortlines.LineOrderInspection"/>
-        <codeInsight.lineMarkerProvider language=""
-                                        implementationClass="com.github.jodiew.sortlines.lang.SortLineMarkerProvider"/>
     </extensions>
 </idea-plugin>
