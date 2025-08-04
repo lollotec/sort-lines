@@ -46,7 +46,8 @@ class SortAnnotator: Annotator {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Invalid sort order")
                     .range(element.textRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                    // .withFix(TODO())
+                    // TODO: Add a quick fix for the sort order
+                    // .withFix()
                     .create()
             }
         }
