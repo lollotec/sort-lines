@@ -29,6 +29,6 @@
                          level="WARNING"
                          implementationClass="com.github.jodiew.sortlines.LineOrderInspection"/>
         <codeInsight.lineMarkerProvider language=""
-                                        implementationClass="com.github.jodiew.sortlines.SortLineMarkerProvider"/>
+                                        implementationClass="com.github.jodiew.sortlines.lang.SortLineMarkerProvider"/>
     </extensions>
 </idea-plugin>
