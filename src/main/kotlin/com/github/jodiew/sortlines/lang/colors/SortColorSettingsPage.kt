@@ -1,7 +1,7 @@
 package com.github.jodiew.sortlines.lang.colors
 
+import com.github.jodiew.sortlines.SortIcons
 import com.github.jodiew.sortlines.highlight.SortSyntaxHighlighter
-import com.github.jodiew.sortlines.lang.SortIcons
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.options.colors.AttributesDescriptor

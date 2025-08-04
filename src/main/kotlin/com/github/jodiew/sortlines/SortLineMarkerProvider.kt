@@ -34,9 +34,9 @@ class SortLineMarkerProvider : LineMarkerProviderDescriptor() {
             element,
             element.textRange,
             when (order) {
-                SortOrder.ASC -> SortLineIcons.AscSort
-                SortOrder.DESC -> SortLineIcons.DescSort
-                else -> SortLineIcons.NoSort
+                SortOrder.ASC -> SortIcons.AscSort
+                SortOrder.DESC -> SortIcons.DescSort
+                else -> SortIcons.NoSort
             },
             null,
             null,

@@ -1,10 +1,19 @@
 package com.github.jodiew.sortlines.lang.psi.ext
 
+import com.github.jodiew.sortlines.lang.psi.SortElementFactory
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.SortTypes
 
-val SortOptions.sort: String?
+var SortOptions.sort: String?
     get() = node.findChildByType(SortTypes.SORT)?.text
+    set(value) {
+        val sortNode = node.findChildByType(SortTypes.SORT)
+        if (sortNode != null) {
+            val options = SortElementFactory.createSortOptions(project, value)
+            val newSortNode = options.firstChild.node
+            node.replaceChild(sortNode, newSortNode)
+        }
+    }
 
 val SortOptions.isEnd: Boolean
     get() = node.findChildByType(SortTypes.END) != null

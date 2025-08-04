@@ -3,7 +3,7 @@ package com.github.jodiew.sortlines.lang
 import com.github.jodiew.sortlines.DEFAULT_ASC
 import com.github.jodiew.sortlines.DEFAULT_DESC
 import com.github.jodiew.sortlines.SortBundle
-import com.github.jodiew.sortlines.SortLineIcons
+import com.github.jodiew.sortlines.SortIcons
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.isEnd
 import com.github.jodiew.sortlines.lang.psi.ext.sort
@@ -17,7 +17,7 @@ import javax.swing.Icon
 class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
     override fun getName(): @GutterName String? = SortBundle.message("inspection.line.order.group.name")
 
-    override fun getIcon(): Icon? = SortLineIcons.NoSort
+    override fun getIcon(): Icon? = SortIcons.NoSort
 
     override fun getLineMarkerInfo(p0: PsiElement): LineMarkerInfo<*>? = null
 
@@ -35,9 +35,9 @@ class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
             element,
             element.textRange,
             when (element.sort) {
-                in DEFAULT_ASC -> SortLineIcons.AscSort
-                in DEFAULT_DESC -> SortLineIcons.DescSort
-                else -> SortLineIcons.NoSort
+                in DEFAULT_ASC -> SortIcons.AscSort
+                in DEFAULT_DESC -> SortIcons.DescSort
+                else -> SortIcons.NoSort
             },
             null,
             null,
