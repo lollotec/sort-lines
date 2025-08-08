@@ -2,8 +2,10 @@ package com.github.jodiew.sortlines.lang;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.github.jodiew.sortlines.lang.psi.SortTypes;
-import com.intellij.psi.TokenType;
+
+import static com.github.jodiew.sortlines.lang.psi.SortTypes.*;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 %%
 
@@ -30,29 +32,29 @@ INDEX_CHAR       = [0-9]
 %%
 
 <YYINITIAL> {
-  "{"              { yybegin(WAITING_KEY); return SortTypes.LBRACE; }
-  "}"              { return SortTypes.RBRACE; }
-  ":"              { return SortTypes.COLON; }
-  ","              { yybegin(WAITING_KEY); return SortTypes.COMMA; }
-  "/"              { yybegin(WAITING_PATTERN); return SortTypes.FSLASH; }
-  "end"            { return SortTypes.END; }
-  "order"          { return SortTypes.ORDER; }
-  {INDEX_CHAR}+    { return SortTypes.INDEX; }
-  {SORT_CHAR}+     { return SortTypes.SORT; }
+  "{"              { yybegin(WAITING_KEY); return LBRACE; }
+  "}"              { return RBRACE; }
+  ":"              { return COLON; }
+  ","              { yybegin(WAITING_KEY); return COMMA; }
+  "/"              { yybegin(WAITING_PATTERN); return FSLASH; }
+  "end"            { return END; }
+  "order"          { return ORDER; }
+  {INDEX_CHAR}+    { return INDEX; }
+  {SORT_CHAR}+     { return SORT; }
 }
 
 <WAITING_KEY> {
-  "order"          { yybegin(YYINITIAL); return SortTypes.ORDER; }
-  "group"          { yybegin(YYINITIAL); return SortTypes.GROUP; }
-  "split"          { yybegin(YYINITIAL); return SortTypes.SPLIT; }
-  "key"            { yybegin(YYINITIAL); return SortTypes.KEY; }
+  "order"          { yybegin(YYINITIAL); return ORDER; }
+  "group"          { yybegin(YYINITIAL); return GROUP; }
+  "split"          { yybegin(YYINITIAL); return SPLIT; }
+  "key"            { yybegin(YYINITIAL); return KEY; }
 }
 
 <WAITING_PATTERN> {
-  {PATTERN_CHAR}+  { return SortTypes.PATTERN; }
-  "/"              { yybegin(YYINITIAL); return SortTypes.FSLASH; }
+  {PATTERN_CHAR}+  { return PATTERN; }
+  "/"              { yybegin(YYINITIAL); return FSLASH; }
 }
 
-{WHITE_SPACE}      { return TokenType.WHITE_SPACE; }
+{WHITE_SPACE}      { return WHITE_SPACE; }
 
-[^]                { return TokenType.BAD_CHARACTER; }
+[^]                { return BAD_CHARACTER; }

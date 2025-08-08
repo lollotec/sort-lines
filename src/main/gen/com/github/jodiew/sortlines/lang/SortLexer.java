@@ -5,8 +5,10 @@ package com.github.jodiew.sortlines.lang;
 
 import com.intellij.lexer.FlexLexer;
 import com.intellij.psi.tree.IElementType;
-import com.github.jodiew.sortlines.lang.psi.SortTypes;
-import com.intellij.psi.TokenType;
+
+import static com.github.jodiew.sortlines.lang.psi.SortTypes.*;
+import static com.intellij.psi.TokenType.BAD_CHARACTER;
+import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 
 class SortLexer implements FlexLexer {
@@ -555,87 +557,87 @@ class SortLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return SortTypes.SORT;
+            { return SORT;
             }
           // fall through
           case 18: break;
           case 2:
-            { return TokenType.WHITE_SPACE;
+            { return WHITE_SPACE;
             }
           // fall through
           case 19: break;
           case 3:
-            { return TokenType.BAD_CHARACTER;
+            { return BAD_CHARACTER;
             }
           // fall through
           case 20: break;
           case 4:
-            { yybegin(WAITING_KEY); return SortTypes.COMMA;
+            { yybegin(WAITING_KEY); return COMMA;
             }
           // fall through
           case 21: break;
           case 5:
-            { yybegin(WAITING_PATTERN); return SortTypes.FSLASH;
+            { yybegin(WAITING_PATTERN); return FSLASH;
             }
           // fall through
           case 22: break;
           case 6:
-            { return SortTypes.INDEX;
+            { return INDEX;
             }
           // fall through
           case 23: break;
           case 7:
-            { return SortTypes.COLON;
+            { return COLON;
             }
           // fall through
           case 24: break;
           case 8:
-            { yybegin(WAITING_KEY); return SortTypes.LBRACE;
+            { yybegin(WAITING_KEY); return LBRACE;
             }
           // fall through
           case 25: break;
           case 9:
-            { return SortTypes.RBRACE;
+            { return RBRACE;
             }
           // fall through
           case 26: break;
           case 10:
-            { return SortTypes.PATTERN;
+            { return PATTERN;
             }
           // fall through
           case 27: break;
           case 11:
-            { yybegin(YYINITIAL); return SortTypes.FSLASH;
+            { yybegin(YYINITIAL); return FSLASH;
             }
           // fall through
           case 28: break;
           case 12:
-            { return SortTypes.END;
+            { return END;
             }
           // fall through
           case 29: break;
           case 13:
-            { yybegin(YYINITIAL); return SortTypes.KEY;
+            { yybegin(YYINITIAL); return KEY;
             }
           // fall through
           case 30: break;
           case 14:
-            { return SortTypes.ORDER;
+            { return ORDER;
             }
           // fall through
           case 31: break;
           case 15:
-            { yybegin(YYINITIAL); return SortTypes.GROUP;
+            { yybegin(YYINITIAL); return GROUP;
             }
           // fall through
           case 32: break;
           case 16:
-            { yybegin(YYINITIAL); return SortTypes.ORDER;
+            { yybegin(YYINITIAL); return ORDER;
             }
           // fall through
           case 33: break;
           case 17:
-            { yybegin(YYINITIAL); return SortTypes.SPLIT;
+            { yybegin(YYINITIAL); return SPLIT;
             }
           // fall through
           case 34: break;
