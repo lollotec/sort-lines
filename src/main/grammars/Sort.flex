@@ -18,13 +18,10 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 %eof}
 
 // Whitespaces
-EOL_WS           = \n | \r | \r\n
-LINE_WS          = [\ \t]
-WHITE_SPACE_CHAR = {EOL_WS} | {LINE_WS}
-WHITE_SPACE      = {WHITE_SPACE_CHAR}+
-SORT_CHAR        = [^ \n\f\\{},/] | "\\"{EOL_WS} | "\\".
-PATTERN_CHAR     = [^\n\r/] | "\\"{EOL_WS} | "\\".
-INDEX_CHAR       = [0-9]
+WHITE_SPACE = \s+
+STRING = [^, \n\r\t{}\/]+
+REGEX = ((\\\/)|[^\/])+
+NUMBER = \d+
 
 %s WAITING_KEY
 %s WAITING_PATTERN
@@ -39,8 +36,8 @@ INDEX_CHAR       = [0-9]
   "/"              { yybegin(WAITING_PATTERN); return FSLASH; }
   "end"            { return END; }
   "order"          { return ORDER; }
-  {INDEX_CHAR}+    { return INDEX; }
-  {SORT_CHAR}+     { return SORT; }
+  {NUMBER}         { return NUMBER; }
+  {STRING}         { return STRING; }
 }
 
 <WAITING_KEY> {
@@ -51,7 +48,7 @@ INDEX_CHAR       = [0-9]
 }
 
 <WAITING_PATTERN> {
-  {PATTERN_CHAR}+  { return PATTERN; }
+  {REGEX}          { return REGEX; }
   "/"              { yybegin(YYINITIAL); return FSLASH; }
 }
 

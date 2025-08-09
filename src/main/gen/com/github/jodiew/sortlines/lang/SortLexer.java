@@ -40,7 +40,14 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_TOP = zzUnpackcmap_top();
 
   private static final String ZZ_CMAP_TOP_PACKED_0 =
-    "\1\0\37\u0100\1\u0200\267\u0100\10\u0300\u1020\u0100";
+    "\1\0\5\u0100\1\u0200\1\u0300\1\u0100\5\u0400\1\u0500\1\u0600"+
+    "\1\u0700\5\u0100\1\u0800\1\u0900\1\u0a00\1\u0b00\1\u0c00\1\u0d00"+
+    "\1\u0e00\3\u0100\1\u0f00\17\u0100\1\u1000\165\u0100\1\u0600\1\u0100"+
+    "\1\u1100\1\u1200\1\u1300\1\u1400\123\u0100\1\u0a00\4\u0100\1\u1500"+
+    "\10\u0100\1\u1600\2\u0100\1\u1700\1\u1800\1\u1400\1\u0100\1\u0500"+
+    "\1\u0100\1\u1900\1\u1600\1\u0900\3\u0100\1\u1300\1\u1a00\114\u0100"+
+    "\1\u1b00\1\u1300\153\u0100\1\u1c00\11\u0100\1\u1d00\1\u1400\6\u0100"+
+    "\1\u1300\u0f16\u0100";
 
   private static int [] zzUnpackcmap_top() {
     int [] result = new int[4352];
@@ -68,15 +75,26 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_CMAP_BLOCKS = zzUnpackcmap_blocks();
 
   private static final String ZZ_CMAP_BLOCKS_PACKED_0 =
-    "\11\0\1\1\1\2\1\3\1\4\1\5\22\0\1\6"+
-    "\13\0\1\7\2\0\1\10\12\11\1\12\41\0\1\13"+
-    "\7\0\1\14\1\15\1\0\1\16\1\0\1\17\1\0"+
-    "\1\20\1\21\1\0\1\22\1\23\1\24\1\0\1\25"+
-    "\1\26\1\27\1\30\3\0\1\31\1\0\1\32\1\0"+
-    "\1\33\7\0\1\3\u01a2\0\2\3\326\0\u0100\3";
+    "\11\0\2\1\2\2\1\1\22\0\1\1\13\0\1\3"+
+    "\2\0\1\4\12\5\1\6\41\0\1\7\7\0\1\10"+
+    "\1\11\1\0\1\12\1\0\1\13\1\0\1\14\1\15"+
+    "\1\0\1\16\1\17\1\20\1\0\1\21\1\22\1\23"+
+    "\1\24\3\0\1\25\1\0\1\26\1\0\1\27\7\0"+
+    "\1\2\32\0\1\2\u01bf\0\12\5\206\0\12\5\306\0"+
+    "\12\5\234\0\12\5\166\0\12\5\140\0\12\5\166\0"+
+    "\12\5\106\0\12\5\u0116\0\12\5\106\0\12\5\346\0"+
+    "\1\2\u015f\0\12\5\46\0\12\5\u012c\0\12\5\200\0"+
+    "\12\5\246\0\12\5\6\0\12\5\266\0\12\5\126\0"+
+    "\12\5\206\0\12\5\6\0\12\5\246\0\13\2\35\0"+
+    "\2\2\5\0\1\2\57\0\1\2\240\0\1\2\u01cf\0"+
+    "\12\5\46\0\12\5\306\0\12\5\26\0\12\5\126\0"+
+    "\12\5\u0196\0\12\5\246\0\12\5\206\0\12\5\u012c\0"+
+    "\12\5\200\0\12\5\74\0\12\5\220\0\12\5\166\0"+
+    "\12\5\146\0\12\5\206\0\12\5\106\0\12\5\266\0"+
+    "\12\5\u0164\0\62\5\100\0\12\5\266\0";
 
   private static int [] zzUnpackcmap_blocks() {
-    int [] result = new int[1024];
+    int [] result = new int[7680];
     int offset = 0;
     offset = zzUnpackcmap_blocks(ZZ_CMAP_BLOCKS_PACKED_0, offset, result);
     return result;
@@ -100,13 +118,13 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ACTION = zzUnpackAction();
 
   private static final String ZZ_ACTION_PACKED_0 =
-    "\3\0\2\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\3\2\1\1\10\1\11\4\3\2\12\1\13\1\12"+
-    "\1\0\3\1\4\0\1\12\1\14\1\1\1\0\1\15"+
-    "\2\0\1\1\3\0\1\16\1\17\1\20\1\21";
+    "\3\0\1\1\1\2\1\1\1\3\1\4\1\5\1\6"+
+    "\2\1\1\7\1\10\5\11\1\12\1\13\1\12\2\1"+
+    "\4\0\1\14\1\1\1\0\1\15\2\0\1\1\3\0"+
+    "\1\16\1\17\1\20\1\21";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[47];
+    int [] result = new int[42];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -131,15 +149,15 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\34\0\70\0\124\0\160\0\214\0\250\0\250"+
-    "\0\250\0\304\0\124\0\340\0\374\0\u0118\0\250\0\250"+
-    "\0\u0134\0\u0150\0\u016c\0\u0188\0\u01a4\0\u01c0\0\250\0\u01dc"+
-    "\0\340\0\u01f8\0\u0214\0\u0230\0\u024c\0\u0268\0\u0284\0\u02a0"+
-    "\0\u02bc\0\124\0\u02d8\0\u02f4\0\250\0\u0310\0\u032c\0\u0348"+
-    "\0\u0364\0\u0380\0\u039c\0\124\0\250\0\250\0\250";
+    "\0\0\0\30\0\60\0\110\0\140\0\170\0\220\0\220"+
+    "\0\250\0\110\0\300\0\330\0\220\0\220\0\220\0\360"+
+    "\0\u0108\0\u0120\0\u0138\0\u0150\0\220\0\u0168\0\u0180\0\u0198"+
+    "\0\u01b0\0\u01c8\0\u01e0\0\u01f8\0\110\0\u0210\0\u0228\0\220"+
+    "\0\u0240\0\u0258\0\u0270\0\u0288\0\u02a0\0\u02b8\0\110\0\220"+
+    "\0\220\0\220";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[47];
+    int [] result = new int[42];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -162,37 +180,26 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_TRANS = zzUnpacktrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\4\1\5\1\6\1\4\1\7\1\5\1\6\1\10"+
-    "\1\11\1\12\1\13\1\14\1\4\1\15\5\4\1\16"+
-    "\6\4\1\17\1\20\1\7\2\6\2\7\2\6\7\7"+
-    "\1\21\1\7\1\22\2\7\1\23\2\7\1\24\5\7"+
-    "\1\25\1\26\1\6\2\25\1\6\1\26\1\25\1\27"+
-    "\2\25\1\30\20\25\2\4\1\0\1\4\1\0\1\4"+
-    "\3\0\2\4\1\31\16\4\2\0\1\4\1\5\1\6"+
-    "\1\4\1\0\1\5\1\6\2\0\2\4\1\31\16\4"+
-    "\3\0\2\6\2\0\2\6\61\0\2\4\1\0\1\4"+
-    "\1\0\1\4\3\0\1\12\1\4\1\31\16\4\2\0"+
-    "\3\4\2\0\1\32\30\4\1\0\1\4\1\0\1\4"+
-    "\3\0\2\4\1\31\6\4\1\33\7\4\2\0\2\4"+
-    "\1\0\1\4\1\0\1\4\3\0\2\4\1\31\11\4"+
-    "\1\34\4\4\27\0\1\35\23\0\1\36\43\0\1\37"+
-    "\32\0\1\40\7\0\2\25\1\0\2\25\1\0\2\25"+
-    "\1\0\2\25\1\30\21\25\1\26\1\6\2\25\1\6"+
-    "\1\26\1\25\1\0\2\25\1\30\25\25\1\41\5\25"+
-    "\1\30\20\25\4\4\1\0\1\4\3\0\2\4\1\31"+
-    "\16\4\2\0\2\4\1\0\1\4\1\0\1\4\3\0"+
-    "\2\4\1\31\1\42\15\4\2\0\2\4\1\0\1\4"+
-    "\1\0\1\4\3\0\2\4\1\31\1\43\15\4\25\0"+
-    "\1\44\41\0\1\45\16\0\1\46\40\0\1\47\12\0"+
-    "\5\25\1\0\2\25\1\0\2\25\1\30\20\25\2\4"+
-    "\1\0\1\4\1\0\1\4\3\0\2\4\1\31\1\4"+
-    "\1\50\14\4\32\0\1\51\20\0\1\52\35\0\1\53"+
-    "\14\0\2\4\1\0\1\4\1\0\1\4\3\0\2\4"+
-    "\1\31\11\4\1\54\4\4\26\0\1\55\34\0\1\56"+
-    "\35\0\1\57\4\0";
+    "\1\4\1\5\1\6\1\7\1\10\1\11\1\12\2\4"+
+    "\1\13\5\4\1\14\6\4\1\15\1\16\1\17\2\5"+
+    "\7\17\1\20\1\17\1\21\2\17\1\22\2\17\1\23"+
+    "\5\17\4\24\1\25\2\24\1\26\20\24\1\4\1\0"+
+    "\1\4\2\0\21\4\3\0\2\5\25\0\1\4\1\5"+
+    "\1\6\2\0\21\4\32\0\1\4\1\0\1\4\2\0"+
+    "\1\11\20\4\2\0\1\4\1\0\1\4\2\0\11\4"+
+    "\1\27\7\4\2\0\1\4\1\0\1\4\2\0\14\4"+
+    "\1\30\4\4\23\0\1\31\17\0\1\32\37\0\1\33"+
+    "\26\0\1\34\7\0\4\24\1\0\2\24\1\26\27\24"+
+    "\1\26\20\24\1\4\1\0\1\4\2\0\3\4\1\35"+
+    "\15\4\2\0\1\4\1\0\1\4\2\0\3\4\1\36"+
+    "\15\4\21\0\1\37\35\0\1\40\12\0\1\41\34\0"+
+    "\1\42\12\0\1\4\1\0\1\4\2\0\4\4\1\43"+
+    "\14\4\26\0\1\44\14\0\1\45\31\0\1\46\14\0"+
+    "\1\4\1\0\1\4\2\0\14\4\1\47\4\4\22\0"+
+    "\1\50\30\0\1\51\31\0\1\52\4\0";
 
   private static int [] zzUnpacktrans() {
-    int [] result = new int[952];
+    int [] result = new int[720];
     int offset = 0;
     offset = zzUnpacktrans(ZZ_TRANS_PACKED_0, offset, result);
     return result;
@@ -230,12 +237,12 @@ class SortLexer implements FlexLexer {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\3\0\3\1\3\11\5\1\2\11\6\1\1\11\1\1"+
-    "\1\0\3\1\4\0\3\1\1\0\1\11\2\0\1\1"+
-    "\3\0\1\1\3\11";
+    "\3\0\3\1\2\11\4\1\3\11\5\1\1\11\3\1"+
+    "\4\0\2\1\1\0\1\11\2\0\1\1\3\0\1\1"+
+    "\3\11";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[47];
+    int [] result = new int[42];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -557,7 +564,7 @@ class SortLexer implements FlexLexer {
       else {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1:
-            { return SORT;
+            { return STRING;
             }
           // fall through
           case 18: break;
@@ -567,42 +574,42 @@ class SortLexer implements FlexLexer {
           // fall through
           case 19: break;
           case 3:
-            { return BAD_CHARACTER;
+            { yybegin(WAITING_KEY); return COMMA;
             }
           // fall through
           case 20: break;
           case 4:
-            { yybegin(WAITING_KEY); return COMMA;
+            { yybegin(WAITING_PATTERN); return FSLASH;
             }
           // fall through
           case 21: break;
           case 5:
-            { yybegin(WAITING_PATTERN); return FSLASH;
+            { return NUMBER;
             }
           // fall through
           case 22: break;
           case 6:
-            { return INDEX;
+            { return COLON;
             }
           // fall through
           case 23: break;
           case 7:
-            { return COLON;
+            { yybegin(WAITING_KEY); return LBRACE;
             }
           // fall through
           case 24: break;
           case 8:
-            { yybegin(WAITING_KEY); return LBRACE;
+            { return RBRACE;
             }
           // fall through
           case 25: break;
           case 9:
-            { return RBRACE;
+            { return BAD_CHARACTER;
             }
           // fall through
           case 26: break;
           case 10:
-            { return PATTERN;
+            { return REGEX;
             }
           // fall through
           case 27: break;

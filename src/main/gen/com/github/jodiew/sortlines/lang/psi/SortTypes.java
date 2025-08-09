@@ -8,27 +8,39 @@ import com.github.jodiew.sortlines.lang.psi.impl.*;
 
 public interface SortTypes {
 
+  IElementType INDEX = new SortElementType("INDEX");
   IElementType OPTIONS = new SortElementType("OPTIONS");
+  IElementType PATTERN = new SortElementType("PATTERN");
+  IElementType SORT = new SortElementType("SORT");
 
   IElementType COLON = new SortTokenType("COLON");
   IElementType COMMA = new SortTokenType("COMMA");
   IElementType END = new SortTokenType("END");
   IElementType FSLASH = new SortTokenType("FSLASH");
   IElementType GROUP = new SortTokenType("GROUP");
-  IElementType INDEX = new SortTokenType("INDEX");
   IElementType KEY = new SortTokenType("KEY");
   IElementType LBRACE = new SortTokenType("LBRACE");
+  IElementType NUMBER = new SortTokenType("NUMBER");
   IElementType ORDER = new SortTokenType("ORDER");
-  IElementType PATTERN = new SortTokenType("PATTERN");
   IElementType RBRACE = new SortTokenType("RBRACE");
-  IElementType SORT = new SortTokenType("SORT");
+  IElementType REGEX = new SortTokenType("REGEX");
   IElementType SPLIT = new SortTokenType("SPLIT");
+  IElementType STRING = new SortTokenType("STRING");
 
   class Factory {
     public static PsiElement createElement(ASTNode node) {
       IElementType type = node.getElementType();
-      if (type == OPTIONS) {
+      if (type == INDEX) {
+        return new SortIndexImpl(node);
+      }
+      else if (type == OPTIONS) {
         return new SortOptionsImpl(node);
+      }
+      else if (type == PATTERN) {
+        return new SortPatternImpl(node);
+      }
+      else if (type == SORT) {
+        return new SortSortImpl(node);
       }
       throw new AssertionError("Unknown element type: " + type);
     }

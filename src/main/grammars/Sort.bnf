@@ -17,4 +17,16 @@ sortFile ::= item_?
 
 private item_ ::= options
 
-options ::= (LBRACE ORDER COLON SORT (COMMA ((GROUP COLON FSLASH PATTERN FSLASH) | (SPLIT COLON FSLASH PATTERN FSLASH COMMA KEY COLON INDEX)))? RBRACE)|SORT|END
+options ::= complex_options|sort|END
+
+private complex_options ::= LBRACE sort_option ((COMMA group_option)|(COMMA split_option COMMA key_option))? RBRACE
+private sort_option ::= ORDER COLON sort
+private group_option ::= GROUP COLON FSLASH pattern FSLASH
+private split_option ::= SPLIT COLON FSLASH pattern FSLASH
+private key_option ::= KEY COLON index
+
+sort ::= STRING
+
+pattern ::= REGEX
+
+index ::= NUMBER

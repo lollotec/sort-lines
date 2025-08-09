@@ -5,15 +5,6 @@ import java.util.List;
 import org.jetbrains.annotations.*;
 import com.intellij.psi.PsiElement;
 
-public interface SortOptions extends PsiElement {
-
-  @Nullable
-  SortIndex getIndex();
-
-  @Nullable
-  SortPattern getPattern();
-
-  @Nullable
-  SortSort getSort();
+public interface SortIndex extends PsiElement {
 
 }

@@ -11,38 +11,20 @@ import static com.github.jodiew.sortlines.lang.psi.SortTypes.*;
 import com.intellij.extapi.psi.ASTWrapperPsiElement;
 import com.github.jodiew.sortlines.lang.psi.*;
 
-public class SortOptionsImpl extends ASTWrapperPsiElement implements SortOptions {
+public class SortIndexImpl extends ASTWrapperPsiElement implements SortIndex {
 
-  public SortOptionsImpl(@NotNull ASTNode node) {
+  public SortIndexImpl(@NotNull ASTNode node) {
     super(node);
   }
 
   public void accept(@NotNull SortVisitor visitor) {
-    visitor.visitOptions(this);
+    visitor.visitIndex(this);
   }
 
   @Override
   public void accept(@NotNull PsiElementVisitor visitor) {
     if (visitor instanceof SortVisitor) accept((SortVisitor)visitor);
     else super.accept(visitor);
-  }
-
-  @Override
-  @Nullable
-  public SortIndex getIndex() {
-    return findChildByClass(SortIndex.class);
-  }
-
-  @Override
-  @Nullable
-  public SortPattern getPattern() {
-    return findChildByClass(SortPattern.class);
-  }
-
-  @Override
-  @Nullable
-  public SortSort getSort() {
-    return findChildByClass(SortSort.class);
   }
 
 }
