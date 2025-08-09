@@ -175,11 +175,9 @@ public class SortParser implements PsiParser, LightPsiParser {
   }
 
   /* ********************************************************** */
-  // item_?
+  // item_
   static boolean sortFile(PsiBuilder b, int l) {
-    if (!recursion_guard_(b, l, "sortFile")) return false;
-    item_(b, l + 1);
-    return true;
+    return item_(b, l + 1);
   }
 
   /* ********************************************************** */

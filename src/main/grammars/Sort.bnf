@@ -13,7 +13,7 @@
   tokenTypeClass="com.github.jodiew.sortlines.lang.psi.SortTokenType"
 }
 
-sortFile ::= item_?
+sortFile ::= item_
 
 private item_ ::= options
 

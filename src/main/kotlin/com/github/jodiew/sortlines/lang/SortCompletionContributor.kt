@@ -16,7 +16,7 @@ class SortCompletionContributor : CompletionContributor() {
     init {
         extend(
             CompletionType.BASIC,
-            PlatformPatterns.psiElement(SortTypes.SORT),
+            PlatformPatterns.psiElement(SortTypes.STRING),
             object : CompletionProvider<CompletionParameters>() {
                 override fun addCompletions(
                     parameters: CompletionParameters,
