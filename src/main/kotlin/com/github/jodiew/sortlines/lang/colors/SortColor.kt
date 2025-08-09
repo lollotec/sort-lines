@@ -31,5 +31,4 @@ enum class SortColor(humanName: Supplier<@NlsContexts.AttributeDescriptor String
 
     val textAttributesKey = TextAttributesKey.createTextAttributesKey("com.github.jodiew.sortlines.$name", default)
     val attributeDescriptor = AttributesDescriptor(humanName, textAttributesKey)
-//    val testSeverity = HighlightSeverity(name, HighlightSeverity.INFORMATION.myVal)
 }

@@ -9,7 +9,7 @@ open class SortTokenType(debugName: String) : IElementType(debugName, SortLangua
 
 fun tokenSetOf(vararg tokens: IElementType) = TokenSet.create(*tokens)
 
-val SORT_KEYWORDS = tokenSetOf(
+val SORT_KEYS = tokenSetOf(
     ORDER, GROUP, SPLIT, KEY
 )
 

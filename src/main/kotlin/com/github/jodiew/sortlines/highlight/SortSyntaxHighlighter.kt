@@ -23,10 +23,10 @@ private fun map(tokenType: IElementType?): SortColor? = when (tokenType) {
     SortTypes.SPLIT -> SortColor.SPLIT
     SortTypes.KEY -> SortColor.KEY
 
-    SortTypes.SORT -> SortColor.SORT
+    SortTypes.STRING -> SortColor.SORT
     SortTypes.END -> SortColor.END
-    SortTypes.PATTERN -> SortColor.PATTERN
-    SortTypes.INDEX -> SortColor.INDEX
+    SortTypes.REGEX -> SortColor.PATTERN
+    SortTypes.NUMBER -> SortColor.INDEX
 
     SortTypes.LBRACE -> SortColor.BRACES
     SortTypes.RBRACE -> SortColor.BRACES
