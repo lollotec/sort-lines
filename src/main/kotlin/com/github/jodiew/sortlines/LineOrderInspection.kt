@@ -97,8 +97,8 @@ class LineOrderInspection: LocalInspectionTool() {
         override fun getFamilyName(): @IntentionFamilyName String = name
 
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
-            val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement.containingFile)
-                ?: TODO("Something about invoking the intention on a copy of the file?(when there are unsaved changes maybe?)")
+            val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement as PsiFile)
+                ?: error("No document to apply fix to")
 
             val sortRange = descriptor.textRangeInElement
 
