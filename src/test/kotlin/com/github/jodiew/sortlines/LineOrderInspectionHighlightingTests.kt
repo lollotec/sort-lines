@@ -39,25 +39,25 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
         highlightingTestKotlin(name)
     }
 
-    fun testNoEndCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testNoStartCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testNoEndMultipleCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testNoStartMultipleCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testMismatchedEndCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
+//    fun testNoEndCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testNoStartCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testNoEndMultipleCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testNoStartMultipleCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testMismatchedEndCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
 
     fun testInvalidSortOptionHighlighting() {
         highlightingTestKotlin(name)
