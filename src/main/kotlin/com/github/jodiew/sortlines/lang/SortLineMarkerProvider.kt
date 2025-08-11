@@ -40,5 +40,13 @@ class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
             null,
             GutterIconRenderer.Alignment.CENTER,
             { SortBundle.message("inspection.line.order.group.name") }
-        )
+        ) {
+//        override fun createGutterRenderer(): GutterIconRenderer? = SortLineMarkerGutterRenderer(this)
+    }
+
+//    class SortLineMarkerGutterRenderer(info: LineMarkerInfo<PsiElement>): LineMarkerInfo.LineMarkerGutterIconRenderer<PsiElement>(info) {
+//        override fun getClickAction(): AnAction? {
+//            TODO("Sort direction switch not implemented")
+//        }
+//    }
 }
