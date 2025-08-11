@@ -3,7 +3,7 @@ package com.github.jodiew.sortlines
 import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
-@TestDataPath($$"$CONTENT_ROOT/testData")
+@TestDataPath($$"$CONTENT_ROOT/testData/highlight")
 class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
 
     protected override fun setUp() {
@@ -64,6 +64,18 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     }
 
     fun testUnicodeArrows() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testComplexGroupHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testComplexSplitHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testComplexNoHighlighting() {
         highlightingTestKotlin(name)
     }
 }

@@ -2,6 +2,7 @@ package com.github.jodiew.sortlines
 
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.end
+import com.github.jodiew.sortlines.lang.psi.ext.sortInfo
 import com.intellij.codeInspection.LocalInspectionTool
 import com.intellij.codeInspection.LocalQuickFix
 import com.intellij.codeInspection.ProblemDescriptor
@@ -51,8 +52,8 @@ class LineOrderInspection: LocalInspectionTool() {
 
                 val sortCommentOptions = sortComments.fold(listOf<Pair<PsiComment, SortOptions>>()) { result, languageInjectionHost ->
                     val injected = InjectedLanguageManager.getInstance(file.project).getInjectedPsiFiles(languageInjectionHost)
-                    val sortFile = injected?.getOrNull(0)?.first ?: error("No valid sort file")
-                    val sortOptions = PsiTreeUtil.findChildOfType(sortFile, SortOptions::class.java) ?: error("No sort options found")
+                    val sortFile = injected?.getOrNull(0)?.first ?: return
+                    val sortOptions = PsiTreeUtil.findChildOfType(sortFile, SortOptions::class.java) ?: return
                     return@fold result + Pair(languageInjectionHost as PsiComment, sortOptions)
                 }
 
@@ -64,21 +65,20 @@ class LineOrderInspection: LocalInspectionTool() {
 
                     if (currSortOptions.end) return@windowed
 
-                    // The sort order isn't valid, but an error should already be reported by the SortAnnotator
-                    val order = currSortOptions.sort?.text ?: return@windowed
-                    if (order !in VALID_SORTS) return@windowed
+                    val sortInfo = currSortOptions.sortInfo ?: return@windowed
+                    if (sortInfo.order == null) return@windowed
 
                     // when the next sort is "end"
                     if (nextSortComment != null && nextSortOptions != null && nextSortOptions.end) {
                         val sortRange = TextRange(currSortComment.endOffset+1, nextSortComment.prevSibling.startOffset)
                         val linesToCheck = document.getText(sortRange).lines()
 
-                        if(!linesToCheck.isSorted(order)) {
+                        if(!linesToCheck.isSorted(sortInfo)) {
                             holder.registerProblem(
                                 file,
                                 sortRange,
                                 SortBundle.message("inspection.line.order.problem.descriptor"),
-                                SortLinesQuickFix(order)
+                                SortLinesQuickFix(sortInfo)
                             )
                         }
                     }
@@ -87,7 +87,7 @@ class LineOrderInspection: LocalInspectionTool() {
         }
     }
 
-    private class SortLinesQuickFix(val order: String) : LocalQuickFix {
+    private class SortLinesQuickFix(val sortInfo: SortInfo) : LocalQuickFix {
         override fun getName(): @IntentionName String =
             SortBundle.message("inspection.line.order.quickfix")
 
@@ -100,9 +100,9 @@ class LineOrderInspection: LocalInspectionTool() {
             val sortRange = descriptor.textRangeInElement
             val unsortedLines = document.getText(descriptor.textRangeInElement).lines()
 
-            val sortedLines = when (order) {
-                in DEFAULT_ASC -> unsortedLines.sorted()
-                in DEFAULT_DESC -> unsortedLines.sortedDescending()
+            val sortedLines = when (sortInfo.order) {
+                SortOrder.ASC -> unsortedLines.sorted()
+                SortOrder.DESC -> unsortedLines.sortedDescending()
                 else -> error("invalid sort order")
             }
 
