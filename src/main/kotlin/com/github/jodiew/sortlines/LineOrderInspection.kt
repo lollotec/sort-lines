@@ -100,11 +100,7 @@ class LineOrderInspection: LocalInspectionTool() {
             val sortRange = descriptor.textRangeInElement
             val unsortedLines = document.getText(descriptor.textRangeInElement).lines()
 
-            val sortedLines = when (sortInfo.order) {
-                SortOrder.ASC -> unsortedLines.sorted()
-                SortOrder.DESC -> unsortedLines.sortedDescending()
-                else -> error("invalid sort order")
-            }
+            val sortedLines = sortInfo.sorted(unsortedLines) ?: error("invalid sort")
 
             WriteCommandAction.runWriteCommandAction(project) {
                 document.replaceString(

@@ -30,4 +30,8 @@ class LineOrderInspectionQuickFixTests : BasePlatformTestCase() {
     fun testUnicodeArrows() {
         quickFixTest(name)
     }
+
+    fun testComplexLinesUnsorted() {
+        quickFixTest(name)
+    }
 }
