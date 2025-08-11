@@ -73,7 +73,7 @@ class LineOrderInspection: LocalInspectionTool() {
                         val sortRange = TextRange(currSortComment.endOffset+1, nextSortComment.prevSibling.startOffset)
                         val linesToCheck = document.getText(sortRange).lines()
 
-                        if(!linesToCheck.isSorted(sortInfo)) {
+                        if(!sortInfo.isSorted(linesToCheck)) {
                             holder.registerProblem(
                                 file,
                                 sortRange,

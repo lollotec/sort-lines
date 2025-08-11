@@ -33,51 +33,24 @@ data class SortInfo(
     val group: Regex? = null,
     val split: Regex? = null,
     val key: Int? = null,
-)
+) {
+    fun isSorted(lines: List<String>): Boolean = if (lines.size <= 1) { true } else {
+        lines.zipWithNext { a, b -> comp(transform(a), transform(b)) }.all { it }
+    }
 
-// TODO Clean up all the sorts into a isSorted(sortInfo) -> SortType and a passed function
+    private fun String.getGroup(group: Regex): String = group.find(this)?.groupValues?.getOrNull(1) ?: error("Group pattern not found")
 
-fun List<String>.isSorted(order: SortOrder): Boolean = when (order) {
-    SortOrder.ASC -> isSortedAscending()
-    SortOrder.DESC -> isSortedDescending()
+    private fun String.getSplit(splitPattern: Regex, key: Int): String = trim().split(splitPattern).getOrNull(key) ?: error("Split pattern and key combo not found")
+
+    private val comp: (String, String) -> Boolean = when (order) {
+        SortOrder.ASC -> { a, b -> a <= b }
+        SortOrder.DESC -> { a, b -> a >= b }
+        else -> { _, _ -> true }
+    }
+
+    private val transform: (String) -> String = when (type) {
+        SortType.ORDER -> { a -> a }
+        SortType.GROUP -> { a -> if (group != null) { a.getGroup(group) } else { a } }
+        SortType.SPLIT -> { a -> if (split != null && key != null) { a.getSplit(split, key) } else { a } }
+    }
 }
-
-fun List<String>.isSorted(info: SortInfo): Boolean = when (info.type) {
-    SortType.ORDER -> isSorted(info.order!!)
-    SortType.GROUP -> isSorted(info.order!!, info.group!!)
-    SortType.SPLIT -> isSorted(info.order!!, info.split!!, info.key!!)
-}
-
-fun List<String>.isSorted(order: SortOrder, group: Regex): Boolean = when (order) {
-    SortOrder.ASC -> isSortedAscending(group)
-    SortOrder.DESC -> isSortedDescending(group)
-}
-
-fun List<String>.isSorted(order: SortOrder, split: Regex, key: Int): Boolean = when (order) {
-    SortOrder.ASC -> isSortedAscending(split, key)
-    SortOrder.DESC -> isSortedDescending(split, key)
-}
-
-fun List<String>.isSortedAscending(): Boolean = if (size <= 1) { true } else { zipWithNext { a, b -> a <= b }.all { it } }
-
-fun List<String>.isSortedAscending(group: Regex) = if (size <= 1) { true } else {
-    zipWithNext { a, b -> a.getGroup(group) <= b.getGroup(group) }.all { it }
-}
-
-fun List<String>.isSortedAscending(split: Regex, key: Int) = if (size <= 1) { true } else {
-    zipWithNext { a, b -> a.getSplit(split, key) <= b.getSplit(split, key) }.all { it }
-}
-
-fun List<String>.isSortedDescending(): Boolean = if (size <= 1) { true } else { zipWithNext { a, b -> a >= b }.all { it } }
-
-fun List<String>.isSortedDescending(group: Regex) = if (size <= 1) { true } else {
-    zipWithNext { a, b -> a.getGroup(group) >= b.getGroup(group) }.all { it }
-}
-
-fun List<String>.isSortedDescending(split: Regex, key: Int) = if (size <= 1) { true } else {
-    zipWithNext { a, b -> a.getSplit(split, key) >= b.getSplit(split, key) }.all { it }
-}
-
-fun String.getGroup(group: Regex): String = group.find(this)?.groupValues?.getOrNull(1) ?: error("Group pattern not found")
-
-fun String.getSplit(splitPattern: Regex, key: Int): String = trim().split(splitPattern).getOrNull(key) ?: error("Split pattern and key combo not found")
