@@ -1,5 +1,6 @@
 package com.github.jodiew.sortlines.lang
 
+import com.github.jodiew.sortlines.SortIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
 
 object SortFileType : LanguageFileType(SortLanguage) {

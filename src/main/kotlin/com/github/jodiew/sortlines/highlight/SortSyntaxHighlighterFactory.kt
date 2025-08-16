@@ -1,4 +1,4 @@
-package com.github.jodiew.sortlines.lang
+package com.github.jodiew.sortlines.highlight
 
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
 import com.intellij.openapi.fileTypes.SyntaxHighlighterFactory

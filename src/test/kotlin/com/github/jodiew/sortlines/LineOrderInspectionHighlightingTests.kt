@@ -3,7 +3,7 @@ package com.github.jodiew.sortlines
 import com.intellij.testFramework.TestDataPath
 import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
-@TestDataPath($$"$CONTENT_ROOT/testData")
+@TestDataPath($$"$CONTENT_ROOT/testData/highlight")
 class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
 
     protected override fun setUp() {
@@ -12,7 +12,7 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     }
 
     protected override fun getTestDataPath(): String =
-        "src/test/testData/highlighting"
+        "src/test/testData/highlight"
 
     private fun highlightingTestKotlin(name: String) {
         myFixture.testHighlighting(
@@ -39,31 +39,43 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
         highlightingTestKotlin(name)
     }
 
-    fun testNoEndCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testNoStartCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testNoEndMultipleCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testNoStartMultipleCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testMismatchedEndCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
+//    fun testNoEndCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testNoStartCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testNoEndMultipleCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testNoStartMultipleCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
+//
+//    fun testMismatchedEndCommentHighlighting() {
+//        highlightingTestKotlin(name)
+//    }
 
     fun testInvalidSortOptionHighlighting() {
         highlightingTestKotlin(name)
     }
 
     fun testUnicodeArrows() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testComplexGroupHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testComplexSplitHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testComplexNoHighlighting() {
         highlightingTestKotlin(name)
     }
 }

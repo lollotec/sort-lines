@@ -5,9 +5,9 @@ import org.jetbrains.annotations.NonNls
 import org.jetbrains.annotations.PropertyKey
 
 @NonNls
-private const val BUNDLE = "messages.SortLinesBundle"
+private const val BUNDLE = "messages.SortBundle"
 
-object SortLinesBundle : DynamicBundle(BUNDLE) {
+object SortBundle : DynamicBundle(BUNDLE) {
 
     @JvmStatic
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any) =

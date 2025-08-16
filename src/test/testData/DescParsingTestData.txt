@@ -1,3 +1,0 @@
-Sort File(0,4)
-  SortOptionsImpl(OPTIONS)(0,4)
-    PsiElement(SortTokenType.SORT)('desc')(0,4)

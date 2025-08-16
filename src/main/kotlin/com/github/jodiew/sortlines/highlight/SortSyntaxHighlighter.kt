@@ -1,6 +1,7 @@
-package com.github.jodiew.sortlines.lang
+package com.github.jodiew.sortlines.highlight
 
-import com.github.jodiew.sortlines.lang.psi.SortColor
+import com.github.jodiew.sortlines.lang.SortLexerAdapter
+import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortTypes
 import com.intellij.lexer.Lexer
 import com.intellij.openapi.editor.colors.TextAttributesKey
@@ -17,7 +18,22 @@ class SortSyntaxHighlighter : SyntaxHighlighterBase() {
 }
 
 private fun map(tokenType: IElementType?): SortColor? = when (tokenType) {
-    SortTypes.SORT -> SortColor.SORT
+    SortTypes.ORDER -> SortColor.ORDER
+    SortTypes.GROUP -> SortColor.GROUP
+    SortTypes.SPLIT -> SortColor.SPLIT
+    SortTypes.KEY -> SortColor.KEY
+
+    SortTypes.STRING -> SortColor.SORT
+    SortTypes.END -> SortColor.END
+    SortTypes.REGEX -> SortColor.PATTERN
+    SortTypes.NUMBER -> SortColor.INDEX
+
+    SortTypes.LBRACE -> SortColor.BRACES
+    SortTypes.RBRACE -> SortColor.BRACES
+    SortTypes.COMMA -> SortColor.COMMA
+    SortTypes.COLON -> SortColor.COLON
+    SortTypes.FSLASH -> SortColor.PATTERN
+
     TokenType.BAD_CHARACTER -> SortColor.BAD_CHARACTER
     else -> null
 }
