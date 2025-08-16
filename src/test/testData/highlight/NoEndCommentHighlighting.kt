@@ -1,5 +1,9 @@
 class NoEndCommentHighlighting {
-    <warning descr="No sort end comment">// sort: asc</warning>
-    val apple: String = "2"
-    val banana: Int = 1
+    // sort: desc
+<warning descr="Lines not in specified order">    val apple: String = "1"
+    val banana: Int = 2</warning>
+
+    val bat: Int = 3
+    val aardvark: Int = 4
+
 }

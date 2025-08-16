@@ -22,7 +22,11 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiLanguageInjectionHost
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.endOffset
+import com.intellij.psi.util.lastLeaf
+import com.intellij.psi.util.nextLeaf
+import com.intellij.psi.util.prevLeaf
 import com.intellij.psi.util.startOffset
+import kotlin.math.min
 
 /**
  * Implements an inspection to detect when lines are out of order in sort blocks.
@@ -68,19 +72,39 @@ class LineOrderInspection: LocalInspectionTool() {
                     val sortInfo = currSortOptions.sortInfo ?: return@windowed
                     if (sortInfo.order == null) return@windowed
 
-                    // when the next sort is "end"
-                    if (nextSortComment != null && nextSortOptions != null && nextSortOptions.end) {
-                        val sortRange = TextRange(currSortComment.endOffset+1, nextSortComment.prevSibling.startOffset)
-                        val linesToCheck = document.getText(sortRange).lines()
+                    val nextEmptyLine = currSortComment.nextLeaf { element ->
+                        // ruby lang doesn't use the PsiWhitespace interface so have to search every element for \n\n
+                        element.text.contains(Regex("\n\\h*\n"))
+                    }
 
-                        if(!sortInfo.isSorted(linesToCheck)) {
-                            holder.registerProblem(
-                                file,
-                                sortRange,
-                                SortBundle.message("inspection.line.order.problem.descriptor"),
-                                SortLinesQuickFix(sortInfo)
-                            )
-                        }
+                    val endOffset = if (nextEmptyLine == null && nextSortComment == null) {
+                        // There is no empty line or sort comment before the end of the file
+                        file.lastLeaf().endOffset
+                    } else if (nextSortComment != null && nextSortOptions != null && nextSortOptions.end) {
+                        // The next sort comment is an end comment
+                        nextSortComment.prevLeaf()!!.startOffset
+                    } else if (nextEmptyLine == null) { // nextSortComment != null
+                        // the next comment isn't an end comment but there is no remaining empty lines
+                       nextSortComment!!.prevLeaf()!!.startOffset
+                    } else if (nextSortComment == null) { // nextEmptyLine != null
+                        // there are no more sort comments, but there is an empty line
+                        nextEmptyLine.startOffset
+                    } else { // nextEmptyLine != null && nextSortComment != null
+                        // there is an empty line and a sort comment, whichever is first
+                        min(nextEmptyLine.startOffset, nextSortComment.prevLeaf()!!.startOffset)
+                    }
+
+                    val sortRange = TextRange(currSortComment.endOffset+1, endOffset)
+
+                    val linesToCheck = document.getText(sortRange).lines()
+
+                    if(!sortInfo.isSorted(linesToCheck)) {
+                        holder.registerProblem(
+                            file,
+                            sortRange,
+                            SortBundle.message("inspection.line.order.problem.descriptor"),
+                            SortLinesQuickFix(sortInfo)
+                        )
                     }
                 }
             }

@@ -39,25 +39,17 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
         highlightingTestKotlin(name)
     }
 
-//    fun testNoEndCommentHighlighting() {
-//        highlightingTestKotlin(name)
-//    }
-//
-//    fun testNoStartCommentHighlighting() {
-//        highlightingTestKotlin(name)
-//    }
-//
-//    fun testNoEndMultipleCommentHighlighting() {
-//        highlightingTestKotlin(name)
-//    }
-//
-//    fun testNoStartMultipleCommentHighlighting() {
-//        highlightingTestKotlin(name)
-//    }
-//
-//    fun testMismatchedEndCommentHighlighting() {
-//        highlightingTestKotlin(name)
-//    }
+    fun testNoEndCommentHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testNoEndMultipleCommentHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testNoEndCommentToEofHighlighting() {
+        highlightingTestKotlin(name)
+    }
 
     fun testInvalidSortOptionHighlighting() {
         highlightingTestKotlin(name)
@@ -76,6 +68,14 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     }
 
     fun testComplexNoHighlighting() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testMultipleNoEndComment() {
+        highlightingTestKotlin(name)
+    }
+
+    fun testMixedEndCommentHighlighting() {
         highlightingTestKotlin(name)
     }
 }

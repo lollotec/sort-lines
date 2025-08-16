@@ -1,5 +1,5 @@
-class MismatchedEndCommentHighlighting {
-    <warning descr="No sort end comment">// sort: asc</warning>
+class MixedEndCommentHighlighting {
+    // sort: asc
     val apple = 1
     val banana = "2"
 
