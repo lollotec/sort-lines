@@ -78,4 +78,8 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     fun testMixedEndCommentHighlighting() {
         highlightingTestKotlin(name)
     }
+
+    fun testInvalidSortOrderHighlighting() {
+        highlightingTestKotlin(name)
+    }
 }
