@@ -1,10 +1,11 @@
 package com.github.jodiew.sortlines.lang
 
-import com.github.jodiew.sortlines.DEFAULT_ASC
-import com.github.jodiew.sortlines.DEFAULT_DESC
 import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.SortIcons
+import com.github.jodiew.sortlines.SortOrder
 import com.github.jodiew.sortlines.lang.psi.SortSort
+import com.github.jodiew.sortlines.settings.SortSettings
+import com.github.jodiew.sortlines.toSortOrder
 import com.intellij.codeInsight.daemon.GutterName
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor
@@ -31,9 +32,9 @@ class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
         LineMarkerInfo<PsiElement>(
             element,
             element.textRange,
-            when (element.text) {
-                in DEFAULT_ASC -> SortIcons.AscSort
-                in DEFAULT_DESC -> SortIcons.DescSort
+            when (element.text.toSortOrder(SortSettings.getInstance(element.project))) {
+                SortOrder.ASC -> SortIcons.AscSort
+                SortOrder.DESC -> SortIcons.DescSort
                 else -> SortIcons.NoSort
             },
             null,

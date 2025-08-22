@@ -32,5 +32,9 @@
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="com.github.jodiew.sortlines.LineOrderInspection"/>
+        <projectConfigurable parentId="tools"
+                             instance="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
+                             id="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
+                             key="settings.sort.name"/>
     </extensions>
 </idea-plugin>

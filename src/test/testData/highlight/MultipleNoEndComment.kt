@@ -1,4 +1,4 @@
-class NoEndMultipleCommentHighlighting {
+class MultipleNoEndComment {
     // sort: desc
 <warning descr="Lines not in specified order">    val apple: String = "1"
     val banana: Int = 2</warning>

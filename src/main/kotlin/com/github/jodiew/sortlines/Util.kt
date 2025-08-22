@@ -1,12 +1,10 @@
 package com.github.jodiew.sortlines
 
+import com.github.jodiew.sortlines.settings.SortSettings
 import com.intellij.psi.PsiComment
 
 const val PREFIX_STR = "sort"
 const val SEPARATOR_STR = ":"
-val DEFAULT_ASC = listOf("asc", "↑", "🐬")
-val DEFAULT_DESC = listOf("desc", "↓", "🦜")
-val VALID_SORTS = DEFAULT_ASC + DEFAULT_DESC
 
 fun PsiComment.isSortComment(): Boolean = text.contains(Regex(PREFIX_STR + SEPARATOR_STR, RegexOption.IGNORE_CASE))
 
@@ -21,9 +19,9 @@ enum class SortOrder {
     DESC,
 }
 
-fun String.toSortOrder(): SortOrder? = when (this) {
-    in DEFAULT_ASC -> SortOrder.ASC
-    in DEFAULT_DESC -> SortOrder.DESC
+fun String.toSortOrder(settings: SortSettings): SortOrder? = when (this) {
+    in settings.ascOrderList.split(", ") -> SortOrder.ASC
+    in settings.descOrderList.split(", ") -> SortOrder.DESC
     else -> null
 }
 

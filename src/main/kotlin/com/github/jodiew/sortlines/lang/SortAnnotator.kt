@@ -2,12 +2,11 @@ package com.github.jodiew.sortlines.lang
 
 import com.github.jodiew.sortlines.PREFIX_STR
 import com.github.jodiew.sortlines.SEPARATOR_STR
-import com.github.jodiew.sortlines.VALID_SORTS
 import com.github.jodiew.sortlines.isSortComment
 import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.end
-import com.github.jodiew.sortlines.lang.psi.ext.order
+import com.github.jodiew.sortlines.lang.psi.ext.sortInfo
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -41,7 +40,7 @@ class SortAnnotator: Annotator {
             if (element.end) return
 
             // Check the sort order
-            if (element.order !in VALID_SORTS) {
+            if (element.sortInfo?.order == null) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Invalid sort order")
                     .range(element.textRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
