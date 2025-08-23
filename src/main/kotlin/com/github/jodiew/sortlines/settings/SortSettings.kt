@@ -26,8 +26,8 @@ class SortSettings(internal val project: Project): SerializablePersistentStateCo
         get() = state.ascOrderList.split(", ") + state.descOrderList.split(", ")
 
     data class State (
-        @JvmField var ascOrderList: String = "asc, ↑, 🐬",
-        @JvmField var descOrderList: String = "desc, ↓, 🦜",
+        @JvmField var ascOrderList: String = "asc, ascending, a-z",
+        @JvmField var descOrderList: String = "desc, descending, z-a",
     )
 
     companion object {
