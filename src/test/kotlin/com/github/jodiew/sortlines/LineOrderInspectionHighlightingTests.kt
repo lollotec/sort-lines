@@ -55,7 +55,7 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
         highlightingTestKotlin(name)
     }
 
-    fun testUnicodeArrows() {
+    fun testAltSortOrders() {
         highlightingTestKotlin(name)
     }
 

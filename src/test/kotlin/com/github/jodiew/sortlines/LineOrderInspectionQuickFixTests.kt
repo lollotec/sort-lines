@@ -27,7 +27,7 @@ class LineOrderInspectionQuickFixTests : BasePlatformTestCase() {
         quickFixTest(name)
     }
 
-    fun testUnicodeArrows() {
+    fun testAltSortOrders() {
         quickFixTest(name)
     }
 

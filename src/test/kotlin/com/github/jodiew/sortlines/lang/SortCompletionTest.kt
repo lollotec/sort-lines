@@ -11,6 +11,6 @@ class SortCompletionTest: BasePlatformTestCase() {
         myFixture.complete(CompletionType.BASIC)
         val lookupElementStrings = myFixture.lookupElementStrings
         assertNotNull(lookupElementStrings)
-        assertSameElements(lookupElementStrings!!, "asc", "desc", "↑", "↓", "🐬", "🦜")
+        assertSameElements(lookupElementStrings!!, "asc", "desc", "ascending", "descending", "a-z", "z-a")
     }
 }
