@@ -11,6 +11,10 @@ class SimpleParsingTest : ParsingTestCase("", "sort", SortParserDefinition()) {
         doTest(true)
     }
 
+    fun testUnknownParsingTestData() {
+        doTest(true)
+    }
+
     fun testOrderParsingTestData() {
         doTest(true)
     }
