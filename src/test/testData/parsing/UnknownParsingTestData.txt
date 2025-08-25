@@ -1,0 +1,4 @@
+Sort File(0,3)
+  SortOptionsImpl(OPTIONS)(0,3)
+    SortSortImpl(SORT)(0,3)
+      PsiElement(STRING)('xxx')(0,3)
