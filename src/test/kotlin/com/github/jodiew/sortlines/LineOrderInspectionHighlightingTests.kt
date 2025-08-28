@@ -82,4 +82,8 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     fun testInvalidSortOrderHighlighting() {
         highlightingTestKotlin(name)
     }
+
+    fun testIndentChangeSortHighlighting() {
+        highlightingTestKotlin(name)
+    }
 }

@@ -34,4 +34,8 @@ class LineOrderInspectionQuickFixTests : BasePlatformTestCase() {
     fun testComplexLinesUnsorted() {
         quickFixTest(name)
     }
+
+    fun testIndentChangeUnsorted() {
+        quickFixTest(name)
+    }
 }
