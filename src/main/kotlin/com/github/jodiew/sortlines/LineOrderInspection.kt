@@ -72,29 +72,44 @@ class LineOrderInspection: LocalInspectionTool() {
                     val sortInfo = currSortOptions.sortInfo ?: return@windowed
                     if (sortInfo.order == null) return@windowed
 
-                    val nextEmptyLine = currSortComment.nextLeaf { element ->
-                        // ruby lang doesn't use the PsiWhitespace interface so have to search every element for \n\n
-                        element.text.contains(Regex("\n\\h*\n"))
+                    // Some languages (like ruby) don't use the generic PsiWhitespace class, so every element has to be
+                    // checked for whitespace characters
+                    val indent: String? = currSortComment.nextLeaf { element ->
+                        element.text.contains("\n")
+                    }?.text?.substringAfter("\n")?.takeWhile {
+                        char -> char.isWhitespace() && char != '\n'
                     }
 
-                    val endOffset = if (nextEmptyLine == null && nextSortComment == null) {
-                        // There is no empty line or sort comment before the end of the file
+                    val changedIndentLine = currSortComment.nextLeaf { element ->
+                        if (indent != null && element.text.contains("\n")) {
+                            element.text != "\n${indent}"
+                        } else {
+                            element.text.contains(Regex("\n\\h*\n"))
+                        }
+                    }
+
+                    val startOffset = currSortComment.endOffset+1
+
+                    val endOffset = if (changedIndentLine == null && nextSortComment == null) {
+                        // There is no empty line, indent change, or sort comment before the end of the file
                         file.lastLeaf().endOffset
                     } else if (nextSortComment != null && nextSortOptions != null && nextSortOptions.end) {
                         // The next sort comment is an end comment
                         nextSortComment.prevLeaf()!!.startOffset
-                    } else if (nextEmptyLine == null) { // nextSortComment != null
+                    } else if (changedIndentLine == null) { // nextSortComment != null
                         // the next comment isn't an end comment but there is no remaining empty lines
                        nextSortComment!!.prevLeaf()!!.startOffset
                     } else if (nextSortComment == null) { // nextEmptyLine != null
-                        // there are no more sort comments, but there is an empty line
-                        nextEmptyLine.startOffset
+                        // there are no more sort comments, but there is an empty line or indent change
+                        changedIndentLine.startOffset
                     } else { // nextEmptyLine != null && nextSortComment != null
                         // there is an empty line and a sort comment, whichever is first
-                        min(nextEmptyLine.startOffset, nextSortComment.prevLeaf()!!.startOffset)
+                        min(changedIndentLine.startOffset, nextSortComment.prevLeaf()!!.startOffset)
                     }
 
-                    val sortRange = TextRange(currSortComment.endOffset+1, endOffset)
+                    if (endOffset <= startOffset) return@windowed
+
+                    val sortRange = TextRange(startOffset, endOffset)
 
                     val linesToCheck = document.getText(sortRange).lines()
 
@@ -111,12 +126,18 @@ class LineOrderInspection: LocalInspectionTool() {
         }
     }
 
+    /**
+     * Quick fix to sort lines based on a [sortInfo]
+     */
     private class SortLinesQuickFix(val sortInfo: SortInfo) : LocalQuickFix {
         override fun getName(): @IntentionName String =
             SortBundle.message("inspection.line.order.quickfix")
 
         override fun getFamilyName(): @IntentionFamilyName String = name
 
+        /**
+         * Applies the sort lines fix to the using information from [project] and [descriptor]
+         */
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement as PsiFile)
                 ?: error("No document to apply fix to")
