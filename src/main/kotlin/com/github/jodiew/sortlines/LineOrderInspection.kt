@@ -23,10 +23,8 @@ import com.intellij.psi.PsiLanguageInjectionHost
 import com.intellij.psi.util.PsiTreeUtil
 import com.intellij.psi.util.endOffset
 import com.intellij.psi.util.lastLeaf
-import com.intellij.psi.util.nextLeaf
 import com.intellij.psi.util.prevLeaf
 import com.intellij.psi.util.startOffset
-import kotlin.math.min
 
 /**
  * Implements an inspection to detect when lines are out of order in sort blocks.
@@ -70,47 +68,23 @@ class LineOrderInspection: LocalInspectionTool() {
                     if (currSortOptions.end) return@windowed
 
                     val sortInfo = currSortOptions.sortInfo ?: return@windowed
+
                     if (sortInfo.order == null) return@windowed
 
-                    // Some languages (like ruby) don't use the generic PsiWhitespace class, so every element has to be
-                    // checked for whitespace characters
-                    val indent: String? = currSortComment.nextLeaf { element ->
-                        element.text.contains("\n")
-                    }?.text?.substringAfter("\n")?.takeWhile {
-                        char -> char.isWhitespace() && char != '\n'
-                    }
-
-                    val changedIndentLine = currSortComment.nextLeaf { element ->
-                        if (indent != null && element.text.contains("\n")) {
-                            element.text != "\n${indent}"
-                        } else {
-                            element.text.contains(Regex("\n\\h*\n"))
-                        }
-                    }
-
                     val startOffset = currSortComment.endOffset+1
-
-                    val endOffset = if (changedIndentLine == null && nextSortComment == null) {
-                        // There is no empty line, indent change, or sort comment before the end of the file
-                        file.lastLeaf().endOffset
-                    } else if (nextSortComment != null && nextSortOptions != null && nextSortOptions.end) {
-                        // The next sort comment is an end comment
+                    // Find the next sort comment or the end of the file
+                    val initialEndOffset = if (nextSortComment != null && nextSortOptions != null) {
+                        // this assumes that the previous leaf is the whitespace element containing the new line
                         nextSortComment.prevLeaf()!!.startOffset
-                    } else if (changedIndentLine == null) { // nextSortComment != null
-                        // the next comment isn't an end comment but there is no remaining empty lines
-                       nextSortComment!!.prevLeaf()!!.startOffset
-                    } else if (nextSortComment == null) { // nextEmptyLine != null
-                        // there are no more sort comments, but there is an empty line or indent change
-                        changedIndentLine.startOffset
-                    } else { // nextEmptyLine != null && nextSortComment != null
-                        // there is an empty line and a sort comment, whichever is first
-                        min(changedIndentLine.startOffset, nextSortComment.prevLeaf()!!.startOffset)
+                    } else {
+                        file.lastLeaf().endOffset
                     }
+
+                    val endOffset = findIndentChangeOffset(document.text, startOffset, initialEndOffset)
 
                     if (endOffset <= startOffset) return@windowed
 
                     val sortRange = TextRange(startOffset, endOffset)
-
                     val linesToCheck = document.getText(sortRange).lines()
 
                     if(!sortInfo.isSorted(linesToCheck)) {
@@ -124,6 +98,22 @@ class LineOrderInspection: LocalInspectionTool() {
                 }
             }
         }
+    }
+
+    /**
+     * Returns the offset of end of the line before an indent change in [text] after [startOffset].
+     * If there is no indent change before [initialEndOffset] then that offset is returned.
+     */
+    private fun findIndentChangeOffset(text: String, startOffset: Int, initialEndOffset: Int): Int {
+        val initialMatch = Regex("^.*$", RegexOption.MULTILINE).find(text, startOffset) ?: return initialEndOffset
+        val initialIndent = text.substring(startOffset).takeWhile { it.isWhitespace() }
+
+        return (generateSequence(initialMatch.next()) { it.next() }
+            .takeWhile { it.range.first < initialEndOffset }
+            .firstOrNull { lineMatch ->
+                val currentIndent = lineMatch.value.takeWhile { it.isWhitespace() }
+                currentIndent != initialIndent
+            }?.range?.first?.minus(1)) ?: initialEndOffset
     }
 
     /**
