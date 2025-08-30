@@ -14,7 +14,7 @@ import com.intellij.psi.PsiElement
 import javax.swing.Icon
 
 class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
-    override fun getName(): @GutterName String = SortBundle.message("inspection.line.order.group.name")
+    override fun getName(): @GutterName String = SortBundle.message("inspection.com.github.jodiew.sortlines.line.order.group.name")
 
     override fun getIcon(): Icon = SortIcons.NoSort
 
@@ -40,7 +40,7 @@ class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
             null,
             null,
             GutterIconRenderer.Alignment.CENTER,
-            { SortBundle.message("inspection.line.order.group.name") }
+            { SortBundle.message("inspection.com.github.jodiew.sortlines.line.order.group.name") }
         ) {
 //        override fun createGutterRenderer(): GutterIconRenderer? = SortLineMarkerGutterRenderer(this)
     }

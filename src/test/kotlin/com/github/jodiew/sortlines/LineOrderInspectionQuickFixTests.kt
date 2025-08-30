@@ -4,7 +4,7 @@ import com.intellij.testFramework.fixtures.BasePlatformTestCase
 
 class LineOrderInspectionQuickFixTests : BasePlatformTestCase() {
     companion object {
-        private val QUICK_FIX_NAME = SortBundle.message("inspection.line.order.quickfix")
+        private val QUICK_FIX_NAME = SortBundle.message("inspection.com.github.jodiew.sortlines.line.order.quickfix")
     }
 
     protected override fun setUp() {

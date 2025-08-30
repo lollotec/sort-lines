@@ -9,8 +9,8 @@ import com.intellij.ui.dsl.builder.*
 import com.intellij.util.FileContentUtil
 
 internal class SortSettingsConfigurable(private val project: Project): BoundSearchableConfigurable(
-    SortBundle.message("settings.sort.name"),
-    SortBundle.message("settings.sort.name"),
+    SortBundle.message("settings.com.github.jodiew.sortlines.name"),
+    SortBundle.message("settings.com.github.jodiew.sortlines.name"),
     _id = ID
 ) {
     private val settings
@@ -25,11 +25,11 @@ internal class SortSettingsConfigurable(private val project: Project): BoundSear
 
     override fun createPanel(): DialogPanel =
         panel {
-            row(label = SortBundle.message("settings.sort.order.asc")) {
+            row(label = SortBundle.message("settings.com.github.jodiew.sortlines.order.asc")) {
                 textField()
                     .bindText(settings::ascOrderList)
             }
-            row(label = SortBundle.message("settings.sort.order.desc")) {
+            row(label = SortBundle.message("settings.com.github.jodiew.sortlines.order.desc")) {
                 textField()
                     .bindText(settings::descOrderList)
             }
