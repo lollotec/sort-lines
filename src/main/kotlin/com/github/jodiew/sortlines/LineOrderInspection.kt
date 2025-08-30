@@ -91,7 +91,7 @@ class LineOrderInspection: LocalInspectionTool() {
                         holder.registerProblem(
                             file,
                             sortRange,
-                            SortBundle.message("inspection.line.order.problem.descriptor"),
+                            SortBundle.message("inspection.com.github.jodiew.sortlines.line.order.problem.descriptor"),
                             SortLinesQuickFix(sortInfo)
                         )
                     }
@@ -119,7 +119,7 @@ class LineOrderInspection: LocalInspectionTool() {
      */
     private class SortLinesQuickFix(val sortInfo: SortInfo) : LocalQuickFix {
         override fun getName(): @IntentionName String =
-            SortBundle.message("inspection.line.order.quickfix")
+            SortBundle.message("inspection.com.github.jodiew.sortlines.line.order.quickfix")
 
         override fun getFamilyName(): @IntentionFamilyName String = name
 

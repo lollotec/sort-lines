@@ -27,14 +27,14 @@
         <completion.contributor language="Sort"
                                 implementationClass="com.github.jodiew.sortlines.lang.SortCompletionContributor"/>
         <localInspection language=""
-                         key="inspection.line.order.display.name"
-                         groupKey="inspection.line.order.group.name"
+                         key="inspection.com.github.jodiew.sortlines.line.order.display.name"
+                         groupKey="inspection.com.github.jodiew.sortlines.line.order.group.name"
                          enabledByDefault="true"
                          level="WARNING"
                          implementationClass="com.github.jodiew.sortlines.LineOrderInspection"/>
         <projectConfigurable parentId="tools"
                              instance="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
                              id="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
-                             key="settings.sort.name"/>
+                             key="settings.com.github.jodiew.sortlines.name"/>
     </extensions>
 </idea-plugin>

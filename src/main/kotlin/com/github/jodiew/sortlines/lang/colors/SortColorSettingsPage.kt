@@ -24,7 +24,7 @@ class SortColorSettingsPage : ColorSettingsPage {
 
     override fun getColorDescriptors(): Array<ColorDescriptor> = ColorDescriptor.EMPTY_ARRAY
 
-    override fun getDisplayName(): String = SortBundle.message("settings.sort.color.name")
+    override fun getDisplayName(): String = SortBundle.message("settings.com.github.jodiew.sortlines.color.name")
 
 }
 
