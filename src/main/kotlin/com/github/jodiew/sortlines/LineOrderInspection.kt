@@ -105,15 +105,13 @@ class LineOrderInspection: LocalInspectionTool() {
      * If there is no indent change before [initialEndOffset] then that offset is returned.
      */
     private fun findIndentChangeOffset(text: String, startOffset: Int, initialEndOffset: Int): Int {
-        val initialMatch = Regex("^.*$", RegexOption.MULTILINE).find(text, startOffset) ?: return initialEndOffset
-        val initialIndent = text.substring(startOffset).takeWhile { it.isWhitespace() }
+        val initialMatch = Regex("^\\s*", RegexOption.MULTILINE)
+            .find(text, startOffset) ?: return initialEndOffset
 
-        return (generateSequence(initialMatch.next()) { it.next() }
-            .takeWhile { it.range.first < initialEndOffset }
-            .firstOrNull { lineMatch ->
-                val currentIndent = lineMatch.value.takeWhile { it.isWhitespace() }
-                currentIndent != initialIndent
-            }?.range?.first?.minus(1)) ?: initialEndOffset
+        return generateSequence(initialMatch) { it.next() }
+            .firstOrNull { match ->
+                match.range.first > initialEndOffset || match.value != initialMatch.value
+            }?.range?.first?.minus(1) ?: initialEndOffset
     }
 
     /**
