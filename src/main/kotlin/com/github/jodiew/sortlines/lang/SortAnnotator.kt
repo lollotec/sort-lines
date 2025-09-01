@@ -1,12 +1,11 @@
 package com.github.jodiew.sortlines.lang
 
 import com.github.jodiew.sortlines.PREFIX_STR
-import com.github.jodiew.sortlines.SEPARATOR_STR
-import com.github.jodiew.sortlines.isSortComment
 import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.end
 import com.github.jodiew.sortlines.lang.psi.ext.sortInfo
+import com.github.jodiew.sortlines.lang.psi.isSortComment
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -19,19 +18,16 @@ class SortAnnotator: Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
         // Check if the PSI element is a comment and contains the sort prefix
-        if (element is PsiComment && element.isSortComment()) {
+        if (element is PsiComment && element.isSortComment) {
             // Define the text ranges (start is inclusive, end is exclusive)
             val prefixRange = TextRange.from(
                 element.textRange.startOffset + element.text.indexOf(PREFIX_STR),
                 PREFIX_STR.length
             )
-            val separatorRange = TextRange.from(prefixRange.endOffset, SEPARATOR_STR.length)
 
             // Highlight the "sort" prefix and ":" separator
             holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
                 .range(prefixRange).textAttributes(SortColor.PREFIX.textAttributesKey).create()
-            holder.newSilentAnnotation(HighlightSeverity.INFORMATION)
-                .range(separatorRange).textAttributes(SortColor.COLON.textAttributesKey).create()
         }
 
         // Check if the psi element is SortOptions
