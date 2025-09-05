@@ -13,7 +13,7 @@
                   implementationClass="com.github.jodiew.sortlines.lang.SortFileType"
                   fieldName="INSTANCE"
                   language="Sort"
-                  extensions="sort" />
+                  extensions="sort"/>
         <lang.parserDefinition language="Sort"
                                implementationClass="com.github.jodiew.sortlines.lang.SortParserDefinition"/>
         <lang.syntaxHighlighterFactory language="Sort"
@@ -36,6 +36,11 @@
                              instance="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
                              id="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
                              key="settings.com.github.jodiew.sortlines.name"/>
+        <actionOnSaveInfoProvider id="com.github.jodiew.sortlines.orderLinesActionOnSaveInfoProvider"
+                                  implementation="com.github.jodiew.sortlines.settings.OrderLinesActionOnSaveInfoProvider"
+                                  order="after FormatOnSaveInfoProvider, before BuildOnSaveInfoProvider"/>
+        <actionOnSave id="com.github.jodiew.sortlines.orderLinesActionOnSave"
+                      implementation="com.github.jodiew.sortlines.actions.OrderLinesActionOnSave"/>
     </extensions>
     <actions>
         <action id="com.github.jodiew.sortlines.order.lines"
