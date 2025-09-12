@@ -63,8 +63,16 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
             // this assumes that the previous leaf is the whitespace element containing the new line
             nextSortComment.prevLeaf()!!.startOffset
         } else {
-            lastLeaf().endOffset
+            // this handles a trailing newline at the end of the document
+            val lastLeaf = lastLeaf()
+            if (lastLeaf.text == "\n") {
+                lastLeaf.endOffset.minus(1)
+            } else {
+                lastLeaf.endOffset
+            }
         }
+
+        if (initialEndOffset <= startOffset) return@windowed
 
         val endOffset = findIndentChangeOffset(document.text, startOffset, initialEndOffset)
 
