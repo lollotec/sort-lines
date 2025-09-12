@@ -19,6 +19,7 @@ import com.intellij.psi.util.startOffset
 
 /** The list of sort comments in the [PsiFile] */
 val PsiFile.sortComments: List<PsiComment>
+    @Suppress("UNCHECKED_CAST")
     get() = PsiTreeUtil.collectElementsOfType(
         this,
         PsiLanguageInjectionHost::class.java).filter{ it is PsiComment && it.isSortComment } as List<PsiComment>
