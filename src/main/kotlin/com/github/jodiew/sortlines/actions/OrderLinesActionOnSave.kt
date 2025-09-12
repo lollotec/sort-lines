@@ -4,7 +4,7 @@ import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.lang.psi.forEachSort
 import com.github.jodiew.sortlines.settings.OrderLinesActionOnSaveInfoProvider
 import com.intellij.ide.actionsOnSave.impl.ActionsOnSaveFileDocumentManagerListener
-import com.intellij.openapi.application.readAndEdtWriteAction
+import com.intellij.openapi.application.readAndWriteAction
 import com.intellij.openapi.command.executeCommand
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.editor.Document
@@ -19,11 +19,12 @@ class OrderLinesActionOnSave: ActionsOnSaveFileDocumentManagerListener.DocumentU
         OrderLinesActionOnSaveInfoProvider().enabledOnSave(project)
 
     override suspend fun updateDocument(project: Project, document: Document) {
-        readAndEdtWriteAction {
+        // Note: This is deprecated in 252.* and will need to be changed to the new function at some point
+        readAndWriteAction {
             val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
             if (psiFile == null) {
                 thisLogger().warn("no psi file")
-                return@readAndEdtWriteAction writeAction {  }
+                return@readAndWriteAction writeAction {  }
             }
 
             writeAction {
