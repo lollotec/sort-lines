@@ -68,6 +68,6 @@ fun findIndentChangeOffset(text: String, startOffset: Int, initialEndOffset: Int
 
     return generateSequence(initialMatch) { it.next() }
         .firstOrNull { match ->
-            match.range.first > initialEndOffset || match.value != initialMatch.value
+            match.range.first < initialEndOffset && match.value != initialMatch.value
         }?.range?.first?.minus(1) ?: initialEndOffset
 }
