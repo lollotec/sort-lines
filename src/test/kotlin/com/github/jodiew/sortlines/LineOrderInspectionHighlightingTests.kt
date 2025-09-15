@@ -86,4 +86,8 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     fun testIndentChangeSortHighlighting() {
         highlightingTestKotlin(name)
     }
+
+    fun testClosingCommentCharsHighlighting() {
+        highlightingTestKotlin(name)
+    }
 }

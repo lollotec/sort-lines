@@ -27,7 +27,10 @@ class SortInjector : MultiHostInjector {
     private fun rangeForSortComment(comment: PsiComment): TextRange {
         with (comment) {
             val startOffset = text.indexOf(string = PREFIX_STR, ignoreCase = true) + PREFIX_STR.length
-            val endOffset = text.length // TODO: This includes the ending characters on comments that have them
+            // The sort comment is either `prefix: order` or `prefix: { options }` and everything after that shouldn't
+            // be included in the injection, including comment closing characters, eg. `-->`, `*/`
+            val endOffset = Regex("\\s*\\{.*}|\\s*\\S*").find(text, startOffset)
+                ?.range?.last?.plus(1) ?: text.length
             return TextRange(startOffset, endOffset)
         }
     }
