@@ -2,10 +2,11 @@
 <idea-plugin>
     <id>com.github.jodiew.sortlines</id>
     <name>Sort Lines with Comment</name>
-    <vendor email="jodie.weldon@lollotec.com" url="https://lollotec.com">Jodie Weldon - Lollotec</vendor>
+    <vendor email="jodie.weldon@lollotec.com" url="https://github.com/jodiew">Jodie Weldon</vendor>
   
     <depends>com.intellij.modules.platform</depends>
-  
+    <depends>com.intellij.modules.lang</depends>
+
     <resource-bundle>messages.SortBundle</resource-bundle>
   
     <extensions defaultExtensionNs="com.intellij">
@@ -42,10 +43,12 @@
         <actionOnSave id="com.github.jodiew.sortlines.orderLinesActionOnSave"
                       implementation="com.github.jodiew.sortlines.actions.OrderLinesActionOnSave"/>
     </extensions>
+
     <actions>
         <action id="com.github.jodiew.sortlines.order.lines"
                 class="com.github.jodiew.sortlines.actions.OrderLinesAction">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
     </actions>
+
 </idea-plugin>
