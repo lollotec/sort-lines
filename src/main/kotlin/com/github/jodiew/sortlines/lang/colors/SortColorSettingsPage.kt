@@ -1,7 +1,6 @@
 package com.github.jodiew.sortlines.lang.colors
 
 import com.github.jodiew.sortlines.SortBundle
-import com.github.jodiew.sortlines.SortIcons
 import com.github.jodiew.sortlines.highlight.SortSyntaxHighlighter
 import com.intellij.openapi.editor.colors.TextAttributesKey
 import com.intellij.openapi.fileTypes.SyntaxHighlighter
@@ -12,7 +11,7 @@ import javax.swing.Icon
 
 class SortColorSettingsPage : ColorSettingsPage {
 
-    override fun getIcon(): Icon = SortIcons.FILE
+    override fun getIcon(): Icon? = null
 
     override fun getHighlighter(): SyntaxHighlighter = SortSyntaxHighlighter()
 
