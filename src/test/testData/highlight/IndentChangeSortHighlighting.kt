@@ -1,11 +1,13 @@
+package test
+
 class IndentChangeSortHighlighting {
     fun aFunction( // sort: asc
 <warning descr="Lines not in specified order">        doodle: String,
         labrador: Int,
         poodle: Double,
         colie: Boolean,</warning>
-    ): String {
-        return doodle
+    ): Array<*> {
+        return kotlin.arrayOf(doodle, labrador, poodle, colie)
     }
 
     // sort: asc

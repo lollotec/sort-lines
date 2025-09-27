@@ -1,6 +1,5 @@
 package com.github.jodiew.sortlines.lang
 
-import com.github.jodiew.sortlines.SortIcons
 import com.intellij.openapi.fileTypes.LanguageFileType
 
 object SortFileType : LanguageFileType(SortLanguage) {
@@ -11,5 +10,5 @@ object SortFileType : LanguageFileType(SortLanguage) {
 
     override fun getDefaultExtension() = "sort"
 
-    override fun getIcon() = SortIcons.FILE
+    override fun getIcon() = null
 }
