@@ -7,7 +7,7 @@ class IndentChangeSortHighlighting {
         poodle: Double,
         colie: Boolean,</warning>
     ): Array<*> {
-        return kotlin.arrayOf(doodle, labrador, poodle, colie)
+        return kotlin.arrayOf<Any>(doodle, labrador, poodle, colie)
     }
 
     // sort: asc
