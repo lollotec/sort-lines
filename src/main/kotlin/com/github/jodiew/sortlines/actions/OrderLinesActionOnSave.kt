@@ -4,7 +4,7 @@ import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.lang.psi.forEachSort
 import com.github.jodiew.sortlines.settings.OrderLinesActionOnSaveInfoProvider
 import com.intellij.ide.actionsOnSave.impl.ActionsOnSaveFileDocumentManagerListener
-import com.intellij.openapi.application.readAndWriteAction
+import com.intellij.openapi.application.readAndEdtWriteAction
 import com.intellij.openapi.command.executeCommand
 import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.editor.Document
@@ -19,12 +19,11 @@ class OrderLinesActionOnSave: ActionsOnSaveFileDocumentManagerListener.DocumentU
         OrderLinesActionOnSaveInfoProvider().enabledOnSave(project)
 
     override suspend fun updateDocument(project: Project, document: Document) {
-        // Note: This is deprecated in 252.* and will need to be changed to the new function at some point
-        readAndWriteAction {
+        readAndEdtWriteAction {
             val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
             if (psiFile == null) {
                 thisLogger().warn("no psi file")
-                return@readAndWriteAction writeAction {  }
+                return@readAndEdtWriteAction writeAction { }
             }
 
             writeAction {
@@ -34,16 +33,18 @@ class OrderLinesActionOnSave: ActionsOnSaveFileDocumentManagerListener.DocumentU
                         thisLogger().warn("Something went wrong with the sort")
                         return@forEachSort
                     }
-                        executeCommand(
-                            project,
-                            SortBundle.message("action.com.github.jodiew.sortlines.on.save.name.title"
-                            )) {
-                            document.replaceString(
-                                range.startOffset,
-                                range.endOffset,
-                                sortedLines
-                            )
-                        }
+                    executeCommand(
+                        project,
+                        SortBundle.message(
+                            "action.com.github.jodiew.sortlines.on.save.name.title"
+                        )
+                    ) {
+                        document.replaceString(
+                            range.startOffset,
+                            range.endOffset,
+                            sortedLines
+                        )
+                    }
                 }
             }
         }

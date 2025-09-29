@@ -8,7 +8,6 @@ import com.intellij.ide.actionsOnSave.ActionOnSaveInfoProvider
 import com.intellij.ide.util.PropertiesComponent
 import com.intellij.openapi.project.Project
 
-
 class OrderLinesActionOnSaveInfoProvider: ActionOnSaveInfoProvider() {
     override fun getActionOnSaveInfos(context: ActionOnSaveContext): Collection<ActionOnSaveInfo?> =
         listOf(object : ActionOnSaveInfoBase(
