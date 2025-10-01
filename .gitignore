@@ -3,3 +3,6 @@
 .intellijPlatform
 .qodana
 build
+idea-flex.skeleton
+java_pid*.hprof
+jflex-*.jar

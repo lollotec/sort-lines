@@ -1,15 +1,54 @@
 <!-- Plugin Configuration File. Read more: https://plugins.jetbrains.com/docs/intellij/plugin-configuration-file.html -->
 <idea-plugin>
     <id>com.github.jodiew.sortlines</id>
-    <name>sort-lines</name>
-    <vendor>jodiew</vendor>
-
+    <name>Sort Lines with Comment</name>
+    <vendor email="jodie.weldon@lollotec.com" url="https://github.com/jodiew">Jodie Weldon</vendor>
+  
     <depends>com.intellij.modules.platform</depends>
+    <depends>com.intellij.modules.lang</depends>
 
-    <resource-bundle>messages.MyBundle</resource-bundle>
-
+    <resource-bundle>messages.SortBundle</resource-bundle>
+  
     <extensions defaultExtensionNs="com.intellij">
-        <toolWindow factoryClass="com.github.jodiew.sortlines.toolWindow.MyToolWindowFactory" id="MyToolWindow"/>
-        <postStartupActivity implementation="com.github.jodiew.sortlines.startup.MyProjectActivity" />
+        <fileType name="Sort File"
+                  implementationClass="com.github.jodiew.sortlines.lang.SortFileType"
+                  fieldName="INSTANCE"
+                  language="Sort"
+                  extensions="sort"/>
+        <lang.parserDefinition language="Sort"
+                               implementationClass="com.github.jodiew.sortlines.lang.SortParserDefinition"/>
+        <lang.syntaxHighlighterFactory language="Sort"
+                                       implementationClass="com.github.jodiew.sortlines.highlight.SortSyntaxHighlighterFactory"/>
+        <colorSettingsPage implementation="com.github.jodiew.sortlines.lang.colors.SortColorSettingsPage"/>
+        <multiHostInjector implementation="com.github.jodiew.sortlines.lang.SortInjector"/>
+        <annotator language=""
+                   implementationClass="com.github.jodiew.sortlines.lang.SortAnnotator"/>
+        <codeInsight.lineMarkerProvider language=""
+                                        implementationClass="com.github.jodiew.sortlines.lang.SortLineMarkerProvider"/>
+        <completion.contributor language="Sort"
+                                implementationClass="com.github.jodiew.sortlines.lang.SortCompletionContributor"/>
+        <localInspection language=""
+                         key="inspection.com.github.jodiew.sortlines.line.order.display.name"
+                         groupKey="inspection.com.github.jodiew.sortlines.line.order.group.name"
+                         enabledByDefault="true"
+                         level="WARNING"
+                         implementationClass="com.github.jodiew.sortlines.LineOrderInspection"/>
+        <projectConfigurable parentId="tools"
+                             instance="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
+                             id="com.github.jodiew.sortlines.settings.SortSettingsConfigurable"
+                             key="settings.com.github.jodiew.sortlines.name"/>
+        <actionOnSaveInfoProvider id="com.github.jodiew.sortlines.orderLinesActionOnSaveInfoProvider"
+                                  implementation="com.github.jodiew.sortlines.settings.OrderLinesActionOnSaveInfoProvider"
+                                  order="after FormatOnSaveInfoProvider, before BuildOnSaveInfoProvider"/>
+        <actionOnSave id="com.github.jodiew.sortlines.orderLinesActionOnSave"
+                      implementation="com.github.jodiew.sortlines.actions.OrderLinesActionOnSave"/>
     </extensions>
+
+    <actions>
+        <action id="com.github.jodiew.sortlines.order.lines"
+                class="com.github.jodiew.sortlines.actions.OrderLinesAction">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+    </actions>
+
 </idea-plugin>
