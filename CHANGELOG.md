@@ -3,8 +3,10 @@
 # Sort Lines with Comment Changelog
 
 ## [Unreleased]
+### Added
+- Media images and usage section in the readme on GitHub
 
-## [1.0.0]
+## [1.0.0] - 2025-10-01
 ### Added
 - `Sort Lines with Comments` action added to `Tools` menu
 - `Sort Lines with Comments` action added to the `Settings` > `Tools` > `Actions on save` settings page to sort all blocks in open files.
