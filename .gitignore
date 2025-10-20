@@ -6,3 +6,4 @@ build
 idea-flex.skeleton
 java_pid*.hprof
 jflex-*.jar
+src/main/gen
