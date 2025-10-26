@@ -1,7 +1,7 @@
 /* sort: asc */
-<warning descr="Lines not in specified order">const val bee = "second"
-const val ant = "first"</warning>
+const val ant = "first"
+val bee = "second"
 
 /* sort: { order: asc } */
-<warning descr="Lines not in specified order">const val berry = "second"
-const val apple = "first"</warning>
+const val apple = "first"
+const val berry = "second"

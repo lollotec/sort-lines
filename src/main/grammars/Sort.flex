@@ -19,7 +19,7 @@ import static com.intellij.psi.TokenType.WHITE_SPACE;
 
 // Whitespaces
 WHITE_SPACE = \s+
-STRING = [^, \n\r\t{}\/]+
+STRING = [^:, \n\r\t{}\/]+
 REGEX = ((\\\/)|[^\/])+
 NUMBER = \d+
 
@@ -35,7 +35,6 @@ NUMBER = \d+
   ","              { yybegin(WAITING_KEY); return COMMA; }
   "/"              { yybegin(WAITING_PATTERN); return FSLASH; }
   "end"            { return END; }
-  "order"          { return ORDER; }
   {NUMBER}         { return NUMBER; }
   {STRING}         { return STRING; }
 }

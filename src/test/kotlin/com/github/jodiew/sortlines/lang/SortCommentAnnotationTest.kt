@@ -19,7 +19,16 @@ class SortCommentAnnotationTest: BasePlatformTestCase() {
         myFixture.highlightingTestKotlin(name)
     }
 
-    fun testInvalidSortOptionHighlighting() {
+    fun testEmptySortOptionHighlighting() {
+        // TODO: The error for this should be more informative, right now it's just "<options> expected" from the parser
+        myFixture.highlightingTestKotlin(name)
+    }
+
+    fun testInvalidGroupOptionHighlighting() {
+        myFixture.highlightingTestKotlin(name)
+    }
+
+    fun testInvalidSplitOptionHighlighting() {
         myFixture.highlightingTestKotlin(name)
     }
 }

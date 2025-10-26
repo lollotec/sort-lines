@@ -11,6 +11,14 @@
   elementTypeHolderClass="com.github.jodiew.sortlines.lang.psi.SortTypes"
   elementTypeClass="com.github.jodiew.sortlines.lang.psi.SortElementType"
   tokenTypeClass="com.github.jodiew.sortlines.lang.psi.SortTokenType"
+
+  tokens = [
+    LBRACE = '{'
+    RBRACE = '}'
+    COMMA = ','
+    COLON = ':'
+    FSLASH = '/'
+  ]
 }
 
 sortFile ::= item_
@@ -21,12 +29,16 @@ options ::= complex_options|sort|END
 
 private complex_options ::= LBRACE sort_option ((COMMA group_option)|(COMMA split_option COMMA key_option))? RBRACE
 private sort_option ::= ORDER COLON sort
-private group_option ::= GROUP COLON FSLASH pattern FSLASH
-private split_option ::= SPLIT COLON FSLASH pattern FSLASH
+private group_option ::= GROUP COLON FSLASH group_pattern FSLASH
+private split_option ::= SPLIT COLON FSLASH split_pattern FSLASH
 private key_option ::= KEY COLON index
+
+group_pattern ::= pattern
+
+split_pattern ::= pattern
 
 sort ::= STRING
 
-pattern ::= REGEX
+private pattern ::= REGEX
 
 index ::= NUMBER

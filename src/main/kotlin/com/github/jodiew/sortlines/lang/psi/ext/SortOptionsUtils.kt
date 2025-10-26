@@ -14,22 +14,22 @@ val SortOptions.order: String?
     get() = sort?.text
 
 val SortOptions.sortInfo: SortInfo?
-    get() = if (sort != null && pattern == null && index == null) {
+    get() = if (sort != null && groupPattern == null && splitPattern == null && index == null) {
         SortInfo(
             type = SortType.ORDER,
             order = sort!!.text.toSortOrder(SortSettings.getInstance(project))
         )
-    } else if (sort != null && pattern != null && index == null) {
+    } else if (sort != null && groupPattern != null && splitPattern == null && index == null) {
         SortInfo(
             type = SortType.GROUP,
             order = sort!!.text.toSortOrder(SortSettings.getInstance(project)),
-            group = Regex(pattern!!.text)
+            group = Regex(groupPattern!!.text)
         )
-    } else if (sort != null && pattern != null && index != null) {
+    } else if (sort != null && groupPattern == null && splitPattern != null && index != null) {
         SortInfo(
             type = SortType.SPLIT,
             order = sort!!.text.toSortOrder(SortSettings.getInstance(project)),
-            split = Regex(pattern!!.text),
+            split = Regex(splitPattern!!.text),
             key = index!!.text.toInt()
         )
     } else {
