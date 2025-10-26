@@ -3,10 +3,10 @@ package com.github.jodiew.sortlines.lang
 import com.github.jodiew.sortlines.PREFIX_STR
 import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
-import com.github.jodiew.sortlines.lang.psi.ext.end
-import com.github.jodiew.sortlines.lang.psi.ext.order
+import com.github.jodiew.sortlines.lang.psi.ext.*
 import com.github.jodiew.sortlines.lang.psi.isSortComment
 import com.github.jodiew.sortlines.toSortOrder
+import com.github.jodiew.sortlines.toSortRegex
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -18,6 +18,8 @@ import com.intellij.psi.PsiElement
 class SortAnnotator: Annotator {
 
     override fun annotate(element: PsiElement, holder: AnnotationHolder) {
+        val project = element.project
+
         // Check if the PSI element is a comment and contains the sort prefix
         if (element is PsiComment && element.isSortComment) {
             // Define the text ranges (start is inclusive, end is exclusive)
@@ -36,15 +38,33 @@ class SortAnnotator: Annotator {
             // Check if it's a block end
             if (element.end) return
 
-            // Check the sort order
-            if (element.order != null && element.order!!.toSortOrder(element.project) == null) {
-                holder.newAnnotation(HighlightSeverity.ERROR, "Invalid sort order")
-                    .range(element.sort?.textRange ?: element.textRange)
-                    .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
-                    // TODO: Add a quick fix for the sort order
-                    // .withFix()
-                    .create()
+            with (holder) {
+                validateOption(
+                    element.order != null && element.order!!.toSortOrder(project) == null,
+                    "Invalid sort order",
+                    element.sort ?: element,
+                )
+                validateOption(
+                    element.group != null && element.group!!.toSortRegex() == null,
+                    "Invalid group regex",
+                    element.groupPattern ?: element,
+                )
+                validateOption(
+                    element.split != null && element.split!!.toSortRegex() == null,
+                    "Invalid split regex",
+                    element.splitPattern ?: element,
+                )
+                // Don't need to check the key, it's covered by the lexer
             }
+        }
+    }
+
+    private fun AnnotationHolder.validateOption(check: Boolean, message: String, element: PsiElement) {
+        if (check) {
+            newAnnotation(HighlightSeverity.ERROR, message)
+                .range(element)
+                .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
+                .create()
         }
     }
 }
