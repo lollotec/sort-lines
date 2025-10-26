@@ -3,8 +3,9 @@ package com.github.jodiew.sortlines.lang.psi
 import com.github.jodiew.sortlines.PREFIX_STR
 import com.github.jodiew.sortlines.SortInfo
 import com.github.jodiew.sortlines.findIndentChangeOffset
-import com.github.jodiew.sortlines.lang.psi.ext.end
-import com.github.jodiew.sortlines.lang.psi.ext.sortInfo
+import com.github.jodiew.sortlines.lang.psi.ext.*
+import com.github.jodiew.sortlines.toSortOrder
+import com.github.jodiew.sortlines.toSortRegex
 import com.intellij.lang.injection.InjectedLanguageManager
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
@@ -54,9 +55,15 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
 
         if (currSortOptions == null || currSortOptions.end) return@windowed
 
-        val sortInfo = currSortOptions.sortInfo ?: return@windowed
+        val sortOrder = currSortOptions.order?.toSortOrder(project) ?: return@windowed
 
-        if (sortInfo.order == null) return@windowed
+        val groupRegex = currSortOptions.group?.toSortRegex()
+
+        val splitRegex = currSortOptions.split?.toSortRegex()
+
+        val keyInt = currSortOptions.key?.toIntOrNull()
+
+        val sortInfo = SortInfo(sortOrder, groupRegex, splitRegex, keyInt)
 
         val startOffset = currSortComment.endOffset+1
         // Find the next sort comment or the end of the file

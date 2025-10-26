@@ -4,8 +4,9 @@ import com.github.jodiew.sortlines.PREFIX_STR
 import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.end
-import com.github.jodiew.sortlines.lang.psi.ext.sortInfo
+import com.github.jodiew.sortlines.lang.psi.ext.order
 import com.github.jodiew.sortlines.lang.psi.isSortComment
+import com.github.jodiew.sortlines.toSortOrder
 import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
@@ -36,9 +37,9 @@ class SortAnnotator: Annotator {
             if (element.end) return
 
             // Check the sort order
-            if (element.sortInfo?.order == null) {
+            if (element.order != null && element.order!!.toSortOrder(element.project) == null) {
                 holder.newAnnotation(HighlightSeverity.ERROR, "Invalid sort order")
-                    .range(element.textRange)
+                    .range(element.sort?.textRange ?: element.textRange)
                     .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)
                     // TODO: Add a quick fix for the sort order
                     // .withFix()
