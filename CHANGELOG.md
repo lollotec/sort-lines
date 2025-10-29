@@ -5,6 +5,16 @@
 ## [Unreleased]
 ### Added
 - Media images and usage section in the readme on GitHub
+- Automated generation for lexer and parser
+- Error highlighting for group and split regex
+
+### Fixed
+- Sort comment injection after unclosed bracket
+- Parser showing symbol name instead of character
+
+### Changed
+- Dependency version updates
+- When sort comment validation occurs
 
 ## [1.0.0] - 2025-10-01
 ### Added
