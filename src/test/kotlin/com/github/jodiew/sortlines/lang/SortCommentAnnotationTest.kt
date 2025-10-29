@@ -31,4 +31,8 @@ class SortCommentAnnotationTest: BasePlatformTestCase() {
     fun testInvalidSplitOptionHighlighting() {
         myFixture.highlightingTestKotlin(name)
     }
+
+    fun testNoEndBracketHighlighting() {
+        myFixture.highlightingTestKotlin(name)
+    }
 }
