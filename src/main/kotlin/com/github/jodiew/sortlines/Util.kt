@@ -1,6 +1,9 @@
 package com.github.jodiew.sortlines
 
 import com.github.jodiew.sortlines.settings.SortSettings
+import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.openapi.project.Project
+import java.util.regex.PatternSyntaxException
 
 const val PREFIX_STR = "sort:"
 
@@ -16,14 +19,26 @@ enum class SortOrder {
 }
 
 /** Returns the [SortOrder] of the string, otherwise null */
-fun String.toSortOrder(settings: SortSettings): SortOrder? = when (this) {
-    in settings.ascOrderList.split(", ") -> SortOrder.ASC
-    in settings.descOrderList.split(", ") -> SortOrder.DESC
-    else -> null
+fun String.toSortOrder(project: Project): SortOrder? {
+    val settings = SortSettings.getInstance(project)
+    return when (this) {
+        in settings.ascOrderList.split(", ") -> SortOrder.ASC
+        in settings.descOrderList.split(", ") -> SortOrder.DESC
+        else -> null
+    }
+}
+
+fun String.toSortRegex(): Regex? {
+   try {
+       val regex = Regex(this)
+       return regex
+   } catch (e: PatternSyntaxException) {
+       thisLogger().warn("Error converting to regex \"$this\": $e")
+       return null
+   }
 }
 
 data class SortInfo(
-    val type: SortType,
     val order: SortOrder?,
     val group: Regex? = null,
     val split: Regex? = null,
@@ -40,6 +55,15 @@ data class SortInfo(
         SortOrder.DESC -> lines.sortedByDescending(selector)
         else -> null
     }
+
+    private val type: SortType
+        get() = if (split != null && key != null) {
+            SortType.SPLIT
+        } else if (group != null) {
+            SortType.GROUP
+        } else {
+            SortType.ORDER
+        }
 
     private val comp: (String, String) -> Boolean = when (order) {
         SortOrder.ASC -> { a, b -> a <= b }

@@ -4,7 +4,6 @@ import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.SortIcons
 import com.github.jodiew.sortlines.SortOrder
 import com.github.jodiew.sortlines.lang.psi.SortSort
-import com.github.jodiew.sortlines.settings.SortSettings
 import com.github.jodiew.sortlines.toSortOrder
 import com.intellij.codeInsight.daemon.GutterName
 import com.intellij.codeInsight.daemon.LineMarkerInfo
@@ -32,7 +31,7 @@ class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
         LineMarkerInfo<PsiElement>(
             element,
             element.textRange,
-            when (element.text.toSortOrder(SortSettings.getInstance(element.project))) {
+            when (element.text.toSortOrder(element.project)) {
                 SortOrder.ASC -> SortIcons.AscSort
                 SortOrder.DESC -> SortIcons.DescSort
                 else -> SortIcons.NoSort

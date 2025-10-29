@@ -1,0 +1,8 @@
+Sort File(0,11)
+  SortOptionsImpl(OPTIONS)(0,11)
+    PsiElement({)('{')(0,1)
+    PsiElement(ORDER)('order')(1,6)
+    PsiElement(:)(':')(6,7)
+    SortSortImpl(SORT)(7,10)
+      PsiElement(STRING)('asc')(7,10)
+    PsiElement(})('}')(10,11)

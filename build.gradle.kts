@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
+    alias(libs.plugins.grammarkit)
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -137,6 +138,26 @@ kover {
 }
 
 tasks {
+    generateParser {
+        sourceFile.set(file("src/main/grammars/Sort.bnf"))
+        pathToParser.set("com/github/jodiew/sortlines/lang/parser/SortParser.java")
+        pathToPsiRoot.set("com/github/jodiew/sortlines/lang/psi")
+        targetRootOutputDir.set(file("src/main/gen"))
+        purgeOldFiles.set(true)
+    }
+
+    generateLexer {
+        sourceFile.set(file("src/main/grammars/Sort.flex"))
+        targetOutputDir.set(file("src/main/gen/com/github/jodiew/sortlines/lang"))
+        purgeOldFiles.set(false)
+
+        dependsOn(generateParser)
+    }
+
+    compileKotlin {
+        dependsOn(generateLexer)
+    }
+
     wrapper {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }
@@ -148,21 +169,21 @@ tasks {
 
 intellijPlatformTesting {
     runIde {
-        register("runIdeForUiTests") {
-            task {
-                jvmArgumentProviders += CommandLineArgumentProvider {
-                    listOf(
-                        "-Drobot-server.port=8082",
-                        "-Dide.mac.message.dialogs.as.sheets=false",
-                        "-Djb.privacy.policy.text=<!--999.999-->",
-                        "-Djb.consents.confirmation.enabled=false",
-                    )
-                }
-            }
-
-            plugins {
-                robotServerPlugin()
-            }
-        }
+//        register("runIdeForUiTests") {
+//            task {
+//                jvmArgumentProviders += CommandLineArgumentProvider {
+//                    listOf(
+//                        "-Drobot-server.port=8082",
+//                        "-Dide.mac.message.dialogs.as.sheets=false",
+//                        "-Djb.privacy.policy.text=<!--999.999-->",
+//                        "-Djb.consents.confirmation.enabled=false",
+//                    )
+//                }
+//            }
+//
+//            plugins {
+//                robotServerPlugin()
+//            }
+//        }
     }
 }

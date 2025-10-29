@@ -14,80 +14,55 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     protected override fun getTestDataPath(): String =
         "src/test/testData/highlight"
 
-    private fun highlightingTestKotlin(name: String) {
-        myFixture.testHighlighting(
-            true,
-            false,
-            false,
-            testFileNameKt(name)
-        )
-    }
-
     fun testNoSortHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testSimpleLinesUnsortedHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testSimpleLinesSortedNoHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testMultipleLinesUnsortedHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testNoEndCommentHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testNoEndMultipleCommentHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testNoEndCommentToEofHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testInvalidSortOptionHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testAltSortOrders() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testComplexGroupHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testComplexSplitHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testComplexNoHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testMultipleNoEndComment() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testMixedEndCommentHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testInvalidSortOrderHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 
     fun testIndentChangeSortHighlighting() {
-        highlightingTestKotlin(name)
-    }
-
-    fun testClosingCommentCharsHighlighting() {
-        highlightingTestKotlin(name)
+        myFixture.highlightingTestKotlin(name)
     }
 }
