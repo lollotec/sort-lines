@@ -3,6 +3,10 @@
 # Sort Lines with Comment Changelog
 
 ## [Unreleased]
+### Changed
+- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4
+
+## [1.0.1] - 2025-10-29
 ### Added
 - Media images and usage section in the readme on GitHub
 - Automated generation for lexer and parser
@@ -25,3 +29,7 @@
 - Highlighting for unsorted lines and `Sort lines` quick fix.
 - "Sort" language parsing, highlighting, and simple order completion.
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
+
+[unreleased]: https://github.com/lollotec/sort-lines/compare/1.0.1...dev
+[1.0.1]: https://github.com/lollotec/sort-lines/compare/1.0.0...1.0.1
+[1.0.0]: https://github.com/lollotec/sort-lines/releases/tag/1.0.0
