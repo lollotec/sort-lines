@@ -3,8 +3,13 @@
 # Sort Lines with Comment Changelog
 
 ## [Unreleased]
+### Added
+- Highlighting for lines where the group or split and key regex can't be found
+- Error message and log message for actions that can't complete a sort
+- "Go to" action in error notification that moves the cursor to the problem sort
+
 ### Changed
-- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4
+- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2
 
 ## [1.0.1] - 2025-10-29
 ### Added
