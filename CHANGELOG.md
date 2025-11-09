@@ -9,7 +9,7 @@
 - "Go to" action in error notification that moves the cursor to the problem sort
 
 ### Changed
-- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2
+- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.0
 
 ## [1.0.1] - 2025-10-29
 ### Added
