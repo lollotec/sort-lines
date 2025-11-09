@@ -53,9 +53,14 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
         val (currSortComment, currSortOptions) = it[0]
         val (nextSortComment, nextSortOptions) = it.getOrNull(1) ?: Pair(null, null)
 
-        if (currSortOptions == null || currSortOptions.end) return@windowed
+        if (currSortOptions == null) {
+            action(SortInfo(null), currSortComment.textRange)
+            return@windowed
+        }
 
-        val sortOrder = currSortOptions.order?.toSortOrder(project) ?: return@windowed
+        if (currSortOptions.end) return@windowed
+
+        val sortOrder = currSortOptions.order?.toSortOrder(project)
 
         val groupRegex = currSortOptions.group?.toSortRegex()
 
@@ -64,6 +69,11 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
         val keyInt = currSortOptions.key?.toIntOrNull()
 
         val sortInfo = SortInfo(sortOrder, groupRegex, splitRegex, keyInt)
+
+        if (sortOrder == null) {
+            action(sortInfo, currSortComment.textRange)
+            return@windowed
+        }
 
         val startOffset = currSortComment.endOffset+1
         // Find the next sort comment or the end of the file
