@@ -14,6 +14,7 @@ import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiDocumentManager
 import com.intellij.psi.PsiElementVisitor
 import com.intellij.psi.PsiFile
+import com.intellij.util.text.findTextRange
 
 /**
  * Implements an inspection to detect when lines are out of order in sort blocks.
@@ -40,9 +41,21 @@ class LineOrderInspection: LocalInspectionTool() {
                 val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?: error("No document")
 
                 file.forEachSort(document) { sortInfo, sortRange ->
-                    val linesToCheck = document.getText(sortRange).lines()
+                    val text = document.getText(sortRange)
+                    val linesToCheck = text.lines()
 
-                    if(!sortInfo.isSorted(linesToCheck)) {
+                    val sorted = try {
+                        sortInfo.isSorted(linesToCheck)
+                    } catch (e: SortOrderException) {
+                        holder.registerProblem(
+                            file,
+                            text.findTextRange(e.line)!!.shiftRight(sortRange.startOffset),
+                            e.localizedMessage,
+                        )
+                        null
+                    }
+
+                    if(sorted != null && !sorted) {
                         holder.registerProblem(
                             file,
                             sortRange,

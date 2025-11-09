@@ -42,6 +42,7 @@
                                   order="after FormatOnSaveInfoProvider, before BuildOnSaveInfoProvider"/>
         <actionOnSave id="com.github.jodiew.sortlines.orderLinesActionOnSave"
                       implementation="com.github.jodiew.sortlines.actions.OrderLinesActionOnSave"/>
+        <notificationGroup displayType="BALLOON" id="com.github.jodiew.sortlines.SortNotifier" key="notification.com.github.jodiew.group.name"/>
     </extensions>
 
     <actions>
