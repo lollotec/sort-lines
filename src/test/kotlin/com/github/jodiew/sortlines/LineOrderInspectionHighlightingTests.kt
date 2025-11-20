@@ -69,4 +69,8 @@ class LineOrderInspectionHighlightingTests: BasePlatformTestCase() {
     fun testPatternNotFoundHighlighting() {
         myFixture.highlightingTestKotlin(name)
     }
+
+    fun testBlankLineHighlighting() {
+        myFixture.highlightingTestKotlin(name)
+    }
 }
