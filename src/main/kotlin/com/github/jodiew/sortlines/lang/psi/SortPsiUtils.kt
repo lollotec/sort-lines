@@ -44,7 +44,6 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
 
     if (sortComments.isEmpty()) return
 
-
     // TODO: Something about this is weird, you have to collect all the sort options first if you are calling this from OrderLinesAction
     // I think its something about the document write action makes the psi tree break
     sortComments.map { psiComment ->
@@ -92,7 +91,12 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
 
         if (initialEndOffset <= startOffset) return@windowed
 
-        val endOffset = findIndentChangeOffset(document.text, startOffset, initialEndOffset)
+        val endOffset = if (nextSortOptions != null && nextSortOptions.end) {
+            // the next sort option is "end"
+            initialEndOffset
+        } else {
+            findIndentChangeOffset(document.text, startOffset, initialEndOffset)
+        }
 
         if (endOffset <= startOffset) return@windowed
 

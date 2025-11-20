@@ -31,4 +31,8 @@ class SortLineActionTest : BasePlatformTestCase() {
     fun testSortErrorUnchanged() {
         actionTest(name)
     }
+
+    fun testBlankLinesInSort() {
+        actionTest(name)
+    }
 }
