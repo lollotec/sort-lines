@@ -1,6 +1,7 @@
 package com.github.jodiew.sortlines.lang
 
 import com.github.jodiew.sortlines.PREFIX_STR
+import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.*
@@ -41,17 +42,17 @@ class SortAnnotator: Annotator {
             with (holder) {
                 validateOption(
                     element.order != null && element.order!!.toSortOrder(project) == null,
-                    "Invalid sort order",
+                    SortBundle.message("annotator.com.github.jodiew.error.sort"),
                     element.sort ?: element,
                 )
                 validateOption(
                     element.group != null && element.group!!.toSortRegex() == null,
-                    "Invalid group regex",
+                    SortBundle.message("annotator.com.github.jodiew.error.group"),
                     element.groupPattern ?: element,
                 )
                 validateOption(
                     element.split != null && element.split!!.toSortRegex() == null,
-                    "Invalid split regex",
+                    SortBundle.message("annotator.com.github.jodiew.error.split"),
                     element.splitPattern ?: element,
                 )
                 // Don't need to check the key, it's covered by the lexer
