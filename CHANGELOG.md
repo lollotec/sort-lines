@@ -8,7 +8,11 @@
 - Error message and log message for actions that can't complete a sort
 - "Go to" action in error notification that moves the cursor to the problem sort
 
+### Fixed
+- Sort not continuing until the `sort: end`, when provided
+
 ### Changed
+- Prefix inspection errors with "Sort lines:"
 - Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.0
 
 ## [1.0.1] - 2025-10-29
@@ -36,5 +40,5 @@
 - Initial scaffold created from [IntelliJ Platform Plugin Template](https://github.com/JetBrains/intellij-platform-plugin-template)
 
 [unreleased]: https://github.com/lollotec/sort-lines/compare/1.0.1...dev
-[1.0.1]: https://github.com/lollotec/sort-lines/compare/1.0.0...1.0.1
+[1.0.1]: https://github.com/lollotec/sort-lines/releases/tag/1.0.1
 [1.0.0]: https://github.com/lollotec/sort-lines/releases/tag/1.0.0

@@ -90,14 +90,14 @@ data class SortInfo(
 
     private fun String.getGroup(group: Regex): String =
         group.find(this)?.groupValues?.getOrNull(1)
-            ?: throw SortOrderException("Group pattern not found", this)
+            ?: throw SortOrderException(SortBundle.message("inspection.com.github.jodiew.sortlines.error.group"), this)
 
     private fun String.getSplit(splitPattern: Regex, key: Int): String {
         val splitGroups = trim().split(splitPattern)
         if (splitGroups.size <= 1) {
-            throw SortOrderException("Split pattern not found", this)
+            throw SortOrderException(SortBundle.message("inspection.com.github.jodiew.sortlines.error.split"), this)
         } else {
-            return splitGroups.getOrNull(key) ?: throw SortOrderException("Key out of range", this)
+            return splitGroups.getOrNull(key) ?: throw SortOrderException(SortBundle.message("inspection.com.github.jodiew.sortlines.error.key"), this)
         }
     }
 }
