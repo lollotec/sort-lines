@@ -1,6 +1,7 @@
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import java.time.LocalDate
 
 plugins {
     id("java") // Java support
@@ -117,6 +118,12 @@ intellijPlatform {
         ides {
             recommended()
         }
+    }
+
+    caching.ides {
+        enabled = true // global caching
+        path = file(System.getProperty("user.home")).resolve(".ides")
+        name = { "${it.type}-${it.version}-${LocalDate.now()}" }
     }
 }
 
