@@ -15,8 +15,9 @@ import com.intellij.psi.tree.IFileElementType
 import com.intellij.psi.tree.TokenSet
 
 class SortParserDefinition : ParserDefinition {
+    @Suppress("CompanionObjectInExtension")
     companion object {
-        @JvmField val FILE = IFileElementType(SortLanguage)
+        @JvmField val FILE: IFileElementType = IFileElementType(SortLanguage)
     }
 
     override fun createLexer(p0: Project?): Lexer = SortLexerAdapter()

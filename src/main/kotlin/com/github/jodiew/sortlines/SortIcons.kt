@@ -1,12 +1,13 @@
 package com.github.jodiew.sortlines
 
 import com.intellij.openapi.util.IconLoader
+import javax.swing.Icon
 
 object SortIcons {
     @JvmField
-    val AscSort = IconLoader.getIcon("/icons/gutter/ascSort.svg", javaClass)
+    val AscSort: Icon = IconLoader.getIcon("/icons/gutter/ascSort.svg", javaClass)
     @JvmField
-    val DescSort = IconLoader.getIcon("/icons/gutter/descSort.svg", javaClass)
+    val DescSort: Icon = IconLoader.getIcon("/icons/gutter/descSort.svg", javaClass)
     @JvmField
-    val NoSort = IconLoader.getIcon("/icons/gutter/noSort.svg", javaClass)
+    val NoSort: Icon = IconLoader.getIcon("/icons/gutter/noSort.svg", javaClass)
 }

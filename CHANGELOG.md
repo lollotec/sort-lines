@@ -7,13 +7,14 @@
 - Highlighting for lines where the group or split and key regex can't be found
 - Error message and log message for actions that can't complete a sort
 - "Go to" action in error notification that moves the cursor to the problem sort
+- Improved behaviour for blocks of lines containing blank lines with a `sort: end`
 
 ### Fixed
 - Sort not continuing until the `sort: end`, when provided
 
 ### Changed
 - Prefix inspection errors with "Sort lines:"
-- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.0
+- Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.1
 
 ## [1.0.1] - 2025-10-29
 ### Added
