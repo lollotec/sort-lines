@@ -2,9 +2,16 @@ package test
 
 class BlankLinesInSort {
     // sort: asc
-    val b = "b"
+    val b0 = "b"
+    val a0 = "a"
 
-    val a = "a"
+    val c1 = "c"
+    val e1 = "e"
+    val d1 = "d"
+
+    val xn = "x"
+    val yn = "y"
+    val zn = "z"
     // sort: end
-    val c = "c"
+    val noSort = "stay"
 }

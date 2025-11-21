@@ -117,3 +117,11 @@ fun findIndentChangeOffset(text: String, startOffset: Int, initialEndOffset: Int
             match.range.first < initialEndOffset && match.value != initialMatch.value
         }?.range?.first?.minus(1) ?: initialEndOffset
 }
+
+/**
+ * Returns the offset of the start of the next line in the [text] after [startOffset] that has non-whitespace characters.
+ * If that can't be found the [startOffset] is returned
+ */
+fun findLastNewline(text: String, startOffset: Int): Int =
+    Regex("\n(?=[^\n]*\\S)", RegexOption.MULTILINE)
+        .find(text, startOffset)?.range?.first?.inc() ?: startOffset
