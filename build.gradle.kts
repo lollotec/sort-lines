@@ -175,7 +175,7 @@ tasks {
 }
 
 intellijPlatformTesting {
-    runIde {
+//    runIde {
 //        register("runIdeForUiTests") {
 //            task {
 //                jvmArgumentProviders += CommandLineArgumentProvider {
@@ -192,5 +192,5 @@ intellijPlatformTesting {
 //                robotServerPlugin()
 //            }
 //        }
-    }
+//    }
 }
