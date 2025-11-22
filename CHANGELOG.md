@@ -14,6 +14,7 @@
 
 ### Changed
 - Prefix inspection errors with "Sort lines:"
+- Moved usage documentation to a GitHub Pages website
 - Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.1
 
 ## [1.0.1] - 2025-10-29

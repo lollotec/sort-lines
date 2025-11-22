@@ -1,10 +1,12 @@
 # Sort Lines with Comment IntelliJ Plugin
 
 ![Build](https://github.com/lollotec/sort-lines/workflows/Build/badge.svg)
-[![Version](https://img.shields.io/jetbrains/plugin/v/com.github.jodiew.sortlines.svg)](https://plugins.jetbrains.com/plugin/28626-sort-lines-with-comment)
-[![Downloads](https://img.shields.io/jetbrains/plugin/d/com.github.jodiew.sortlines.svg)](https://plugins.jetbrains.com/plugin/28626-sort-lines-with-comment)
+[![Version](https://img.shields.io/jetbrains/plugin/v/com.github.jodiew.sortlines.svg)][plugin]
+[![Downloads](https://img.shields.io/jetbrains/plugin/d/com.github.jodiew.sortlines.svg)][plugin]
 
 ## Introduction
+
+![Gif of sort highlighting and quickfix](/media/simple-sort.gif)
 
 <!-- Plugin description -->
 Sort blocks of lines with a comment.
@@ -29,54 +31,15 @@ sort comment. To force a different end to the sort include `sort: end` on the li
 
 <!-- Plugin description end -->
 
-## Installation
-
-- Using the IDE built-in plugin system:
-  
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>Marketplace</kbd> > <kbd>Search for "Sort Lines with Comment"</kbd> >
-  <kbd>Install</kbd>
-  
-- Using JetBrains Marketplace:
-
-  Go to [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID) and install it by clicking the <kbd>Install to ...</kbd> button in case your IDE is running.
-
-  You can also download the [latest release](https://plugins.jetbrains.com/plugin/MARKETPLACE_ID/versions) from JetBrains Marketplace and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
-- Manually:
-
-  Download the [latest release](https://github.com/lollotec/sort-lines/releases/latest) and install it manually using
-  <kbd>Settings/Preferences</kbd> > <kbd>Plugins</kbd> > <kbd>⚙️</kbd> > <kbd>Install plugin from disk...</kbd>
-
 ## Usage
-![Gif of sort highlighting and quickfix](/media/simple-sort.gif)
 
-### Sort Types
-
-Simple Sort
-![Screenshot of simple sort highlighting](/media/highlighting.png)
-
-Group Sort
-![Screenshot of group sort in a ruby file](/media/ruby-group.png)
-
-Split Sort
-![Screenshot of split sort in a ruby file](/media/ruby-split.png)
-
-### Actions
-
-All the blocks in the file can be sorted manually by using `Sort Lines with Comment` in the `Tools` menu.
-![Screenshot showing 'Sort Lines with Comment' action in tool menu](/media/tool-menu.png)
-
-Sort on save can be enabled/disabled in the `Settings` > `Tools` > `Actions on save` page.
-![Screenshot showing the 'Actions on save' settings page](/media/actions-on-save.png)
-
-### Settings
-
-Custom sort order options can be added to the `Settings` > `Tools` > `Sort Lines with Comment` settings page.
-![Screenshot showing the 'Sort Lines with Comment' settings page](/media/sort-lines-settings.png)
-![Screenshot showing sort order completion options](/media/sort-order-completion.png)
+Check out the [Documentation][documentation]
 
 ---
-Plugin based on the [IntelliJ Platform Plugin Template][template].
 
+Plugin based on the [IntelliJ Platform Plugin Template][template] and inspired by [IntelliJ Plugin: Building Docker Security Analysis Tools][cloud-security-plugin]
+
+[plugin]: https://plugins.jetbrains.com/plugin/28626-sort-lines-with-comment
+[documentation]: https://lollotec.github.io/sort-lines
 [template]: https://github.com/JetBrains/intellij-platform-plugin-template
+[cloud-security-plugin]: https://protsenko.dev/2025/03/24/how-i-made-docker-linter-for-intellij-idea-and-other-jetbrains-ide/
