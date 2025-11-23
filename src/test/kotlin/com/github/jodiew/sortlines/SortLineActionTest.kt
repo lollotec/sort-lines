@@ -27,4 +27,12 @@ class SortLineActionTest : BasePlatformTestCase() {
     fun testIndentChangeUnsorted() {
         actionTest(name)
     }
+
+    fun testSortErrorUnchanged() {
+        actionTest(name)
+    }
+
+    fun testBlankLinesInSort() {
+        actionTest(name)
+    }
 }

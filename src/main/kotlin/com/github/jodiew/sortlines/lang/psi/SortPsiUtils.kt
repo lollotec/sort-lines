@@ -3,6 +3,7 @@ package com.github.jodiew.sortlines.lang.psi
 import com.github.jodiew.sortlines.PREFIX_STR
 import com.github.jodiew.sortlines.SortInfo
 import com.github.jodiew.sortlines.findIndentChangeOffset
+import com.github.jodiew.sortlines.findLastNewline
 import com.github.jodiew.sortlines.lang.psi.ext.*
 import com.github.jodiew.sortlines.toSortOrder
 import com.github.jodiew.sortlines.toSortRegex
@@ -44,7 +45,6 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
 
     if (sortComments.isEmpty()) return
 
-
     // TODO: Something about this is weird, you have to collect all the sort options first if you are calling this from OrderLinesAction
     // I think its something about the document write action makes the psi tree break
     sortComments.map { psiComment ->
@@ -53,9 +53,14 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
         val (currSortComment, currSortOptions) = it[0]
         val (nextSortComment, nextSortOptions) = it.getOrNull(1) ?: Pair(null, null)
 
-        if (currSortOptions == null || currSortOptions.end) return@windowed
+        if (currSortOptions == null) {
+            action(SortInfo(null), currSortComment.textRange)
+            return@windowed
+        }
 
-        val sortOrder = currSortOptions.order?.toSortOrder(project) ?: return@windowed
+        if (currSortOptions.end) return@windowed
+
+        val sortOrder = currSortOptions.order?.toSortOrder(project)
 
         val groupRegex = currSortOptions.group?.toSortRegex()
 
@@ -65,29 +70,58 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
 
         val sortInfo = SortInfo(sortOrder, groupRegex, splitRegex, keyInt)
 
-        val startOffset = currSortComment.endOffset+1
-        // Find the next sort comment or the end of the file
-        val initialEndOffset = if (nextSortComment != null && nextSortOptions != null) {
-            // this assumes that the previous leaf is the whitespace element containing the new line
-            nextSortComment.prevLeaf()!!.startOffset
-        } else {
-            // this handles a trailing newline at the end of the document
-            val lastLeaf = lastLeaf()
-            if (lastLeaf.text == "\n") {
-                lastLeaf.endOffset.minus(1)
-            } else {
-                lastLeaf.endOffset
-            }
+        if (sortOrder == null) {
+            action(sortInfo, currSortComment.textRange)
+            return@windowed
         }
 
-        if (initialEndOffset <= startOffset) return@windowed
+        val initialStartOffset = currSortComment.endOffset+1
 
-        val endOffset = findIndentChangeOffset(document.text, startOffset, initialEndOffset)
+        if (nextSortOptions != null && nextSortOptions.end) {
+            // then next sort comment is "end" and all the blocks must be sorted until it's reached
+            val initialEndOffset = nextSortComment!!.prevLeaf()!!.startOffset
+            if (initialEndOffset <= initialStartOffset) return@windowed
 
-        if (endOffset <= startOffset) return@windowed
+            generateSequence(initialStartOffset to findIndentChangeOffset(document.text,
+                initialStartOffset, initialEndOffset)) { (start, end) ->
+                if (end in (start + 1)..<initialEndOffset) {
+                    val newStart = findLastNewline(document.text, end)
+                    newStart to findIndentChangeOffset(
+                        document.text,
+                        newStart,
+                        initialEndOffset
+                    )
+                } else null
+            }.forEach { (startOffset, endOffset) ->
+                val sortRange = TextRange(startOffset, endOffset)
+                action(sortInfo, sortRange)
+            }
 
-        val sortRange = TextRange(startOffset, endOffset)
+        } else {
+            // Find the next sort comment or the end of the file
+            val initialEndOffset = if (nextSortComment != null && nextSortOptions != null) {
+                // this assumes that the previous leaf is the whitespace element containing the new line
+                nextSortComment.prevLeaf()!!.startOffset
+            } else {
+                // this handles a trailing newline at the end of the document
+                val lastLeaf = lastLeaf()
+                if (lastLeaf.text == "\n") {
+                    lastLeaf.endOffset.minus(1)
+                } else {
+                    lastLeaf.endOffset
+                }
+            }
 
-        action(sortInfo, sortRange)
+            if (initialEndOffset <= initialStartOffset) return@windowed
+
+            val endOffset = findIndentChangeOffset(document.text, initialStartOffset, initialEndOffset)
+
+            if (endOffset <= initialStartOffset) return@windowed
+
+            val sortRange = TextRange(initialStartOffset, endOffset)
+
+            action(sortInfo, sortRange)
+        }
+
     }
 }

@@ -42,4 +42,8 @@ class LineOrderInspectionQuickFixTests : BasePlatformTestCase() {
     fun testBlankLastLineSort() {
         quickFixTest(name)
     }
+
+    fun testBlankLinesInSort() {
+        quickFixTest(name)
+    }
 }
