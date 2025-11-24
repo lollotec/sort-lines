@@ -44,7 +44,7 @@ There are several ways to install the Sort Lines with Comment plugin:
 ### Manual Installation
 
 1. Download the latest release from [GitHub Releases](https://github.com/lollotec/sort-lines/releases/latest) or [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/28626-sort-lines-with-comment/versions)
-2. In your JetBrains IdE, go to **Settings/Preferences** > **Plugins**
+2. In your JetBrains IDE, go to **Settings/Preferences** > **Plugins**
 3. Click the gear icon (⚙️) and select **Install Plugin from Disk...**
 4. Select the downloaded `.zip` file
 5. Restart your IDE when prompted
