@@ -40,7 +40,11 @@ internal class OrderLinesAction : DumbAwareAction() {
             psiFile.forEachSort(document) { info, range ->
                 val sortedLines = info.sorted(document.getText(range).lines())?.joinToString("\n")
                 if (sortedLines == null) {
-                    thisLogger().warn("The sort $info couldn't be completed for the range $range in ${psiFile.name}")
+                    thisLogger().warn("The sort $info couldn't be completed for the lines ${document.getLineNumber(range.startOffset)} to ${
+                        document.getLineNumber(
+                            range.endOffset
+                        )
+                    } in ${psiFile.name}")
                     SortNotifier.notifyError(project, SortBundle.message("notification.com.github.jodiew.action.error")) {
                         val editor: Editor? = PsiEditorUtil.findEditor(psiFile)
 

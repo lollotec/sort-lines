@@ -8,6 +8,7 @@ import com.github.jodiew.sortlines.lang.psi.ext.*
 import com.github.jodiew.sortlines.toSortOrder
 import com.github.jodiew.sortlines.toSortRegex
 import com.intellij.lang.injection.InjectedLanguageManager
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
@@ -54,6 +55,7 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
         val (nextSortComment, nextSortOptions) = it.getOrNull(1) ?: Pair(null, null)
 
         if (currSortOptions == null) {
+            thisLogger().warn("No sort options found in \"${currSortComment.text}\"")
             action(SortInfo(null), currSortComment.textRange)
             return@windowed
         }
@@ -70,7 +72,8 @@ fun PsiFile.forEachSort(document: Document, action: (SortInfo, TextRange) -> Uni
 
         val sortInfo = SortInfo(sortOrder, groupRegex, splitRegex, keyInt)
 
-        if (sortOrder == null) {
+        if (!sortInfo.valid) {
+            thisLogger().warn("Invalid sort comment: \"${currSortComment.text}\" \"${currSortOptions.text}\" $sortInfo")
             action(sortInfo, currSortComment.textRange)
             return@windowed
         }
