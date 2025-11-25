@@ -8,13 +8,16 @@
 - Error message and log message for actions that can't complete a sort
 - "Go to" action in error notification that moves the cursor to the problem sort
 - Improved behaviour for blocks of lines containing blank lines with a `sort: end`
+- More debugging logs for sort errors
 
 ### Fixed
 - Sort not continuing until the `sort: end`, when provided
+- CI job for releasing the new version changelog
 
 ### Changed
 - Prefix inspection errors with "Sort lines:"
 - Moved usage documentation to a GitHub Pages website
+- Frequency of some CI jobs for inspection code and verifying the plugin
 - Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.1
 
 ## [1.0.1] - 2025-10-29

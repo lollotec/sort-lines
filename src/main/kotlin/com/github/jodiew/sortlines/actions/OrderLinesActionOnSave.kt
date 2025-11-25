@@ -35,7 +35,7 @@ class OrderLinesActionOnSave: ActionsOnSaveFileDocumentManagerListener.DocumentU
                 psiFile.forEachSort(document) { info, range ->
                     val sortedLines = info.sorted(document.getText(range).lines())?.joinToString("\n")
                     if (sortedLines == null) {
-                        thisLogger().warn("The sort $info couldn't be completed for the range $range in ${psiFile.name}")
+                        thisLogger().warn("The sort $info couldn't be completed for the lines ${document.getLineNumber(range.startOffset)} to ${document.getLineNumber(range.endOffset)} in ${psiFile.name}")
                         SortNotifier.notifyError(project, SortBundle.message("notification.com.github.jodiew.action.on.save.error")) {
                             val fileEditorManager = FileEditorManager.getInstance(project)
                             val virtualFile = psiFile.virtualFile
