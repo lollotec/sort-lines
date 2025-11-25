@@ -27,7 +27,9 @@ class OrderLinesActionOnSave: ActionsOnSaveFileDocumentManagerListener.DocumentU
         readAndEdtWriteAction {
             val psiFile = PsiDocumentManager.getInstance(project).getPsiFile(document)
             if (psiFile == null) {
-                thisLogger().warn("no psi file")
+                thisLogger().warn("No psi file for sort lines action on save -" +
+                        "Project=${project.name} " +
+                        "document=${document.text.substring(0, 200)}...")
                 return@readAndEdtWriteAction writeAction { }
             }
 
@@ -35,7 +37,13 @@ class OrderLinesActionOnSave: ActionsOnSaveFileDocumentManagerListener.DocumentU
                 psiFile.forEachSort(document) { info, range ->
                     val sortedLines = info.sorted(document.getText(range).lines())?.joinToString("\n")
                     if (sortedLines == null) {
-                        thisLogger().warn("The sort $info couldn't be completed for the lines ${document.getLineNumber(range.startOffset)} to ${document.getLineNumber(range.endOffset)} in ${psiFile.name}")
+
+                        thisLogger().warn("The sort lines action on save couldn't complete a sort - " +
+                                "Project=${project.name} " +
+                                "file=${psiFile.name} " +
+                                "sort=$info " +
+                                "lines=${document.getLineNumber(range.startOffset)}-${document.getLineNumber(range.endOffset)}")
+
                         SortNotifier.notifyError(project, SortBundle.message("notification.com.github.jodiew.action.on.save.error")) {
                             val fileEditorManager = FileEditorManager.getInstance(project)
                             val virtualFile = psiFile.virtualFile

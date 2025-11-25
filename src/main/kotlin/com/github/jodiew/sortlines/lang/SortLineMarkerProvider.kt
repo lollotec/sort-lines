@@ -3,13 +3,16 @@ package com.github.jodiew.sortlines.lang
 import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.SortIcons
 import com.github.jodiew.sortlines.SortOrder
-import com.github.jodiew.sortlines.lang.psi.SortSort
+import com.github.jodiew.sortlines.lang.psi.SortFile
+import com.github.jodiew.sortlines.lang.psi.SortOptions
+import com.github.jodiew.sortlines.lang.psi.ext.end
 import com.github.jodiew.sortlines.toSortOrder
 import com.intellij.codeInsight.daemon.GutterName
 import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.LineMarkerProviderDescriptor
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
+import com.intellij.psi.util.firstLeaf
 import javax.swing.Icon
 
 class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
@@ -22,8 +25,10 @@ class SortLineMarkerProvider: LineMarkerProviderDescriptor() {
     override fun collectSlowLineMarkers(elements: List<PsiElement?>, result: MutableCollection<in LineMarkerInfo<*>>) {
         for (element: PsiElement? in elements) {
             if (element == null) continue
-            if (element.parent !is SortSort) continue
-            result.add(SortLineMarkerInfo(element))
+            if (element !is SortFile) continue
+            val sortOptions: SortOptions? = element.sortOptions
+            if (sortOptions?.end ?: false) continue
+            result.add(SortLineMarkerInfo(sortOptions?.sort?.firstLeaf() ?: element.firstLeaf()))
         }
     }
 

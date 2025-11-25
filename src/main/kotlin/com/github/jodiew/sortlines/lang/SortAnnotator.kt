@@ -12,6 +12,7 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
@@ -62,6 +63,12 @@ class SortAnnotator: Annotator {
 
     private fun AnnotationHolder.validateOption(check: Boolean, message: String, element: PsiElement) {
         if (check) {
+            thisLogger().warn("Annotator warning - " +
+                    "Message=$message " +
+                    "Project=${element.project.name} " +
+                    "File=${element.containingFile.name} " +
+                    "Sort=\"${element.text}\" " +
+                    "Range=${element.textRange}")
             newAnnotation(HighlightSeverity.ERROR, message)
                 .range(element)
                 .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)

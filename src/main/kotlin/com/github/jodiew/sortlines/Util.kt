@@ -25,7 +25,7 @@ fun String.toSortOrder(project: Project): SortOrder? {
         in settings.ascOrderList.split(", ") -> SortOrder.ASC
         in settings.descOrderList.split(", ") -> SortOrder.DESC
         else -> {
-            thisLogger().warn("Couldn't convert \"$this\" to SortOrder - available a-z sorts: ${settings.ascOrderList}, available z-a sorts: ${settings.descOrderList}")
+            thisLogger().debug("Couldn't convert \"$this\" to SortOrder - available a-z sorts: ${settings.ascOrderList}, available z-a sorts: ${settings.descOrderList}")
             null
         }
     }
