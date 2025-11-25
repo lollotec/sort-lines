@@ -30,9 +30,9 @@ internal class OrderLinesAction : DumbAwareAction() {
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        val project = e.getData(CommonDataKeys.PROJECT) ?: error("no project")
-        val editor = e.getData(CommonDataKeys.EDITOR) ?: error("no editor")
-        val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: error("no psi file")
+        val project = e.getData(CommonDataKeys.PROJECT) ?: error("Action has no project - $e")
+        val editor = e.getData(CommonDataKeys.EDITOR) ?: error("Action has no editor - $e")
+        val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: error("Action has no psi file - $e")
 
         val document = editor.document
 
@@ -40,11 +40,12 @@ internal class OrderLinesAction : DumbAwareAction() {
             psiFile.forEachSort(document) { info, range ->
                 val sortedLines = info.sorted(document.getText(range).lines())?.joinToString("\n")
                 if (sortedLines == null) {
-                    thisLogger().warn("The sort $info couldn't be completed for the lines ${document.getLineNumber(range.startOffset)} to ${
-                        document.getLineNumber(
-                            range.endOffset
-                        )
-                    } in ${psiFile.name}")
+                    thisLogger().warn("The sort lines action couldn't complete a sort - " +
+                            "Project=${project.name} " +
+                            "file=${psiFile.name} " +
+                            "sort=$info " +
+                            "lines=${document.getLineNumber(range.startOffset)}-${document.getLineNumber(range.endOffset)}")
+
                     SortNotifier.notifyError(project, SortBundle.message("notification.com.github.jodiew.action.error")) {
                         val editor: Editor? = PsiEditorUtil.findEditor(psiFile)
 

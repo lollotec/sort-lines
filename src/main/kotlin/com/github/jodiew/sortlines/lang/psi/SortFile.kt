@@ -10,4 +10,8 @@ class SortFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, SortL
     override fun getFileType() = SortFileType
 
     override fun toString() = "Sort File"
+
+    val sortOptions: SortOptions?
+        get() = node.findChildByType(SortTypes.OPTIONS)?.psi as? SortOptions
+
 }

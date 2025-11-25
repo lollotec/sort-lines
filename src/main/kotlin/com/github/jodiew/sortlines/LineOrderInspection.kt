@@ -8,6 +8,7 @@ import com.intellij.codeInspection.ProblemsHolder
 import com.intellij.codeInspection.util.IntentionFamilyName
 import com.intellij.codeInspection.util.IntentionName
 import com.intellij.openapi.command.WriteCommandAction
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.editor.Document
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.Project
@@ -38,7 +39,10 @@ class LineOrderInspection: LocalInspectionTool() {
             override fun visitFile(file: PsiFile) {
                 super.visitFile(file)
 
-                val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?: error("No document")
+                val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?:
+                    error("No document for line order inspection - " +
+                            "Project=${file.project.name} " +
+                            "file=${file.name} ")
 
                 file.forEachSort(document) { sortInfo, sortRange ->
                     val text = document.getText(sortRange)
@@ -47,6 +51,12 @@ class LineOrderInspection: LocalInspectionTool() {
                     val sorted = try {
                         sortInfo.isSorted(linesToCheck)
                     } catch (e: SortOrderException) {
+                        thisLogger().warn("An exception was encountered when sorting - " +
+                                "Project=${file.project.name} " +
+                                "file=${file.name} " +
+                                "sort=$sortInfo " +
+                                "lines=${document.getLineNumber(sortRange.startOffset)}-${document.getLineNumber(sortRange.endOffset)} " +
+                                "message=${e.message}")
                         holder.registerProblem(
                             file,
                             text.findTextRange(e.line)!!.shiftRight(sortRange.startOffset),
@@ -82,12 +92,20 @@ class LineOrderInspection: LocalInspectionTool() {
          */
         override fun applyFix(project: Project, descriptor: ProblemDescriptor) {
             val document: Document = PsiDocumentManager.getInstance(project).getDocument(descriptor.psiElement as PsiFile)
-                ?: error("No document to apply fix to")
+                ?: error("No document to apply fix to - " +
+                        "Project=${project.name} " +
+                        "file=${(descriptor.psiElement as? PsiFile)?.name} " +
+                        "sort=$sortInfo")
 
             val sortRange = descriptor.textRangeInElement
             val unsortedLines = document.getText(sortRange).lines()
 
-            val sortedLines = sortInfo.sorted(unsortedLines) ?: error("invalid sort")
+            val sortedLines = sortInfo.sorted(unsortedLines) ?:
+                error("The sort should always work when there is a quickfix - " +
+                        "Project=${project.name} " +
+                        "file=${(descriptor.psiElement as? PsiFile)?.name} " +
+                        "sort=$sortInfo" +
+                        "lines=${document.getLineNumber(sortRange.startOffset)}-${document.getLineNumber(sortRange.endOffset)}")
 
             WriteCommandAction.runWriteCommandAction(project) {
                 document.replaceString(
