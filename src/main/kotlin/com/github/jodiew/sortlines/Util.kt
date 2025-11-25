@@ -49,7 +49,9 @@ data class SortInfo(
 ) {
     /** Returns true if the [lines] are sorted according to the [SortInfo], otherwise false */
     fun isSorted(lines: List<String>): Boolean = if (type == null) {
-        thisLogger().warn("The sort type couldn't be determined for $this starting on the line \"${lines.first()}\"")
+        thisLogger().warn("The sort type couldn't be determined when checking line order - " +
+                "sort=$this " +
+                "startLine=\"${lines.first()}\"")
         true
     } else {
         try { if (lines.size <= 1) { true } else {
@@ -67,7 +69,9 @@ data class SortInfo(
 
     /** Returns the [lines] in the order specified by the [SortInfo] or null if the [SortInfo.order] is null */
     fun sorted(lines: List<String>): List<String>? = if (type == null) {
-        thisLogger().warn("The sort type couldn't be determined for $this starting on the line \"${lines.first()}\"")
+        thisLogger().warn("The sort type couldn't be determined when sorting lines - " +
+                "sort=$this " +
+                "startLine=\"${lines.first()}\"")
         lines
     } else {
         try {

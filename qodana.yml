@@ -11,3 +11,9 @@ exclude:
     paths:
       - .qodana
       - src/main/gen
+      - .github
+      - .idea
+      - .run
+      - docs
+      - gradle
+      - media
