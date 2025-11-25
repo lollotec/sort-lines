@@ -13,6 +13,7 @@
 ### Fixed
 - Sort not continuing until the `sort: end`, when provided
 - CI job for releasing the new version changelog
+- Gutter icon not showing for incomplete sort comments
 
 ### Changed
 - Prefix inspection errors with "Sort lines:"
