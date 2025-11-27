@@ -1,13 +1,18 @@
 package com.github.jodiew.sortlines.actions
 
+import com.github.jodiew.sortlines.SortBundle
+import com.github.jodiew.sortlines.SortNotifier
 import com.github.jodiew.sortlines.lang.psi.forEachSort
 import com.intellij.openapi.actionSystem.ActionUpdateThread
 import com.intellij.openapi.actionSystem.AnActionEvent
 import com.intellij.openapi.actionSystem.CommonDataKeys
 import com.intellij.openapi.command.WriteCommandAction
 import com.intellij.openapi.diagnostic.thisLogger
+import com.intellij.openapi.editor.Editor
+import com.intellij.openapi.editor.ScrollType
 import com.intellij.openapi.fileTypes.PlainTextFileType
 import com.intellij.openapi.project.DumbAwareAction
+import com.intellij.psi.util.PsiEditorUtil
 
 internal class OrderLinesAction : DumbAwareAction() {
     override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
@@ -25,9 +30,9 @@ internal class OrderLinesAction : DumbAwareAction() {
     }
 
     override fun actionPerformed(e: AnActionEvent) {
-        val project = e.getData(CommonDataKeys.PROJECT) ?: error("no project")
-        val editor = e.getData(CommonDataKeys.EDITOR) ?: error("no editor")
-        val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: error("no psi file")
+        val project = e.getData(CommonDataKeys.PROJECT) ?: error("Action has no project - $e")
+        val editor = e.getData(CommonDataKeys.EDITOR) ?: error("Action has no editor - $e")
+        val psiFile = e.getData(CommonDataKeys.PSI_FILE) ?: error("Action has no psi file - $e")
 
         val document = editor.document
 
@@ -35,7 +40,20 @@ internal class OrderLinesAction : DumbAwareAction() {
             psiFile.forEachSort(document) { info, range ->
                 val sortedLines = info.sorted(document.getText(range).lines())?.joinToString("\n")
                 if (sortedLines == null) {
-                    thisLogger().warn("Something went wrong with the sort")
+                    thisLogger().warn("The sort lines action couldn't complete a sort - " +
+                            "Project=${project.name} " +
+                            "file=${psiFile.name} " +
+                            "sort=$info " +
+                            "lines=${document.getLineNumber(range.startOffset)}-${document.getLineNumber(range.endOffset)}")
+
+                    SortNotifier.notifyError(project, SortBundle.message("notification.com.github.jodiew.action.error")) {
+                        val editor: Editor? = PsiEditorUtil.findEditor(psiFile)
+
+                        if (editor != null) {
+                            editor.caretModel.primaryCaret.moveToOffset(range.startOffset)
+                            editor.scrollingModel.scrollToCaret(ScrollType.CENTER)
+                        }
+                    }
                     return@forEachSort
                 }
                 document.replaceString(

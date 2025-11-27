@@ -7,7 +7,7 @@ class InvalidGroupOptionHighlighting {
     val c = "third"
     val d = "fourth"
 
-    // sort: { order: asc, group: /<error descr="Invalid group regex">[</error>/ }
+    // sort: { order: asc, group: /<error descr="Sort lines: invalid group regex">[</error>/ }
     val e = "fifth"
     val f = "sixth"
 }

@@ -129,6 +129,7 @@ jobs:
   # Run Qodana inspections and provide report
   inspectCode:
     name: Inspect code
+    if: github.event_name != 'pull_request' || github.event.pull_request.base.ref == 'main'
     needs: [ build ]
     runs-on: ubuntu-latest
     permissions:
@@ -167,6 +168,7 @@ jobs:
   # Run plugin structure verification along with IntelliJ Plugin Verifier
   verify:
     name: Verify plugin
+    if: github.event_name != 'pull_request' || github.event.pull_request.base.ref == 'main'
     needs: [ build ]
     runs-on: ubuntu-latest
     steps:

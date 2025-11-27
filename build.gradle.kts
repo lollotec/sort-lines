@@ -9,7 +9,7 @@ plugins {
     alias(libs.plugins.changelog) // Gradle Changelog Plugin
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
-    alias(libs.plugins.grammarkit)
+    alias(libs.plugins.grammarkit) // Gradle Grammar-Kit Plugin
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -118,6 +118,12 @@ intellijPlatform {
             recommended()
         }
     }
+
+    caching.ides {
+        enabled = true // global caching
+        path = file(System.getProperty("user.home")).resolve(".ides")
+        name = { "${it.type}-${it.version}" }
+    }
 }
 
 // Configure Gradle Changelog Plugin - read more: https://github.com/JetBrains/gradle-changelog-plugin
@@ -168,7 +174,7 @@ tasks {
 }
 
 intellijPlatformTesting {
-    runIde {
+//    runIde {
 //        register("runIdeForUiTests") {
 //            task {
 //                jvmArgumentProviders += CommandLineArgumentProvider {
@@ -185,5 +191,5 @@ intellijPlatformTesting {
 //                robotServerPlugin()
 //            }
 //        }
-    }
+//    }
 }

@@ -1,6 +1,7 @@
 package com.github.jodiew.sortlines.lang
 
 import com.github.jodiew.sortlines.PREFIX_STR
+import com.github.jodiew.sortlines.SortBundle
 import com.github.jodiew.sortlines.lang.colors.SortColor
 import com.github.jodiew.sortlines.lang.psi.SortOptions
 import com.github.jodiew.sortlines.lang.psi.ext.*
@@ -11,6 +12,7 @@ import com.intellij.codeInspection.ProblemHighlightType
 import com.intellij.lang.annotation.AnnotationHolder
 import com.intellij.lang.annotation.Annotator
 import com.intellij.lang.annotation.HighlightSeverity
+import com.intellij.openapi.diagnostic.thisLogger
 import com.intellij.openapi.util.TextRange
 import com.intellij.psi.PsiComment
 import com.intellij.psi.PsiElement
@@ -41,17 +43,17 @@ class SortAnnotator: Annotator {
             with (holder) {
                 validateOption(
                     element.order != null && element.order!!.toSortOrder(project) == null,
-                    "Invalid sort order",
+                    SortBundle.message("annotator.com.github.jodiew.error.sort"),
                     element.sort ?: element,
                 )
                 validateOption(
                     element.group != null && element.group!!.toSortRegex() == null,
-                    "Invalid group regex",
+                    SortBundle.message("annotator.com.github.jodiew.error.group"),
                     element.groupPattern ?: element,
                 )
                 validateOption(
                     element.split != null && element.split!!.toSortRegex() == null,
-                    "Invalid split regex",
+                    SortBundle.message("annotator.com.github.jodiew.error.split"),
                     element.splitPattern ?: element,
                 )
                 // Don't need to check the key, it's covered by the lexer
@@ -61,6 +63,12 @@ class SortAnnotator: Annotator {
 
     private fun AnnotationHolder.validateOption(check: Boolean, message: String, element: PsiElement) {
         if (check) {
+            thisLogger().warn("Annotator warning - " +
+                    "Message=$message " +
+                    "Project=${element.project.name} " +
+                    "File=${element.containingFile.name} " +
+                    "Sort=\"${element.text}\" " +
+                    "Range=${element.textRange}")
             newAnnotation(HighlightSeverity.ERROR, message)
                 .range(element)
                 .highlightType(ProblemHighlightType.LIKE_UNKNOWN_SYMBOL)

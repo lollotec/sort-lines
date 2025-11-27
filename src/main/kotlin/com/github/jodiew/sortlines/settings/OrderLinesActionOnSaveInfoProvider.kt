@@ -17,7 +17,7 @@ class OrderLinesActionOnSaveInfoProvider: ActionOnSaveInfoProvider() {
             SORT_LINES_BY_DEFAULT,
         ){})
 
-    fun enabledOnSave(project: Project) =
+    fun enabledOnSave(project: Project): Boolean =
         PropertiesComponent.getInstance(project).getBoolean(SORT_LINES_ON_SAVE, SORT_LINES_BY_DEFAULT)
 
     companion object {

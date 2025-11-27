@@ -23,7 +23,7 @@ class InvalidSplitOptionHighlighting {
     val k = "eleventh"
     val l = "twelfth"
 
-    // sort: { order: asc, split: /<error descr="Invalid split regex">[</error>/, key: 0 }
+    // sort: { order: asc, split: /<error descr="Sort lines: invalid split regex">[</error>/, key: 0 }
     val m = "thirteenth"
     val n = "fourteenth"
 
