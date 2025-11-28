@@ -4,6 +4,10 @@
 
 ## [Unreleased]
 
+### Fixed
+
+- Broken links in CHANGELOG.md caused by adding missing "v" in tag creation build and a custom url builder for the changelog
+
 ## [1.0.2] - 2025-11-27
 
 ### Added

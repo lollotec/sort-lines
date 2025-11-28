@@ -130,6 +130,26 @@ intellijPlatform {
 changelog {
     groups.empty()
     repositoryUrl = providers.gradleProperty("pluginRepositoryUrl")
+    sectionUrlBuilder = ChangelogSectionUrlBuilder { repositoryUrl, currentVersion, previousVersion, isUnreleased ->
+        val prefix: (String?) -> String = { version -> when (version) {
+            "1.0.0" -> ""
+            "1.0.1" -> ""
+            "1.0.2" -> ""
+            else -> "v"
+        } }
+        val previousPrefix = prefix(previousVersion)
+        val currentPrefix = prefix(currentVersion)
+        repositoryUrl + when {
+            isUnreleased -> when (previousVersion) {
+                null -> "/commits"
+                else -> "/compare/$previousPrefix$previousVersion...HEAD"
+            }
+
+            previousVersion == null -> "/commits/$currentPrefix$currentVersion"
+
+            else -> "/compare/$previousPrefix$previousVersion...$currentPrefix$currentVersion"
+        }
+    }
 }
 
 // Configure Gradle Kover Plugin - read more: https://github.com/Kotlin/kotlinx-kover#configuration
