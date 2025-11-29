@@ -13,9 +13,9 @@ Sort blocks of lines with a comment.
 
 On the line before the lines to be sorted use one of the following sort patterns:
 
-- Simple `sort: [asc|desc]`
-- Group `sort: { order: [asc|desc], group: /regex/ }`
-- Split `sort: { order: [asc|desc], split: /regex/, key: #}`
+- Simple `sort: asc|desc`
+- Group `sort: { order: asc|desc, group: /regex/ }`
+- Split `sort: { order: asc|desc, split: /regex/, key: #}`
 
 The plugin will check the order of the following lines until there is a blank line, an indent level change, or another
 sort comment. To force a different end to the sort include `sort: end` on the line where the sort should end.

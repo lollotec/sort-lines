@@ -6,7 +6,17 @@
 
 ### Fixed
 
-- Broken links in CHANGELOG.md caused by adding missing "v" in tag creation build and a custom url builder for the changelog
+- Broken links in CHANGELOG.md caused by missing "v" in tag creation build by adding `versionPrefix` default
+
+### Changed
+
+- Upgrade `platformVersion` to `2025.2.5`
+- Use `intellijIdea(version)` dependency helper instead of `create(type,  version)`
+- Dependencies - upgrade `org.jetbrains.changelog` to `2.5.0`
+- Dependencies - upgrade `org.jetbrains.grammarkit` to `2023.3.0.1`
+- Dependencies - upgrade `org.jetbrains.intellij.platform` to `2.10.5`
+- Dependencies - upgrade `org.jetbrains.qodana` to `2025.2.2`
+- Dependencies (GitHub Actions) - upgrade `actions/checkout` to `v6`
 
 ## [1.0.2] - 2025-11-27
 
