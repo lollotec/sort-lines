@@ -8,12 +8,13 @@ profile:
   name: qodana.recommended
 exclude:
   - name: All
-    paths:
-      - .qodana
-      - src/main/gen
+    paths: # sort: a-z
+      - .claude
+      - .env
       - .github
-      - .idea
+      - .qodana
       - .run
       - docs
-      - gradle
       - media
+      - out
+      - src/main/gen
