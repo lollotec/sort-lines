@@ -15,12 +15,25 @@ plugins {
 group = providers.gradleProperty("pluginGroup").get()
 version = providers.gradleProperty("pluginVersion").get()
 
-// Include the Grammar-Kit sources generated
 sourceSets {
+    // Include the Grammar-Kit sources generated
     main {
         java {
             srcDirs("src/main/gen")
         }
+    }
+    // Configure the uiTest SourceSet
+    create("uiTest", Action<SourceSet> {
+        compileClasspath += sourceSets["main"].output + sourceSets["test"].output
+        runtimeClasspath += sourceSets["main"].output + sourceSets["test"].output
+    })
+}
+
+// Configure IntelliJ IDEA to recognize uiTest as test sources
+idea {
+    module {
+        testSources.from(sourceSets["uiTest"].kotlin.srcDirs)
+        testResources.from(sourceSets["uiTest"].resources.srcDirs)
     }
 }
 
@@ -39,11 +52,16 @@ repositories {
     }
 }
 
+val uiTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.testImplementation.get())
+}
+
+val uiTestRuntimeOnly: Configuration by configurations.getting {
+    extendsFrom(configurations.testRuntimeOnly.get())
+}
+
 // Dependencies are managed with Gradle version catalog - read more: https://docs.gradle.org/current/userguide/version_catalogs.html
 dependencies {
-    testImplementation(libs.junit)
-    testImplementation(libs.opentest4j)
-
     // IntelliJ Platform Gradle Plugin Dependencies Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-dependencies-extension.html
     intellijPlatform {
         intellijIdea(providers.gradleProperty("platformVersion"))
@@ -57,9 +75,25 @@ dependencies {
         // Module Dependencies. Uses `platformBundledModules` property from the gradle.properties file for bundled IntelliJ Platform modules.
         bundledModules(providers.gradleProperty("platformBundledModules").map { it.split(',') })
 
+        // Test framework dependencies
         testFramework(TestFrameworkType.Platform)
         testBundledPlugin("org.jetbrains.kotlin")
+
+        // UI Test framework dependencies
+        testFramework(TestFrameworkType.Starter, configurationName = "uiTestImplementation")
+        testFramework(TestFrameworkType.JUnit5, configurationName = "uiTestImplementation")
     }
+
+    testImplementation(libs.junit)
+    testImplementation(libs.opentest4j)
+
+    // UI Test dependencies
+    uiTestImplementation("org.kodein.di:kodein-di-jvm:7.26.1")
+    uiTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core:1.9.0")
+
+    // JUnit 5 is required for UI tests
+    uiTestImplementation("org.junit.jupiter:junit-jupiter:5.11.4")
+    uiTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
@@ -172,25 +206,43 @@ tasks {
     publishPlugin {
         dependsOn(patchChangelog)
     }
-}
 
-intellijPlatformTesting {
-    runIde {
-        register("runIdeForUiTests") {
-            task {
-                jvmArgumentProviders += CommandLineArgumentProvider {
-                    listOf(
-                        "-Drobot-server.port=8082",
-                        "-Dide.mac.message.dialogs.as.sheets=false",
-                        "-Djb.privacy.policy.text=<!--999.999-->",
-                        "-Djb.consents.confirmation.enabled=false",
-                    )
-                }
-            }
+    register<Test>("uiTest") {
+        description = "Runs only the UI tests that start the IDE"
+        group = "verification"
 
-            plugins {
-                robotServerPlugin()
-            }
+        testClassesDirs = sourceSets["uiTest"].output.classesDirs
+        classpath = sourceSets["uiTest"].runtimeClasspath
+
+        useJUnitPlatform {
+            includeTags("ui")
         }
+
+        // UI tests should run sequentially (not in parallel) to avoid conflicts
+        maxParallelForks = 1
+
+        // Increase memory for UI tests
+        minHeapSize = "1g"
+        maxHeapSize = "4g"
+
+        systemProperty("path.to.build.plugin", buildPlugin.get().archiveFile.get().asFile.absolutePath)
+        systemProperty("idea.home.path", prepareTestSandbox.get().getDestinationDir().parentFile.absolutePath)
+        systemProperty(
+            "allure.results.directory", project.layout.buildDirectory.get().asFile.absolutePath + "/allure-results"
+        )
+        systemProperty("uiPlatformBuildVersion", providers.gradleProperty("uiPlatformBuildVersion").get())
+
+        // Disable IntelliJ test listener that conflicts with standard JUnit
+        systemProperty("idea.test.cyclic.buffer.size", "0")
+
+        // Add required JVM arguments
+        jvmArgumentProviders += CommandLineArgumentProvider {
+            mutableListOf(
+                "--add-opens=java.base/java.lang=ALL-UNNAMED",
+                "--add-opens=java.desktop/javax.swing=ALL-UNNAMED"
+            )
+        }
+
+        dependsOn(buildPlugin)
     }
 }
