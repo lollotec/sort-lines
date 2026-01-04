@@ -39,10 +39,15 @@ class LineOrderInspection: LocalInspectionTool() {
             override fun visitFile(file: PsiFile) {
                 super.visitFile(file)
 
-                val document = PsiDocumentManager.getInstance(file.project).getDocument(file) ?:
-                    error("No document for line order inspection - " +
-                            "Project=${file.project.name} " +
-                            "file=${file.name} ")
+                val document = PsiDocumentManager.getInstance(file.project).getDocument(file)
+                if (document == null) {
+                    thisLogger().warn(
+                        "No document for line order inspection - " +
+                                "Project=${file.project.name} " +
+                                "file=${file.name} "
+                    )
+                    return
+                }
 
                 file.forEachSort(document) { sortInfo, sortRange ->
                     val text = document.getText(sortRange)
