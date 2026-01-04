@@ -4,8 +4,10 @@
 .idea
 .intellijPlatform
 .qodana
+allure-results
 build
 idea-flex.skeleton
 java_pid*.hprof
 jflex-*.jar
+out
 src/main/gen
