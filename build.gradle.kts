@@ -1,3 +1,4 @@
+import org.gradle.kotlin.dsl.register
 import org.jetbrains.changelog.Changelog
 import org.jetbrains.changelog.markdownToHTML
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
@@ -10,6 +11,7 @@ plugins {
     alias(libs.plugins.qodana) // Gradle Qodana Plugin
     alias(libs.plugins.kover) // Gradle Kover Plugin
     alias(libs.plugins.grammarkit) // Gradle Grammar-Kit Plugin
+    idea // IntelliJ IDEA support
 }
 
 group = providers.gradleProperty("pluginGroup").get()
@@ -22,16 +24,41 @@ sourceSets {
             srcDirs("src/main/gen")
         }
     }
+    create("uiTest",Action<SourceSet>{
+        compileClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+        runtimeClasspath += sourceSets.main.get().output + sourceSets.test.get().output
+    })
+}
+
+idea {
+    module {
+        generatedSourceDirs.add(file("src/main/gen"))
+        testSources.from(sourceSets.getByName("uiTest").kotlin.srcDirs)
+        testResources.from(sourceSets.getByName("uiTest").resources.srcDirs)
+    }
+}
+
+val uiTestImplementation: Configuration by configurations.getting {
+    extendsFrom(configurations.testImplementation.get())
+}
+
+val uiTestRuntimeOnly: Configuration by configurations.getting {
+    extendsFrom(configurations.testRuntimeOnly.get())
 }
 
 // Set the JVM language level used to build the project.
 kotlin {
-    jvmToolchain(21)
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+        @Suppress("UnstableApiUsage")
+        vendor = JvmVendorSpec.JETBRAINS
+    }
 }
 
 // Configure project's dependencies
 repositories {
     mavenCentral()
+    maven("https://cache-redirector.jetbrains.com/packages.jetbrains.team/maven/p/ij/intellij-ide-starter")
 
     // IntelliJ Platform Gradle Plugin Repositories Extension - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-repositories-extension.html
     intellijPlatform {
@@ -59,7 +86,16 @@ dependencies {
 
         testFramework(TestFrameworkType.Platform)
         testBundledPlugin("org.jetbrains.kotlin")
+
+        // IntelliJ UI Tests framework - read more: https://github.com/JetBrains/intellij-ide-starter
+        testFramework(TestFrameworkType.Starter, configurationName = "uiTestImplementation")
+        testFramework(TestFrameworkType.JUnit5, configurationName = "uiTestImplementation")
     }
+
+    uiTestImplementation("org.junit.jupiter:junit-jupiter:5.7.1")
+    uiTestImplementation("org.kodein.di:kodein-di-jvm:7.20.2")
+    uiTestImplementation("org.jetbrains.kotlinx:kotlinx-coroutines-core-jvm:1.10.1")
+    uiTestRuntimeOnly("org.junit.platform:junit-platform-launcher")
 }
 
 // Configure IntelliJ Platform Gradle Plugin - read more: https://plugins.jetbrains.com/docs/intellij/tools-intellij-platform-gradle-plugin-extension.html
@@ -169,28 +205,40 @@ tasks {
         gradleVersion = providers.gradleProperty("gradleVersion").get()
     }
 
+    runIde {
+        systemProperties(
+            "ide.native.launcher" to true,
+            "ide.show.tips.on.startup.default.value" to false,
+            "jb.consents.confirmation.enabled" to false
+        )
+    }
+
     publishPlugin {
         dependsOn(patchChangelog)
     }
-}
 
-intellijPlatformTesting {
-//    runIde {
-//        register("runIdeForUiTests") {
-//            task {
-//                jvmArgumentProviders += CommandLineArgumentProvider {
-//                    listOf(
-//                        "-Drobot-server.port=8082",
-//                        "-Dide.mac.message.dialogs.as.sheets=false",
-//                        "-Djb.privacy.policy.text=<!--999.999-->",
-//                        "-Djb.consents.confirmation.enabled=false",
-//                    )
-//                }
-//            }
-//
-//            plugins {
-//                robotServerPlugin()
-//            }
-//        }
-//    }
+    register<Test>("uiTest") {
+        description = "Runs only the UI tests that start the IDE"
+        group = "verification"
+        val uiTestSourceSet = sourceSets["uiTest"]
+        testClassesDirs = uiTestSourceSet.output.classesDirs
+        classpath = uiTestSourceSet.runtimeClasspath
+        systemProperty("path.to.build.plugin", buildPlugin.get().archiveFile.get().asFile.absolutePath)
+        systemProperty("idea.home.path", prepareTestSandbox.get().getDestinationDir().parentFile.absolutePath)
+        systemProperty("platform.version", providers.gradleProperty("platformVersion").get())
+        systemProperty(
+            "allure.results.directory", project.layout.buildDirectory.get().asFile.absolutePath + "/allure-results"
+        )
+        useJUnitPlatform()
+
+        // Add required JVM arguments
+        jvmArgumentProviders += CommandLineArgumentProvider {
+            mutableListOf(
+                "--add-opens=java.base/java.lang=ALL-UNNAMED",
+                "--add-opens=java.desktop/javax.swing=ALL-UNNAMED"
+            )
+        }
+
+        dependsOn(buildPlugin)
+    }
 }

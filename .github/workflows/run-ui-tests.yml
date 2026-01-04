@@ -19,15 +19,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            runIde: |
-              export DISPLAY=:99.0
-              Xvfb -ac :99 -screen 0 1920x1080x16 &
-              gradle runIdeForUiTests &
-          - os: windows-latest
-            runIde: start gradlew.bat runIdeForUiTests
-          - os: macos-latest
-            runIde: ./gradlew runIdeForUiTests &
+          - runner: ubuntu-latest
+            osName: Linux
+          - runner: windows-latest
+            osName: Windows
+          - runner: macos-latest
+            osName: macOS
 
     steps:
 
@@ -48,18 +45,25 @@ jobs:
         with:
           cache-read-only: true
 
-      # Run IDEA prepared for UI testing
-      - name: Run IDE
-        run: ${{ matrix.runIde }}
+      # Set up Xvfb for Linux headless mode
+      - name: Setup Xvfb for Linux
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y xvfb x11-utils libxkbcommon-x11-0 libxcb-icccm4 libxcb-image0 libxcb-keysyms1 libxcb-randr0 libxcb-render-util0 libxcb-xinerama0 libxcb-xfixes0
+          export DISPLAY=:99.0
+          Xvfb -ac :99 -screen 0 1920x1080x16 &
+          sleep 3
+          echo "DISPLAY=:99.0" >> $GITHUB_ENV
 
-      # Wait for IDEA to be started
-      - name: Health Check
-        uses: jtalk/url-health-check-action@v4
-        with:
-          url: http://127.0.0.1:8082
-          max-attempts: 15
-          retry-delay: 30s
-
-      # Run tests
-      - name: Tests
-        run: ./gradlew test
+      # Run UI test with IDE Starter framework
+      - name: Run UI Test
+        env:
+          CODECOV_API_TOKEN: ${{ secrets.CODECOV_API_TOKEN }}
+          LICENSE_KEY: ${{ secrets.LICENSE_KEY }}
+          UI_BRANCH_NAME: "${{ matrix.osName }}-${{ github.ref_name }}"
+          DISPLAY: ${{ runner.os == 'Linux' && ':99.0' || '' }}
+        run: |
+          echo "UI on ${{ matrix.osName }} run #: ${{ github.run_number }} and id: ${{ github.run_id }}"
+          ./gradlew uiTest
+        timeout-minutes: 30
