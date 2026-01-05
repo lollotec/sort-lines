@@ -7,6 +7,7 @@
 ### Fixed
 
 - Broken links in CHANGELOG.md caused by missing "v" in tag creation build by adding `versionPrefix` default
+- Warning instead of error when line order inspection doesn't find the document for a file
 
 ### Changed
 
@@ -15,8 +16,12 @@
 - Dependencies - upgrade `org.jetbrains.changelog` to `2.5.0`
 - Dependencies - upgrade `org.jetbrains.grammarkit` to `2023.3.0.1`
 - Dependencies - upgrade `org.jetbrains.intellij.platform` to `2.10.5`
-- Dependencies - upgrade `org.jetbrains.qodana` to `2025.2.2`
+- Dependencies - upgrade `org.jetbrains.qodana` to `2025.3.1`
+- Dependencies - upgrade `org.jetbrains.kotlin.jvm` to `2.3.0`
+- Dependencies - upgrade `org.jetbrains.kotlinx.kover` to `0.9.4`
 - Dependencies (GitHub Actions) - upgrade `actions/checkout` to `v6`
+- Dependencies (GitHub Actions) - upgrade `actions/upload-artifact` to `v6`
+- Dependencies (GitHub Actions) - upgrade `JetBrains/qodana-action` to `2025.3`
 
 ## [1.0.2] - 2025-11-27
 
@@ -36,7 +41,7 @@
 
 ### Changed
 
-- Prefix inspection errors with "Sort lines:"
+- Prefix inspection errors with `Sort lines:` for clarity
 - Moved usage documentation to a GitHub Pages website
 - Frequency of some CI jobs for inspection code and verifying the plugin
 - Upgrade dependencies: org.jetbrains.intellij.platform 2.10.4, jetbrains/qodana-jvm-community 2025.2, gradle 9.2.1
@@ -51,8 +56,8 @@
 
 ### Fixed
 
-- Sort comment injection after unclosed bracket
-- Parser showing symbol name instead of character
+- Sort comment injection after an unclosed bracket
+- Parser showing a symbol name instead of a character
 
 ### Changed
 
