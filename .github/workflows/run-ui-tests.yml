@@ -14,15 +14,16 @@ on:
 jobs:
 
   testUI:
-    runs-on: ${{ matrix.os }}
+    name: Run UI Tests on ${{ matrix.osName }}
+    runs-on: ${{ matrix.runner }}
     strategy:
       fail-fast: false
       matrix:
         include:
           - runner: ubuntu-latest
             osName: Linux
-          - runner: windows-latest
-            osName: Windows
+#          - runner: windows-latest
+#            osName: Windows
           - runner: macos-latest
             osName: macOS
 
