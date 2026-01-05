@@ -4,9 +4,16 @@
 
 ## [Unreleased]
 
+### Added
+
+- Simple UI test to verify the plugin is installed and a Gradle task to run it
+- Codecov YAML file that was missed from the template
+
 ### Fixed
 
 - Broken links in CHANGELOG.md caused by missing "v" in tag creation build by adding `versionPrefix` default
+- Run UI tests GitHub Action workflow to use the added UI test
+- Exclude the UI test from build GitHub Action workflow
 
 ### Changed
 
