@@ -1,6 +1,6 @@
-# GitHub Actions Workflow for launching UI tests on Linux, Windows, and Mac in the following steps:
-# - Prepare and launch IDE with your plugin and robot-server plugin, which is needed to interact with the UI.
-# - Wait for IDE to start.
+# GitHub Actions Workflow for launching UI tests on Linux and Mac in the following steps:
+# - Prepare and launch IDE with your plugin and robot-server plugin, which is necessary to interact with the UI.
+# - Wait for IDE to start
 # - Run UI tests with a separate Gradle task.
 #
 # Please check https://github.com/JetBrains/intellij-ui-test-robot for information about UI tests with IntelliJ Platform.
@@ -12,28 +12,29 @@ on:
   workflow_dispatch
 
 jobs:
-
   testUI:
-    name: Run UI Tests on ${{ matrix.osName }}
+    name: Run UI Test on ${{ matrix.osName }}
     runs-on: ${{ matrix.runner }}
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
     strategy:
       fail-fast: false
       matrix:
         include:
           - runner: ubuntu-latest
             osName: Linux
-#          - runner: windows-latest
-#            osName: Windows
           - runner: macos-latest
             osName: macOS
+#          - runner: windows-latest
+#            osName: Windows
 
     steps:
-
-      # Check out the current repository
       - name: Fetch Sources
         uses: actions/checkout@v6
 
-      # Set up Java environment for the next steps
+      # Set up the Java environment for the next steps
       - name: Setup Java
         uses: actions/setup-java@v5
         with:
@@ -60,11 +61,80 @@ jobs:
       # Run UI test with IDE Starter framework
       - name: Run UI Test
         env:
-          CODECOV_API_TOKEN: ${{ secrets.CODECOV_API_TOKEN }}
-          LICENSE_KEY: ${{ secrets.LICENSE_KEY }}
           UI_BRANCH_NAME: "${{ matrix.osName }}-${{ github.ref_name }}"
           DISPLAY: ${{ runner.os == 'Linux' && ':99.0' || '' }}
         run: |
           echo "UI on ${{ matrix.osName }} run #: ${{ github.run_number }} and id: ${{ github.run_id }}"
           ./gradlew uiTest
         timeout-minutes: 30
+
+      # List build directory for debugging
+      - name: List build directory structure
+        if: always()
+        shell: bash
+        run: |
+          echo "=== Build directory structure ==="
+          if [ -d "build" ]; then
+            find build -type d -name "log" -o -name "screenshots" -o -name "ui-hierarchy" 2>/dev/null | head -20 || true
+            echo "=== Looking for IDE test output ==="
+            find build -type d -path "*/ide-tests/*" 2>/dev/null | head -20 || true
+          else
+            echo "Build directory not found"
+          fi
+
+      - name: Collect Test Results
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: tests-result-${{ matrix.osName }}
+          path: |
+            build/reports/
+            build/test-results/
+            build/out/
+            build/idea-sandbox/
+            build/**/*.log
+            build/**/screenshots/
+            build/**/ui-hierarchy/
+          if-no-files-found: warn
+        continue-on-error: true
+
+      - name: Collect Test Report XML
+        if: always()
+        uses: actions/upload-artifact@v6
+        with:
+          name: test-report-${{ matrix.osName }}
+          path: ${{ github.workspace }}/build/test-results/uiTest/*.xml
+
+  # Test report job using dorny/test-reporter
+  test-report:
+    name: UI Test Report
+    needs: testUI
+    runs-on: ubuntu-latest
+    if: always()
+    permissions:
+      contents: write
+      checks: write
+      pull-requests: write
+      actions: read
+
+    steps:
+      - name: Fetch Sources
+        uses: actions/checkout@v6
+        with:
+          token: '${{ secrets.GITHUB_TOKEN }}'
+
+      - name: Download all test reports
+        uses: actions/download-artifact@v7
+        with:
+          pattern: test-report-*
+          path: test-reports
+          merge-multiple: true
+
+      - name: Generate Test Report
+        uses: dorny/test-reporter@v2.5.0
+        if: success() || failure()
+        with:
+          name: UI Test Report Dashboard
+          reporter: java-junit
+          fail-on-error: 'true'
+          path: 'test-reports/*.xml'
